@@ -62,12 +62,13 @@
 //发送在线状态
 - (void)sendOnlineStatus;
 
+//发送下线状态
+- (void)sendofflineStatus;
 
 //发送ping
 //- (void)sendPingFromUser:(RPMyself *)fromUser;
 
-//发送下线状态
-- (void)sendofflineStatus;
+
 
 //添加好友
 //- (void)sendAddFriend:(NSString *)toUserName fromUserName:(NSString *)fromUserName fromDevice:(NSString *)device accepted:(RPXmppStreamAccepted)accepted matchType:(int)matchType;

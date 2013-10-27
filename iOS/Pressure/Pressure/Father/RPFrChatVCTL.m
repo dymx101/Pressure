@@ -7,7 +7,9 @@
 //
 
 #import "RPFrChatVCTL.h"
-
+#import "RPXmppManager.h"
+#import "MMProgressHUD.h"
+#import "RPAuthModel.h"
 @interface RPFrChatVCTL ()
 
 @end
@@ -25,14 +27,34 @@
 
 - (void)viewDidLoad
 {
+    
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    [[RPXmppManager sharedInstance] doConnect:@"zys" xmppPassWord:@"zys"];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleXmppLoginSuccNotif:) name:kNotif_XmppLoginSuccess object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleXmppLoginFailedNotif:) name:kNotif_XmppLoginFailed object:nil];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
+
+#pragma mark -
+#pragma mark Xmpp Notification
+- (void)handleXmppLoginSuccNotif:(NSNotification *)notif
+{
+    [MMProgressHUD dismissWithSuccess:@"登录成功"];
+    
+}
+
+- (void)handleXmppLoginFailedNotif:(NSNotification *)notif
+{
+    [MMProgressHUD dismissWithSuccess:@"登录失败"];
+    
+}
+
+
+
 
 @end

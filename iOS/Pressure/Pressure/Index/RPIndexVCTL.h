@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "RPBaseVCTL.h"
+
 @interface RPIndexVCTL : RPBaseVCTL
 
 @end

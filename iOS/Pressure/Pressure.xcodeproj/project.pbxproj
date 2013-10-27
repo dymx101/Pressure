@@ -191,6 +191,8 @@
 		3803BCAD181D12C900256559 /* RPBaseVCTL.m in Sources */ = {isa = PBXBuildFile; fileRef = 3803BCAC181D12C900256559 /* RPBaseVCTL.m */; };
 		3803BCB4181D132100256559 /* RPXmppStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 3803BCB1181D132100256559 /* RPXmppStream.m */; };
 		3803BCB5181D132100256559 /* RPXmppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3803BCB3181D132100256559 /* RPXmppManager.m */; };
+		3803BCC0181D67E400256559 /* RPAuthModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3803BCBF181D67E400256559 /* RPAuthModel.m */; };
+		3803BCC3181D67EC00256559 /* RPObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3803BCC2181D67EC00256559 /* RPObject.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -568,6 +570,14 @@
 		3803BCB1181D132100256559 /* RPXmppStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPXmppStream.m; sourceTree = "<group>"; };
 		3803BCB2181D132100256559 /* RPXmppManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPXmppManager.h; sourceTree = "<group>"; };
 		3803BCB3181D132100256559 /* RPXmppManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPXmppManager.m; sourceTree = "<group>"; };
+		3803BCB9181D59AE00256559 /* Macro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Macro.h; sourceTree = "<group>"; };
+		3803BCBA181D5D0D00256559 /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynthesizeSingleton.h; sourceTree = "<group>"; };
+		3803BCBB181D5DB300256559 /* RPNotif.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPNotif.h; sourceTree = "<group>"; };
+		3803BCBC181D62E700256559 /* RPDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RPDefine.h; sourceTree = "<group>"; };
+		3803BCBE181D67E400256559 /* RPAuthModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPAuthModel.h; sourceTree = "<group>"; };
+		3803BCBF181D67E400256559 /* RPAuthModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPAuthModel.m; sourceTree = "<group>"; };
+		3803BCC1181D67EC00256559 /* RPObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPObject.h; sourceTree = "<group>"; };
+		3803BCC2181D67EC00256559 /* RPObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPObject.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1578,10 +1588,14 @@
 		3803BCAA181D12BB00256559 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				3803BCBA181D5D0D00256559 /* SynthesizeSingleton.h */,
+				3803BCB9181D59AE00256559 /* Macro.h */,
 				3803BCAE181D132100256559 /* Meta */,
 				3803BCAF181D132100256559 /* Xmpp */,
 				3803BCAB181D12C900256559 /* RPBaseVCTL.h */,
 				3803BCAC181D12C900256559 /* RPBaseVCTL.m */,
+				3803BCBB181D5DB300256559 /* RPNotif.h */,
+				3803BCBC181D62E700256559 /* RPDefine.h */,
 			);
 			name = Core;
 			path = Pressure/Core;
@@ -1590,6 +1604,7 @@
 		3803BCAE181D132100256559 /* Meta */ = {
 			isa = PBXGroup;
 			children = (
+				3803BCBD181D67CC00256559 /* User */,
 			);
 			path = Meta;
 			sourceTree = "<group>";
@@ -1603,6 +1618,17 @@
 				3803BCB3181D132100256559 /* RPXmppManager.m */,
 			);
 			path = Xmpp;
+			sourceTree = "<group>";
+		};
+		3803BCBD181D67CC00256559 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				3803BCBE181D67E400256559 /* RPAuthModel.h */,
+				3803BCBF181D67E400256559 /* RPAuthModel.m */,
+				3803BCC1181D67EC00256559 /* RPObject.h */,
+				3803BCC2181D67EC00256559 /* RPObject.m */,
+			);
+			path = User;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1694,7 +1720,9 @@
 				3803BC0D181D09B000256559 /* UIButton+WebCache.m in Sources */,
 				3803BBF7181D09B000256559 /* MMProgressHUD+Class.m in Sources */,
 				3803BC88181D09B000256559 /* DDXMLDocument.m in Sources */,
+				3803BCC3181D67EC00256559 /* RPObject.m in Sources */,
 				3803BC46181D09B000256559 /* XMPPvCard.xcdatamodeld in Sources */,
+				3803BCC0181D67E400256559 /* RPAuthModel.m in Sources */,
 				3803BC78181D09B000256559 /* DDList.m in Sources */,
 				3803BC4C181D09B000256559 /* XMPPvCardTempAdr.m in Sources */,
 				3803BC34181D09B000256559 /* XMPPJabberRPCModule.m in Sources */,

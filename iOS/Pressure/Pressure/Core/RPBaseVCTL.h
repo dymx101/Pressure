@@ -10,4 +10,7 @@
 
 @interface RPBaseVCTL : UIViewController
 
+
+
+- (void)backToPrefix;
 @end

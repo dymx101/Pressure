@@ -9,7 +9,7 @@
 #import "RPXmppManager.h"
 #import "RPXmppStream.h"
 static RPXmppManager *lvXmppMnagager = nil;
-@interface RPXmppManager () <GCXmppStreamDelegate>
+@interface RPXmppManager () <RPXmppStreamDelegate>
 {
     RPXmppStream *_stream;
 }
@@ -20,7 +20,8 @@ static RPXmppManager *lvXmppMnagager = nil;
 
 + (RPXmppManager *)sharedInstance {
     
-    if (!lvXmppMnagager) {
+    if (!lvXmppMnagager)
+    {
         lvXmppMnagager = [[RPXmppManager alloc] init];
         
     }
@@ -43,6 +44,24 @@ static RPXmppManager *lvXmppMnagager = nil;
     [_stream doConnect:xmppUserName password:xmppPassword];
 }
 
+- (void)sendOnlineStatus:(User_Xmpp_OnlineStatus)status
+{
+    switch (status) {
+        case User_Xmpp_OnlineStatus_Online:
+        {
+            [_stream sendOnlineStatus];
+        }
+            break;
+        case User_Xmpp_OnlineStatus_Offline:
+        {
+            [_stream sendofflineStatus];
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
 
 #pragma mark -
 #pragma mark XMPPStream Delegate
@@ -50,10 +69,10 @@ static RPXmppManager *lvXmppMnagager = nil;
 {
     if (success)
     {
-        [[NSNotificationCenter defaultCenter] postNotificationName:kNotifCenterLoginSuccess object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kNotif_XmppLoginSuccess object:nil];
     }else
     {
-        [[NSNotificationCenter defaultCenter] postNotificationName:kNotifCenterLoginFailed object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kNotif_XmppLoginFailed object:nil];
     }
 }
 
@@ -77,14 +96,8 @@ static RPXmppManager *lvXmppMnagager = nil;
 {
     NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] init];
     SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(userInfo, SAFESTR(xmppBodyString), @"msg");
-    [[NSNotificationCenter defaultCenter] postNotificationName:kNotifCenterTalkingMessage object:nil userInfo:userInfo];
-    [userInfo release];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kNotif_XmppTalkingMessage object:nil userInfo:userInfo];
 }
 
-- (void)dealloc
-{
-    
-    [super dealloc];
-}
 
 @end

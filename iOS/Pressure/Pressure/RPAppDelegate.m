@@ -52,13 +52,11 @@
 
 - (void)choiceViewController
 {
+    RPIndexVCTL *indexVCTL = [[RPIndexVCTL alloc] init];
     if (!_nav)
     {
-        _nav = [[MLNavigationController alloc] init];
+        _nav = [[MLNavigationController alloc] initWithRootViewController:indexVCTL];
     }
-    
-    RPIndexVCTL *indexVCTL = [[RPIndexVCTL alloc] init];
-    [_nav pushViewController:indexVCTL animated:NO];
     
     self.window.rootViewController = _nav;
     

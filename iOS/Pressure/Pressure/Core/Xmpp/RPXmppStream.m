@@ -10,9 +10,6 @@
 #import "XMPP.h"
 #import "NSString+TomAddition.h"
 
-#define kXMPPHostPostfix              @"@lover"
-#define kXMPPHost          @"122.226.207.4"
-
 #define kElement_Body      @"body"
 #define kElement_From      @"from"
 #define kElement_To        @"to"
@@ -206,6 +203,7 @@ static RPXmppStream *rpXmppStream = nil;
 
 - (void)xmppStream:(XMPPStream *)sender didNotAuthenticate:(NSXMLElement *)error
 {
+    NSLog(@"%@",error);
     NSLog(@"123");
 }
 
