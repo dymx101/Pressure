@@ -1,0 +1,163 @@
+0    DEBUG [2013-09-10 19:09:25]  Adding alert [123]
+349  DEBUG [2013-09-10 19:09:26]  Creating SSLSocketFactory
+377  DEBUG [2013-09-10 19:09:26]  Creating SSLSocket to gateway.sandbox.push.apple.com:2195
+1147 DEBUG [2013-09-10 19:09:26]  Initialized Connection to Host: [gateway.sandbox.push.apple.com] Port: [2195]: 61c80b01[SSL_NULL_WITH_NULL_NULL: Socket[addr=gateway.sandbox.push.apple.com/17.172.233.66,port=2195,localport=53291]]
+1151 DEBUG [2013-09-10 19:09:27]  Building Raw message from deviceToken and payload
+1151 DEBUG [2013-09-10 19:09:27]  Built raw message ID 1 of total length 68
+1152 DEBUG [2013-09-10 19:09:27]  Attempting to send notification: {"aps":{"alert":"123"}}
+1152 DEBUG [2013-09-10 19:09:27]    to device: 2ce256228477b6b16864730ec2b17065b00e597ba543858ecc2f409b88659e6c
+1778 ERROR [2013-09-10 19:09:27]  Delivery error: javapns.communication.exceptions.InvalidCertificateChainException: Invalid certificate chain (Received fatal alert: certificate_unknown)!  Verify that the keystore you provided was produced according to specs...
+1778 DEBUG [2013-09-10 19:09:27]  Reading responses
+1779 DEBUG [2013-09-10 19:09:27]  Closing connection
+0    DEBUG [2013-09-10 19:10:39]  Adding alert [123]
+310  DEBUG [2013-09-10 19:10:39]  Creating SSLSocketFactory
+339  DEBUG [2013-09-10 19:10:39]  Creating SSLSocket to gateway.sandbox.push.apple.com:2195
+750  DEBUG [2013-09-10 19:10:39]  Initialized Connection to Host: [gateway.sandbox.push.apple.com] Port: [2195]: 16290fbc[SSL_NULL_WITH_NULL_NULL: Socket[addr=gateway.sandbox.push.apple.com/17.172.233.65,port=2195,localport=53297]]
+753  DEBUG [2013-09-10 19:10:39]  Building Raw message from deviceToken and payload
+754  DEBUG [2013-09-10 19:10:39]  Built raw message ID 1 of total length 68
+754  DEBUG [2013-09-10 19:10:39]  Attempting to send notification: {"aps":{"alert":"123"}}
+754  DEBUG [2013-09-10 19:10:39]    to device: 2ce256228477b6b16864730ec2b17065b00e597ba543858ecc2f409b88659e6c
+2346 ERROR [2013-09-10 19:10:41]  Delivery error: javapns.communication.exceptions.InvalidCertificateChainException: Invalid certificate chain (Received fatal alert: certificate_unknown)!  Verify that the keystore you provided was produced according to specs...
+2346 DEBUG [2013-09-10 19:10:41]  Reading responses
+2347 DEBUG [2013-09-10 19:10:41]  Closing connection
+0    DEBUG [2013-09-10 19:11:06]  Adding alert [123]
+324  DEBUG [2013-09-10 19:11:07]  Creating SSLSocketFactory
+351  DEBUG [2013-09-10 19:11:07]  Creating SSLSocket to gateway.sandbox.push.apple.com:2195
+713  DEBUG [2013-09-10 19:11:07]  Initialized Connection to Host: [gateway.sandbox.push.apple.com] Port: [2195]: 61c80b01[SSL_NULL_WITH_NULL_NULL: Socket[addr=gateway.sandbox.push.apple.com/17.172.233.66,port=2195,localport=53301]]
+716  DEBUG [2013-09-10 19:11:07]  Building Raw message from deviceToken and payload
+717  DEBUG [2013-09-10 19:11:07]  Built raw message ID 1 of total length 68
+718  DEBUG [2013-09-10 19:11:07]  Attempting to send notification: {"aps":{"alert":"123"}}
+718  DEBUG [2013-09-10 19:11:07]    to device: 2ce256228477b6b16864730ec2b17065b00e597ba543858ecc2f409b88659e6c
+1335 ERROR [2013-09-10 19:11:08]  Delivery error: javapns.communication.exceptions.InvalidCertificateChainException: Invalid certificate chain (Received fatal alert: certificate_unknown)!  Verify that the keystore you provided was produced according to specs...
+1336 DEBUG [2013-09-10 19:11:08]  Reading responses
+1337 DEBUG [2013-09-10 19:11:08]  Closing connection
+0    DEBUG [2013-09-10 19:11:32]  Adding alert [123]
+319  DEBUG [2013-09-10 19:11:33]  Creating SSLSocketFactory
+346  DEBUG [2013-09-10 19:11:33]  Creating SSLSocket to gateway.sandbox.push.apple.com:2195
+728  DEBUG [2013-09-10 19:11:33]  Initialized Connection to Host: [gateway.sandbox.push.apple.com] Port: [2195]: 16290fbc[SSL_NULL_WITH_NULL_NULL: Socket[addr=gateway.sandbox.push.apple.com/17.172.233.66,port=2195,localport=53304]]
+732  DEBUG [2013-09-10 19:11:33]  Building Raw message from deviceToken and payload
+733  DEBUG [2013-09-10 19:11:33]  Built raw message ID 1 of total length 68
+734  DEBUG [2013-09-10 19:11:33]  Attempting to send notification: {"aps":{"alert":"123"}}
+734  DEBUG [2013-09-10 19:11:33]    to device: 2ce256228477b6b16864730ec2b17065b00e597ba543858ecc2f409b88659e6c
+1760 DEBUG [2013-09-10 19:11:34]  Flushing
+1760 DEBUG [2013-09-10 19:11:34]  At this point, the entire 68-bytes message has been streamed out successfully through the SSL connection
+1760 DEBUG [2013-09-10 19:11:34]  Notification sent on first attempt
+1760 DEBUG [2013-09-10 19:11:34]  Reading responses
+6763 DEBUG [2013-09-10 19:11:39]  Closing connection
+0    DEBUG [2013-09-11 09:21:24]  Adding alert [123]
+338  DEBUG [2013-09-11 09:21:24]  Creating SSLSocketFactory
+366  DEBUG [2013-09-11 09:21:24]  Creating SSLSocket to gateway.sandbox.push.apple.com:2195
+1331 DEBUG [2013-09-11 09:21:25]  Initialized Connection to Host: [gateway.sandbox.push.apple.com] Port: [2195]: 61c80b01[SSL_NULL_WITH_NULL_NULL: Socket[addr=gateway.sandbox.push.apple.com/17.172.233.65,port=2195,localport=49635]]
+1334 DEBUG [2013-09-11 09:21:25]  Building Raw message from deviceToken and payload
+1334 DEBUG [2013-09-11 09:21:25]  Built raw message ID 1 of total length 68
+1335 DEBUG [2013-09-11 09:21:25]  Attempting to send notification: {"aps":{"alert":"123"}}
+1335 DEBUG [2013-09-11 09:21:25]    to device: 2ce256228477b6b16864730ec2b17065b00e597ba543858ecc2f409b88659e6c
+2341 DEBUG [2013-09-11 09:21:26]  Flushing
+2341 DEBUG [2013-09-11 09:21:26]  At this point, the entire 68-bytes message has been streamed out successfully through the SSL connection
+2341 DEBUG [2013-09-11 09:21:26]  Notification sent on first attempt
+2341 DEBUG [2013-09-11 09:21:26]  Reading responses
+7344 DEBUG [2013-09-11 09:21:31]  Closing connection
+0    DEBUG [2013-09-26 16:47:22]  Adding alert [123]
+349  DEBUG [2013-09-26 16:47:22]  Creating SSLSocketFactory
+374  DEBUG [2013-09-26 16:47:22]  Creating SSLSocket to gateway.sandbox.push.apple.com:2195
+1257 DEBUG [2013-09-26 16:47:23]  Initialized Connection to Host: [gateway.sandbox.push.apple.com] Port: [2195]: 39b8d6f7[SSL_NULL_WITH_NULL_NULL: Socket[addr=gateway.sandbox.push.apple.com/17.172.233.65,port=2195,localport=64671]]
+1260 DEBUG [2013-09-26 16:47:23]  Building Raw message from deviceToken and payload
+1261 DEBUG [2013-09-26 16:47:23]  Built raw message ID 1 of total length 68
+1261 DEBUG [2013-09-26 16:47:23]  Attempting to send notification: {"aps":{"alert":"123"}}
+1262 DEBUG [2013-09-26 16:47:23]    to device: d25eeeee469139fea5aead38aa98811a1ba5154b637589fb118fa0cf0b15ea0e
+1970 DEBUG [2013-09-26 16:47:24]  Flushing
+1970 DEBUG [2013-09-26 16:47:24]  At this point, the entire 68-bytes message has been streamed out successfully through the SSL connection
+1970 DEBUG [2013-09-26 16:47:24]  Notification sent on first attempt
+1970 DEBUG [2013-09-26 16:47:24]  Reading responses
+6973 DEBUG [2013-09-26 16:47:29]  Closing connection
+0    DEBUG [2013-09-26 16:48:40]  Adding alert [123]
+368  DEBUG [2013-09-26 16:48:40]  Creating SSLSocketFactory
+396  DEBUG [2013-09-26 16:48:40]  Creating SSLSocket to gateway.sandbox.push.apple.com:2195
+869  DEBUG [2013-09-26 16:48:41]  Initialized Connection to Host: [gateway.sandbox.push.apple.com] Port: [2195]: 39b8d6f7[SSL_NULL_WITH_NULL_NULL: Socket[addr=gateway.sandbox.push.apple.com/17.172.233.66,port=2195,localport=64762]]
+872  DEBUG [2013-09-26 16:48:41]  Building Raw message from deviceToken and payload
+872  DEBUG [2013-09-26 16:48:41]  Built raw message ID 1 of total length 68
+873  DEBUG [2013-09-26 16:48:41]  Attempting to send notification: {"aps":{"alert":"123"}}
+873  DEBUG [2013-09-26 16:48:41]    to device: d25eeeee469139fea5aead38aa98811a1ba5154b637589fb118fa0cf0b15ea0e
+2206 DEBUG [2013-09-26 16:48:42]  Flushing
+2207 DEBUG [2013-09-26 16:48:42]  At this point, the entire 68-bytes message has been streamed out successfully through the SSL connection
+2207 DEBUG [2013-09-26 16:48:42]  Notification sent on first attempt
+2207 DEBUG [2013-09-26 16:48:42]  Reading responses
+0    DEBUG [2013-09-26 16:48:46]  Adding alert [123]
+340  DEBUG [2013-09-26 16:48:47]  Creating SSLSocketFactory
+368  DEBUG [2013-09-26 16:48:47]  Creating SSLSocket to gateway.sandbox.push.apple.com:2195
+7209 DEBUG [2013-09-26 16:48:47]  Closing connection
+701  DEBUG [2013-09-26 16:48:47]  Initialized Connection to Host: [gateway.sandbox.push.apple.com] Port: [2195]: 16290fbc[SSL_NULL_WITH_NULL_NULL: Socket[addr=gateway.sandbox.push.apple.com/17.172.233.65,port=2195,localport=64767]]
+704  DEBUG [2013-09-26 16:48:47]  Building Raw message from deviceToken and payload
+704  DEBUG [2013-09-26 16:48:47]  Built raw message ID 1 of total length 68
+705  DEBUG [2013-09-26 16:48:47]  Attempting to send notification: {"aps":{"alert":"123"}}
+705  DEBUG [2013-09-26 16:48:47]    to device: d25eeeee469139fea5aead38aa98811a1ba5154b637589fb118fa0cf0b15ea0e
+1626 DEBUG [2013-09-26 16:48:48]  Flushing
+1626 DEBUG [2013-09-26 16:48:48]  At this point, the entire 68-bytes message has been streamed out successfully through the SSL connection
+1626 DEBUG [2013-09-26 16:48:48]  Notification sent on first attempt
+1626 DEBUG [2013-09-26 16:48:48]  Reading responses
+6628 DEBUG [2013-09-26 16:48:53]  Closing connection
+0    DEBUG [2013-09-26 16:49:40]  Adding alert [123]
+344  DEBUG [2013-09-26 16:49:40]  Creating SSLSocketFactory
+374  DEBUG [2013-09-26 16:49:40]  Creating SSLSocket to gateway.sandbox.push.apple.com:2195
+650  DEBUG [2013-09-26 16:49:41]  Initialized Connection to Host: [gateway.sandbox.push.apple.com] Port: [2195]: 61c80b01[SSL_NULL_WITH_NULL_NULL: Socket[addr=gateway.sandbox.push.apple.com/17.172.233.65,port=2195,localport=64774]]
+652  DEBUG [2013-09-26 16:49:41]  Building Raw message from deviceToken and payload
+652  DEBUG [2013-09-26 16:49:41]  Built raw message ID 1 of total length 68
+653  DEBUG [2013-09-26 16:49:41]  Attempting to send notification: {"aps":{"alert":"123"}}
+653  DEBUG [2013-09-26 16:49:41]    to device: d25eeeee469139fea5aead38aa98811a1ba5154b637589fb118fa0cf0b15ea0e
+1348 DEBUG [2013-09-26 16:49:41]  Flushing
+1349 DEBUG [2013-09-26 16:49:41]  At this point, the entire 68-bytes message has been streamed out successfully through the SSL connection
+1349 DEBUG [2013-09-26 16:49:41]  Notification sent on first attempt
+1349 DEBUG [2013-09-26 16:49:41]  Reading responses
+6351 DEBUG [2013-09-26 16:49:46]  Closing connection
+0    DEBUG [2013-09-27 11:41:22]  Adding alert [123]
+654  DEBUG [2013-09-27 11:41:23]  Creating SSLSocketFactory
+686  DEBUG [2013-09-27 11:41:23]  Creating SSLSocket to gateway.sandbox.push.apple.com:2195
+1221 DEBUG [2013-09-27 11:41:23]  Initialized Connection to Host: [gateway.sandbox.push.apple.com] Port: [2195]: 144aa0ce[SSL_NULL_WITH_NULL_NULL: Socket[addr=gateway.sandbox.push.apple.com/17.149.34.65,port=2195,localport=51960]]
+1223 DEBUG [2013-09-27 11:41:23]  Building Raw message from deviceToken and payload
+1223 DEBUG [2013-09-27 11:41:23]  Built raw message ID 1 of total length 68
+1224 DEBUG [2013-09-27 11:41:23]  Attempting to send notification: {"aps":{"alert":"123"}}
+1224 DEBUG [2013-09-27 11:41:23]    to device: d25eeeee469139fea5aead38aa98811a1ba5154b637589fb118fa0cf0b15ea0e
+2960 DEBUG [2013-09-27 11:41:25]  Flushing
+2960 DEBUG [2013-09-27 11:41:25]  At this point, the entire 68-bytes message has been streamed out successfully through the SSL connection
+2960 DEBUG [2013-09-27 11:41:25]  Notification sent on first attempt
+2960 DEBUG [2013-09-27 11:41:25]  Reading responses
+7963 DEBUG [2013-09-27 11:41:30]  Closing connection
+0    DEBUG [2013-09-27 11:41:42]  Adding alert [123]
+325  DEBUG [2013-09-27 11:41:42]  Creating SSLSocketFactory
+352  DEBUG [2013-09-27 11:41:42]  Creating SSLSocket to gateway.sandbox.push.apple.com:2195
+578  DEBUG [2013-09-27 11:41:42]  Initialized Connection to Host: [gateway.sandbox.push.apple.com] Port: [2195]: 16290fbc[SSL_NULL_WITH_NULL_NULL: Socket[addr=gateway.sandbox.push.apple.com/17.149.34.66,port=2195,localport=51971]]
+582  DEBUG [2013-09-27 11:41:42]  Building Raw message from deviceToken and payload
+583  DEBUG [2013-09-27 11:41:42]  Built raw message ID 1 of total length 68
+584  DEBUG [2013-09-27 11:41:42]  Attempting to send notification: {"aps":{"alert":"123"}}
+584  DEBUG [2013-09-27 11:41:42]    to device: d25eeeee469139fea5aead38aa98811a1ba5154b637589fb118fa0cf0b15ea0e
+1113 DEBUG [2013-09-27 11:41:43]  Flushing
+1113 DEBUG [2013-09-27 11:41:43]  At this point, the entire 68-bytes message has been streamed out successfully through the SSL connection
+1113 DEBUG [2013-09-27 11:41:43]  Notification sent on first attempt
+1113 DEBUG [2013-09-27 11:41:43]  Reading responses
+6116 DEBUG [2013-09-27 11:41:48]  Closing connection
+0    DEBUG [2013-10-23 14:17:33]  Adding alert [123]
+380  DEBUG [2013-10-23 14:17:33]  Creating SSLSocketFactory
+415  DEBUG [2013-10-23 14:17:34]  Creating SSLSocket to gateway.sandbox.push.apple.com:2195
+900  DEBUG [2013-10-23 14:17:34]  Initialized Connection to Host: [gateway.sandbox.push.apple.com] Port: [2195]: 61c80b01[SSL_NULL_WITH_NULL_NULL: Socket[addr=gateway.sandbox.push.apple.com/17.149.34.65,port=2195,localport=64095]]
+904  DEBUG [2013-10-23 14:17:34]  Building Raw message from deviceToken and payload
+904  DEBUG [2013-10-23 14:17:34]  Built raw message ID 1 of total length 68
+905  DEBUG [2013-10-23 14:17:34]  Attempting to send notification: {"aps":{"alert":"123"}}
+905  DEBUG [2013-10-23 14:17:34]    to device: d25eeeee469139fea5aead38aa98811a1ba5154b637589fb118fa0cf0b15ea0e
+4951 DEBUG [2013-10-23 14:17:38]  Flushing
+4952 DEBUG [2013-10-23 14:17:38]  At this point, the entire 68-bytes message has been streamed out successfully through the SSL connection
+4952 DEBUG [2013-10-23 14:17:38]  Notification sent on first attempt
+4952 DEBUG [2013-10-23 14:17:38]  Reading responses
+9954 DEBUG [2013-10-23 14:17:43]  Closing connection
+0    DEBUG [2013-10-23 14:18:53]  Adding alert [123]
+393  DEBUG [2013-10-23 14:18:53]  Creating SSLSocketFactory
+434  DEBUG [2013-10-23 14:18:53]  Creating SSLSocket to gateway.sandbox.push.apple.com:2195
+668  DEBUG [2013-10-23 14:18:54]  Initialized Connection to Host: [gateway.sandbox.push.apple.com] Port: [2195]: 144aa0ce[SSL_NULL_WITH_NULL_NULL: Socket[addr=gateway.sandbox.push.apple.com/17.149.34.66,port=2195,localport=64109]]
+671  DEBUG [2013-10-23 14:18:54]  Building Raw message from deviceToken and payload
+671  DEBUG [2013-10-23 14:18:54]  Built raw message ID 1 of total length 68
+672  DEBUG [2013-10-23 14:18:54]  Attempting to send notification: {"aps":{"alert":"123"}}
+678  DEBUG [2013-10-23 14:18:54]    to device: d25eeeee469139fea5aead38aa98811a1ba5154b637589fb118fa0cf0b15ea0e
+3178 DEBUG [2013-10-23 14:18:56]  Flushing
+3178 DEBUG [2013-10-23 14:18:56]  At this point, the entire 68-bytes message has been streamed out successfully through the SSL connection
+3178 DEBUG [2013-10-23 14:18:56]  Notification sent on first attempt
+3178 DEBUG [2013-10-23 14:18:56]  Reading responses
+8181 DEBUG [2013-10-23 14:19:01]  Closing connection
