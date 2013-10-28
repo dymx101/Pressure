@@ -67,6 +67,14 @@ static RPXmppManager *lvXmppMnagager = nil;
 #pragma mark XMPPStream Delegate
 - (void)didConnectSuccess:(BOOL)success
 {
+    if (!success)
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kNotif_XmppConnectSuccess object:nil];
+    }
+}
+
+- (void)didAuthSuccess:(BOOL)success
+{
     if (success)
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:kNotif_XmppLoginSuccess object:nil];

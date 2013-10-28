@@ -121,32 +121,37 @@ static RPXmppStream *rpXmppStream = nil;
 
 - (BOOL)doConnect:(NSString *)name password:(NSString *)password{
 
-  if (![_xmppStream isDisconnected]) {
-
-    if ([_delegate respondsToSelector:@selector(didConnectSuccess:)]) {
-      [_delegate didConnectSuccess:YES];
+    if (![_xmppStream isDisconnected])
+    {
+        if ([_delegate respondsToSelector:@selector(didConnectSuccess:)])
+        {
+            [_delegate didConnectSuccess:YES];
+        }
+        return YES;
     }
+    
+    if (!name || !password) {
+        return NO;
+    }
+    
+    //设置用户
+    [_xmppStream setMyJID:[XMPPJID jidWithString:[self nameWithHost:name]]];
+    
+    //设置服务器
+    [_xmppStream setHostName:kXMPPHost];
+    
+    self.password = password;
+    //连接服务器
+    NSError *error = nil;
+    if (![_xmppStream connectWithTimeout:10.0 error:&error]) {
+        if ([_delegate respondsToSelector:@selector(didConnectSuccess:)])
+        {
+            [_delegate didConnectSuccess:NO];
+        }
+        return NO;
+    }
+    
     return YES;
-  }
-
-  if (!name || !password) {
-    return NO;
-  }
-
-  //设置用户
-  [_xmppStream setMyJID:[XMPPJID jidWithString:[self nameWithHost:name]]];
-
-  //设置服务器
-  [_xmppStream setHostName:kXMPPHost];
-
-  self.password = password;
-  //连接服务器
-  NSError *error = nil;
-  if (![_xmppStream connectWithTimeout:10.0 error:&error]) {
-    return NO;
-  }
-
-  return YES;
 }
 
 - (void)disConnect {
@@ -184,27 +189,32 @@ static RPXmppStream *rpXmppStream = nil;
 
 #pragma mark XMPPStreamDelegate
 //连接服务器
-- (void)xmppStreamDidConnect:(XMPPStream *)sender {
-
-  _isOpen = YES;
-  NSError *error = nil;
-  //验证密码
-  [_xmppStream authenticateWithPassword:self.password error:&error];
+- (void)xmppStreamDidConnect:(XMPPStream *)sender
+{
+    if ([_delegate respondsToSelector:@selector(didConnectSuccess:)])
+    {
+        [_delegate didConnectSuccess:YES];
+    }
+    _isOpen = YES;
+    NSError *error = nil;
+    //验证密码
+    [_xmppStream authenticateWithPassword:self.password error:&error];
 }
 
 //验证通过
-- (void)xmppStreamDidAuthenticate:(XMPPStream *)sender {
-
-  [self sendOnlineStatus];
-  if ([_delegate respondsToSelector:@selector(didConnectSuccess:)]) {
-    [_delegate didConnectSuccess:YES];
-  }
+- (void)xmppStreamDidAuthenticate:(XMPPStream *)sender
+{
+    if ([_delegate respondsToSelector:@selector(didAuthSuccess:)]) {
+        [_delegate didAuthSuccess:YES];
+    }
 }
 
 - (void)xmppStream:(XMPPStream *)sender didNotAuthenticate:(NSXMLElement *)error
 {
-    NSLog(@"%@",error);
-    NSLog(@"123");
+    MLOG(@"/*********** didNotAuthenticate %@ ***********/",error);
+    if ([_delegate respondsToSelector:@selector(didAuthSuccess:)]) {
+        [_delegate didAuthSuccess:NO];
+    }
 }
 
 //收到消息

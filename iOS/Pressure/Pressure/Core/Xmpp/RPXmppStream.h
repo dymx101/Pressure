@@ -41,6 +41,7 @@
 - (void)offlinePresenceReceived:(RPXmppStream *)stream fromUserName:(NSString *)fromUserName;
 
 // 当doConnect成功的时候调用
+- (void)didAuthSuccess:(BOOL)success;
 - (void)didConnectSuccess:(BOOL)success;
 
 - (void)presenceError:(RPXmppStream *)stream errorCode:(int)errorCode userInfo:(NSDictionary *)userInfo;
