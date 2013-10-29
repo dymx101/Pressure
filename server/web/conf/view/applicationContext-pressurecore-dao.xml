@@ -56,9 +56,13 @@
 			expression="execution(* com.pressure.service.transaction.*.*(..))" />
 		<aop:advisor pointcut-ref="servicePointcut" advice-ref="serviceAdvice" />
 	</aop:config>
-	
+
 	<bean id="profileMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 		<property name="mapperInterface" value="com.pressure.mapper.ProfileMapper" />
+	</bean>
+	<bean id="accountMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<property name="mapperInterface" value="com.pressure.mapper.AccountMapper" />
 	</bean>
 </beans>

@@ -1,5 +1,7 @@
 package com.pressure.service.impl;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -31,6 +33,7 @@ public class ProfileServiceImpl implements ProfileService {
 		if (userName == null || password == null || name == null) {
 			return false;
 		}
-		return profileMapper.addProfile(userName, password, name) > 0;
+		long createTime = new Date().getTime();
+		return profileMapper.addProfile(userName, password, name, createTime) > 0;
 	}
 }
