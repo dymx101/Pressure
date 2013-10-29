@@ -55,7 +55,6 @@
 	<classpathentry kind="lib" path="lib/org.springframework.jms-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/org.springframework.orm-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/org.springframework.oxm-3.0.5.RELEASE.jar"/>
-	<classpathentry kind="lib" path="lib/org.springframework.spring-library-3.0.5.RELEASE.libd"/>
 	<classpathentry kind="lib" path="lib/org.springframework.test-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/org.springframework.transaction-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/org.springframework.web-3.0.5.RELEASE.jar"/>

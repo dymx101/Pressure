@@ -193,6 +193,9 @@
 		3803BCB5181D132100256559 /* RPXmppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3803BCB3181D132100256559 /* RPXmppManager.m */; };
 		3803BCC0181D67E400256559 /* RPAuthModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3803BCBF181D67E400256559 /* RPAuthModel.m */; };
 		3803BCC3181D67EC00256559 /* RPObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3803BCC2181D67EC00256559 /* RPObject.m */; };
+		38F0F747181EA89700361BC9 /* RPLoginVCTL.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F0F745181EA89700361BC9 /* RPLoginVCTL.m */; };
+		38F0F74B181EA9B400361BC9 /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F0F74A181EA9B400361BC9 /* libWeiboSDK.a */; };
+		38F0F74E181EAAD300361BC9 /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 38F0F74C181EAAD300361BC9 /* WeiboSDK.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -578,6 +581,11 @@
 		3803BCBF181D67E400256559 /* RPAuthModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPAuthModel.m; sourceTree = "<group>"; };
 		3803BCC1181D67EC00256559 /* RPObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPObject.h; sourceTree = "<group>"; };
 		3803BCC2181D67EC00256559 /* RPObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPObject.m; sourceTree = "<group>"; };
+		38F0F744181EA89700361BC9 /* RPLoginVCTL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPLoginVCTL.h; sourceTree = "<group>"; };
+		38F0F745181EA89700361BC9 /* RPLoginVCTL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPLoginVCTL.m; sourceTree = "<group>"; };
+		38F0F74A181EA9B400361BC9 /* libWeiboSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeiboSDK.a; sourceTree = "<group>"; };
+		38F0F74C181EAAD300361BC9 /* WeiboSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WeiboSDK.bundle; sourceTree = "<group>"; };
+		38F0F74D181EAAD300361BC9 /* WeiboSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboSDK.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -585,6 +593,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38F0F74B181EA9B400361BC9 /* libWeiboSDK.a in Frameworks */,
 				3803BC9B181D0C3B00256559 /* Security.framework in Frameworks */,
 				3803BC99181D0C3300256559 /* libresolv.dylib in Frameworks */,
 				3803BC97181D0A9700256559 /* libxml2.dylib in Frameworks */,
@@ -642,11 +651,12 @@
 		3803BA19181D07B000256559 /* Pressure */ = {
 			isa = PBXGroup;
 			children = (
+				3803BA22181D07B000256559 /* RPAppDelegate.h */,
+				3803BA23181D07B000256559 /* RPAppDelegate.m */,
+				38F0F743181EA88300361BC9 /* Login */,
 				3803BCA6181D128800256559 /* Father */,
 				3803BC8D181D09BB00256559 /* Index */,
 				3803BA49181D09AF00256559 /* ThirdPart */,
-				3803BA22181D07B000256559 /* RPAppDelegate.h */,
-				3803BA23181D07B000256559 /* RPAppDelegate.m */,
 				3803BA1A181D07B000256559 /* Supporting Files */,
 			);
 			path = Pressure;
@@ -682,6 +692,7 @@
 		3803BA49181D09AF00256559 /* ThirdPart */ = {
 			isa = PBXGroup;
 			children = (
+				38F0F749181EA9B400361BC9 /* SinaWeiBo */,
 				3803BC9F181D10FE00256559 /* MLNav */,
 				3803BA4A181D09AF00256559 /* Categories */,
 				3803BA61181D09AF00256559 /* GTM */,
@@ -1631,6 +1642,25 @@
 			path = User;
 			sourceTree = "<group>";
 		};
+		38F0F743181EA88300361BC9 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				38F0F744181EA89700361BC9 /* RPLoginVCTL.h */,
+				38F0F745181EA89700361BC9 /* RPLoginVCTL.m */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		38F0F749181EA9B400361BC9 /* SinaWeiBo */ = {
+			isa = PBXGroup;
+			children = (
+				38F0F74C181EAAD300361BC9 /* WeiboSDK.bundle */,
+				38F0F74D181EAAD300361BC9 /* WeiboSDK.h */,
+				38F0F74A181EA9B400361BC9 /* libWeiboSDK.a */,
+			);
+			path = SinaWeiBo;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1686,6 +1716,7 @@
 			files = (
 				3803BC86181D09B000256559 /* README.txt in Resources */,
 				3803BC8B181D09B000256559 /* build-libidn.sh in Resources */,
+				38F0F74E181EAAD300361BC9 /* WeiboSDK.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1790,6 +1821,7 @@
 				3803BC72181D09B000256559 /* NSXMLElement+XEP_0203.m in Sources */,
 				3803BCB4181D132100256559 /* RPXmppStream.m in Sources */,
 				3803BC45181D09B000256559 /* XMPPRoom.m in Sources */,
+				38F0F747181EA89700361BC9 /* RPLoginVCTL.m in Sources */,
 				3803BC44181D09B000256559 /* XMPPMUC.m in Sources */,
 				3803BC82181D09B000256559 /* DDLog.m in Sources */,
 				3803BC2E181D09B000256559 /* XMPPRosterMemoryStorage.m in Sources */,
@@ -1953,6 +1985,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: zheng yisheng (F286NP9S62)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Pressure/Pressure-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -1965,10 +1998,15 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/zhengeason/code/pressure/iOS/Pressure/Pressure/ThirdPart/XMPP/Vendor/libidn,
+					/Users/zhengeason/code/pressure/iOS/Pressure/Pressure/ThirdPart/SinaWeiBo,
 				);
 				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = "-lxml2";
+				OTHER_LDFLAGS = (
+					"-lxml2",
+					"-objC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "E51DBB07-9E39-4629-A839-3027BF4415D2";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1980,6 +2018,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: zheng yisheng (F286NP9S62)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Pressure/Pressure-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -1992,9 +2031,14 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/zhengeason/code/pressure/iOS/Pressure/Pressure/ThirdPart/XMPP/Vendor/libidn,
+					/Users/zhengeason/code/pressure/iOS/Pressure/Pressure/ThirdPart/SinaWeiBo,
 				);
-				OTHER_LDFLAGS = "-lxml2";
+				OTHER_LDFLAGS = (
+					"-lxml2",
+					"-objC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "E51DBB07-9E39-4629-A839-3027BF4415D2";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};

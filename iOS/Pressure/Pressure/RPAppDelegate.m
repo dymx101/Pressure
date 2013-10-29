@@ -9,10 +9,23 @@
 #import "RPAppDelegate.h"
 #import "RPIndexVCTL.h"
 #import "MLNavigationController.h"
+#import "WeiboSDK.h"
+#import "RPLoginVCTL.h"
+
+@interface RPAppDelegate ()  <WeiboSDKDelegate>
+{
+    
+}
+@end
+
 @implementation RPAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [WeiboSDK registerApp:@"246524502"];
+    [WeiboSDK enableDebugMode:YES];
+    
+    
     [application registerForRemoteNotificationTypes:(UIRemoteNotificationType)(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
     
     self.window           = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -21,7 +34,21 @@
     [self choiceViewController];
     return YES;
 }
-							
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    return [WeiboSDK handleOpenURL:url delegate:self];
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    return [WeiboSDK handleOpenURL:url delegate:self];
+}
+
+
+
+
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -52,13 +79,31 @@
 
 - (void)choiceViewController
 {
-    RPIndexVCTL *indexVCTL = [[RPIndexVCTL alloc] init];
+    //RPIndexVCTL *indexVCTL = [[RPIndexVCTL alloc] init];
+    RPLoginVCTL *loginVCTL = [[RPLoginVCTL alloc] init];
     if (!_nav)
     {
-        _nav = [[MLNavigationController alloc] initWithRootViewController:indexVCTL];
+        _nav = [[MLNavigationController alloc] initWithRootViewController:loginVCTL];
     }
     
     self.window.rootViewController = _nav;
+    
+}
+
+
+- (void)didReceiveWeiboRequest:(WBBaseRequest *)request
+{
+    NSLog(@"%@",@"123");
+}
+
+- (void)didReceiveWeiboResponse:(WBBaseResponse *)response
+{
+    if ([response isKindOfClass:[WBAuthorizeResponse class]])
+    {
+        NSString *message = [NSString stringWithFormat:@"响应状态: %d\nresponse.userId: %@\nresponse.accessToken: %@\n响应UserInfo数据: %@\n原请求UserInfo数据: %@",
+                             response.statusCode, [(WBAuthorizeResponse *)response userID], [(WBAuthorizeResponse *)response accessToken], response.userInfo, response.requestUserInfo];
+        NSLog(@"%@",message);
+    }
     
 }
 
