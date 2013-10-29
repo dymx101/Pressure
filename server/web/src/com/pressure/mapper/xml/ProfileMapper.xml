@@ -5,7 +5,7 @@
 		<id property="UserId" column="UserId" />
 		<result property="UserName" column="UserName" />
 		<result property="Password" column="Password" />
-		<result property="CreateTime" column="CreateTime" />
+		<result property="createTime" column="createTime" />
 		<result property="name" column="name" />
 	</resultMap>
 
@@ -14,12 +14,12 @@
 		TB_Profile(
 		UserName,
 		Password,
-		CreateTime,
+		createTime,
 		name
 		)VALUES(
 		#{UserName},
 		#{Password},
-		#{CreateTime},
+		#{createTime},
 		#{name}
 		)
 	</insert>

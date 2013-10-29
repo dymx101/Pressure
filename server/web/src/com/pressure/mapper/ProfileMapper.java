@@ -2,8 +2,6 @@ package com.pressure.mapper;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.pressure.meta.Profile;
-
 /**
  * 
  * @ClassName: ProfileMapper
@@ -14,5 +12,6 @@ import com.pressure.meta.Profile;
 public interface ProfileMapper {
 	public int addProfile(@Param(value = "userName") String userName,
 			@Param(value = "password") String password,
-			@Param(value = "name") String name);
+			@Param(value = "name") String name,
+			@Param(value = "createTime") long createTime);
 }

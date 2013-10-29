@@ -33,7 +33,7 @@ public class Profile implements Serializable {
 	/**
 	 * 创建时间
 	 */
-	private long CreateTime;
+	private long createTime;
 
 	public long getUserId() {
 		return UserId;
@@ -60,11 +60,11 @@ public class Profile implements Serializable {
 	}
 
 	public long getCreateTime() {
-		return CreateTime;
+		return createTime;
 	}
 
 	public void setCreateTime(long createTime) {
-		CreateTime = createTime;
+		this.createTime = createTime;
 	}
 
 	public String getName() {

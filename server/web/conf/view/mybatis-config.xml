@@ -3,8 +3,9 @@
 <configuration>
 	<typeAliases>
 		<typeAlias alias="Profile" type="com.pressure.meta.Profile" />
+		<typeAlias alias="Account" type="com.pressure.meta.Account" />
 	</typeAliases>
 	<mappers>
-		<mapper resource="com/pressure/mapper/xml/ProfileMapper.xml" />
+		<mapper resource="com/pressure/mapper/xml/AccountMapper.xml" />
 	</mappers>
 </configuration>
