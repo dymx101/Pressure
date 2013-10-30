@@ -45,7 +45,12 @@
 	</bean>
 
 	<!-- url-to-controller mapping -->
-	<!--<bean id="simpleUrlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping"> 
-		<property name="mappings"> <props> <prop key="**/apiPressurePub.do">apiPressurePubController</prop> 
-		</props> </property> </bean> -->
+	<bean id="simpleUrlMapping"
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<prop key="**/apiPressurePub.do">apiPressurePubController</prop>
+			</props>
+		</property>
+	</bean>
 </beans>

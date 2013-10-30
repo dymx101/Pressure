@@ -22,7 +22,7 @@ import com.pressure.constant.ReturnCodeConstant;
  * @author yunshang_734@163.com
  * @date 2013-10-30 ионГ01:09:05
  */
-@Controller("apiPressureController")
+@Controller("apiPressurePubController")
 public class ApiPressureController {
 	private static final Logger logger = Logger
 			.getLogger(ApiPressureController.class);
