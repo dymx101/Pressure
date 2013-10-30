@@ -14,6 +14,7 @@
 	<insert id="addProfile" parameterType="Profile">
 		INSERT INTO
 		TB_Profile(
+		UserId,
 		UserName,
 		NickName,
 		CreateTime,
@@ -21,6 +22,7 @@
 		AvatorUrl,
 		level
 		)VALUES(
+		#{UserId},
 		#{UserName},
 		#{NiceName},
 		#{CreateTime},
@@ -28,9 +30,5 @@
 		#{AvatorUrl},
 		#{level}
 		)
-		<selectKey keyProperty="UserId" resultType="long">
-			SELECT
-			LAST_INSERT_ID() AS VALUE
-		</selectKey>
 	</insert>
 </mapper>

@@ -11,17 +11,15 @@
 	<insert id="addAccount" parameterType="Account">
 		INSERT INTO
 		TB_Account(
+		UserId,
 		UserName,
 		PassWord,
 		CreateTime
 		)VALUES(
+		#{UserId},
 		#{UserName},
 		#{Password},
 		#{CreateTime}
 		)
-		<selectKey keyProperty="UserId" resultType="long">
-			SELECT
-			LAST_INSERT_ID() AS VALUE
-		</selectKey>
 	</insert>
 </mapper>
