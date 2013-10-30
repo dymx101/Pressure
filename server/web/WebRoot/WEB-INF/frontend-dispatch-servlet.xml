@@ -12,6 +12,7 @@
       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 	<context:component-scan base-package="com.pressure.controller" />
 
+
 	<!-- use freemarker as view template -->
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
@@ -50,6 +51,8 @@
 		<property name="mappings">
 			<props>
 				<prop key="**/apiPressurePub.do">apiPressurePubController</prop>
+				<prop key="**/apiPressure.do">apiPressureController</prop>
+				
 			</props>
 		</property>
 	</bean>

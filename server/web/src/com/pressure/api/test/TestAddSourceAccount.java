@@ -1,27 +1,46 @@
 package com.pressure.api.test;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.methods.RequestEntity;
+import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
+import org.apache.commons.httpclient.methods.multipart.Part;
+import org.apache.commons.httpclient.methods.multipart.StringPart;
+import org.apache.http.entity.StringEntity;
 
 /**
  * 
  * @ClassName: TestAddSourceAccount
  * @Description: TODO
  * @author yunshang_734@163.com
- * @date 2013-10-30 ÏÂÎç03:35:03
+ * @date 2013-10-30 ï¿½ï¿½ï¿½ï¿½03:35:03
  */
 public class TestAddSourceAccount {
 
 	public static void main(String[] args) {
-		String strURL = "http://pressure.zys-wings.com/pressure/api/sourceaccount/?uid=1&accesstoken=asdfghjkl&expires_in=11111&type=0";
-		// Get file to be posted
+
+		String strURL = "http://127.0.0.1:8080/Pressure/apiPressurePub.do?action=addSourceAccount";
 		HttpClient httpclient = new HttpClient();
 		PostMethod post = new PostMethod(strURL);
-		// post.setRequestHeader(
-		// "Authorization",
-		// "token=\"U7elprSC7LZEc2ibVuappkxmFwPMkzImN.a0RtmqkwPmt.nVltzn6daMtalk_Wp7uiHM._jH_NNPZAlDqlcNKu5XWm0aokHOCMRfNVgz.jvq5CYW86MsP7qUHHEuWlfkp\"");
 
 		try {
+
+			JSONObject object = new JSONObject();
+			object.put("access_token", "10074216906");
+			object.put("expires_in", "content");
+			object.put("uid", 11111);
+			object.put("type", "1");
+
+			post.addRequestHeader("Authorization",
+					"bb796e96-a4ef-41a9-89f3-2a49535812f2");
+			post.addRequestHeader("UserName", "allin02");
+			
+			Part[] parts = { new StringPart("requestData", object.toString()) };
+			post.setRequestEntity(new MultipartRequestEntity(parts, post
+					.getParams()));
+			
 			int result = httpclient.executeMethod(post);
 			System.out.println("the result of post : " + result);
 			System.out.println(" the response of post : "
