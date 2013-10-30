@@ -5,6 +5,7 @@ import net.sf.json.JSONObject;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
+import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.methods.multipart.StringPart;
@@ -33,14 +34,18 @@ public class TestAddSourceAccount {
 			object.put("uid", 11111);
 			object.put("type", "1");
 
+			JSONObject requestObject = new JSONObject();
+			requestObject.put("requestData", object.toString());
 			post.addRequestHeader("Authorization",
 					"bb796e96-a4ef-41a9-89f3-2a49535812f2");
 			post.addRequestHeader("UserName", "allin02");
-			
-			Part[] parts = { new StringPart("requestData", object.toString()) };
-			post.setRequestEntity(new MultipartRequestEntity(parts, post
-					.getParams()));
-			
+
+			RequestEntity entity = new StringRequestEntity(
+					requestObject.toString());
+			// Part[] parts = { new StringPart("requestData", object.toString())
+			// };
+			post.setRequestEntity(entity);
+
 			int result = httpclient.executeMethod(post);
 			System.out.println("the result of post : " + result);
 			System.out.println(" the response of post : "

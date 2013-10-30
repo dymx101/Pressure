@@ -62,8 +62,8 @@ public class PostValueGetUtil {
 		if (StringUtils.isEmpty(jsonString)) {
 			return null;
 		}
-		JSONObject jsonObject = new JSONObject();
-		return jsonObject.getJSONObject("requestData");
+		JSONObject jsonObject = JSONObject.fromObject(jsonString);
+		return (JSONObject)jsonObject.get("requestData");
 	}
 
 }
