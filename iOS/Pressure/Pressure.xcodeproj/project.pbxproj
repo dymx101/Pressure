@@ -193,6 +193,10 @@
 		3803BCB5181D132100256559 /* RPXmppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3803BCB3181D132100256559 /* RPXmppManager.m */; };
 		3803BCC0181D67E400256559 /* RPAuthModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3803BCBF181D67E400256559 /* RPAuthModel.m */; };
 		3803BCC3181D67EC00256559 /* RPObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3803BCC2181D67EC00256559 /* RPObject.m */; };
+		38E9CE49181FFFB90038B33A /* RPSinaModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E9CE48181FFFB90038B33A /* RPSinaModel.m */; };
+		38E9CE50182004CE0038B33A /* RPAppServerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E9CE4F182004CE0038B33A /* RPAppServerOperation.m */; };
+		38E9CE53182005080038B33A /* RPProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E9CE52182005080038B33A /* RPProfile.m */; };
+		38E9CE56182005FB0038B33A /* RPXmppProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E9CE55182005FB0038B33A /* RPXmppProfile.m */; };
 		38F0F747181EA89700361BC9 /* RPLoginVCTL.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F0F745181EA89700361BC9 /* RPLoginVCTL.m */; };
 		38F0F74B181EA9B400361BC9 /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F0F74A181EA9B400361BC9 /* libWeiboSDK.a */; };
 		38F0F74E181EAAD300361BC9 /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 38F0F74C181EAAD300361BC9 /* WeiboSDK.bundle */; };
@@ -581,6 +585,14 @@
 		3803BCBF181D67E400256559 /* RPAuthModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPAuthModel.m; sourceTree = "<group>"; };
 		3803BCC1181D67EC00256559 /* RPObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPObject.h; sourceTree = "<group>"; };
 		3803BCC2181D67EC00256559 /* RPObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPObject.m; sourceTree = "<group>"; };
+		38E9CE47181FFFB90038B33A /* RPSinaModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPSinaModel.h; sourceTree = "<group>"; };
+		38E9CE48181FFFB90038B33A /* RPSinaModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPSinaModel.m; sourceTree = "<group>"; };
+		38E9CE4E182004CE0038B33A /* RPAppServerOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPAppServerOperation.h; sourceTree = "<group>"; };
+		38E9CE4F182004CE0038B33A /* RPAppServerOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPAppServerOperation.m; sourceTree = "<group>"; };
+		38E9CE51182005080038B33A /* RPProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPProfile.h; sourceTree = "<group>"; };
+		38E9CE52182005080038B33A /* RPProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPProfile.m; sourceTree = "<group>"; };
+		38E9CE54182005FB0038B33A /* RPXmppProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPXmppProfile.h; sourceTree = "<group>"; };
+		38E9CE55182005FB0038B33A /* RPXmppProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPXmppProfile.m; sourceTree = "<group>"; };
 		38F0F744181EA89700361BC9 /* RPLoginVCTL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPLoginVCTL.h; sourceTree = "<group>"; };
 		38F0F745181EA89700361BC9 /* RPLoginVCTL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPLoginVCTL.m; sourceTree = "<group>"; };
 		38F0F74A181EA9B400361BC9 /* libWeiboSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeiboSDK.a; sourceTree = "<group>"; };
@@ -1599,6 +1611,7 @@
 		3803BCAA181D12BB00256559 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				38E9CE4D182004B90038B33A /* Server */,
 				3803BCBA181D5D0D00256559 /* SynthesizeSingleton.h */,
 				3803BCB9181D59AE00256559 /* Macro.h */,
 				3803BCAE181D132100256559 /* Meta */,
@@ -1638,8 +1651,23 @@
 				3803BCBF181D67E400256559 /* RPAuthModel.m */,
 				3803BCC1181D67EC00256559 /* RPObject.h */,
 				3803BCC2181D67EC00256559 /* RPObject.m */,
+				38E9CE47181FFFB90038B33A /* RPSinaModel.h */,
+				38E9CE48181FFFB90038B33A /* RPSinaModel.m */,
+				38E9CE51182005080038B33A /* RPProfile.h */,
+				38E9CE52182005080038B33A /* RPProfile.m */,
+				38E9CE54182005FB0038B33A /* RPXmppProfile.h */,
+				38E9CE55182005FB0038B33A /* RPXmppProfile.m */,
 			);
 			path = User;
+			sourceTree = "<group>";
+		};
+		38E9CE4D182004B90038B33A /* Server */ = {
+			isa = PBXGroup;
+			children = (
+				38E9CE4E182004CE0038B33A /* RPAppServerOperation.h */,
+				38E9CE4F182004CE0038B33A /* RPAppServerOperation.m */,
+			);
+			path = Server;
 			sourceTree = "<group>";
 		};
 		38F0F743181EA88300361BC9 /* Login */ = {
@@ -1777,6 +1805,7 @@
 				3803BC62181D09B000256559 /* XMPPCapsResourceCoreDataStorageObject.m in Sources */,
 				3803BC25181D09B000256559 /* XMPPGoogleSharedStatus.m in Sources */,
 				3803BBF6181D09B000256559 /* MMProgressHUD+Animations.m in Sources */,
+				38E9CE49181FFFB90038B33A /* RPSinaModel.m in Sources */,
 				3803BC4B181D09B000256559 /* XMPPvCardTemp.m in Sources */,
 				3803BC67181D09B000256559 /* XMPPMessageArchivingCoreDataStorage.m in Sources */,
 				3803BC4E181D09B000256559 /* XMPPvCardTempBase.m in Sources */,
@@ -1802,6 +1831,7 @@
 				3803BC3E181D09B000256559 /* XMPPRoomMessageHybridCoreDataStorageObject.m in Sources */,
 				3803BC0B181D09B000256559 /* SDWebImageManager.m in Sources */,
 				3803BC5E181D09B000256559 /* NSString+XEP_0106.m in Sources */,
+				38E9CE56182005FB0038B33A /* RPXmppProfile.m in Sources */,
 				3803BC12181D09B000256559 /* XMPPAnonymousAuthentication.m in Sources */,
 				3803BBEF181D09B000256559 /* UIImage+RoundedCorner.m in Sources */,
 				3803BC24181D09B000256559 /* XMPPCoreDataStorage.m in Sources */,
@@ -1816,6 +1846,7 @@
 				3803BC83181D09B000256559 /* DDTTYLogger.m in Sources */,
 				3803BBFD181D09B000256559 /* MMVectorImage.m in Sources */,
 				3803BBF3181D09B000256559 /* GTMObjC2Runtime.m in Sources */,
+				38E9CE53182005080038B33A /* RPProfile.m in Sources */,
 				3803BC5A181D09B000256559 /* NSDate+XMPPDateTimeProfiles.m in Sources */,
 				3803BCA2181D10FE00256559 /* MLNavigationController.m in Sources */,
 				3803BC72181D09B000256559 /* NSXMLElement+XEP_0203.m in Sources */,
@@ -1850,6 +1881,7 @@
 				3803BC89181D09B000256559 /* DDXMLElement.m in Sources */,
 				3803BCA9181D12B000256559 /* RPFrChatVCTL.m in Sources */,
 				3803BBEB181D09B000256559 /* NSString+MD5Addition.m in Sources */,
+				38E9CE50182004CE0038B33A /* RPAppServerOperation.m in Sources */,
 				3803BC41181D09B000256559 /* XMPPRoomMessageMemoryStorageObject.m in Sources */,
 				3803BBFE181D09B000256559 /* NSObject+SBJSON.m in Sources */,
 				3803BC3D181D09B000256559 /* XMPPRoomHybridStorage.m in Sources */,

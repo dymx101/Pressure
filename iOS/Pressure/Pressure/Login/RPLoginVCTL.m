@@ -8,6 +8,7 @@
 
 #import "RPLoginVCTL.h"
 #import "WeiboSDK.h"
+#import "RPIndexVCTL.h"
 @interface RPLoginVCTL ()
 
 @end
@@ -46,11 +47,12 @@
 
 - (void)loginBtnClick:(id)sender
 {
-    
-    WBAuthorizeRequest *request = [WBAuthorizeRequest request];
-    request.redirectURI = @"http://21beizi.com";
-    request.scope = @"email,direct_messages_write";
-    [WeiboSDK sendRequest:request];
+    RPIndexVCTL *indexVCTL = [[RPIndexVCTL alloc] init];
+    [self.navigationController pushViewController:indexVCTL animated:YES];
+//    WBAuthorizeRequest *request = [WBAuthorizeRequest request];
+//    request.redirectURI = @"http://21beizi.com";
+//    request.scope = @"email,direct_messages_write";
+//    [WeiboSDK sendRequest:request];
 }
 
 @end

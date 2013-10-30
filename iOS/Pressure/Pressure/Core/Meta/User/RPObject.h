@@ -10,4 +10,11 @@
 
 @interface RPObject : NSObject
 
+
+- (id)initWithJSONDic:(NSDictionary *)jsonDic ;
+- (void)setWithJSONDic:(NSDictionary *)dic;
+- (NSDictionary *)proxyForJson;
+
+
+
 @end

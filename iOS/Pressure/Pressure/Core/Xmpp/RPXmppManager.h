@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "RPAuthModel.h"
+#import "RPXmppProfile.h"
 @interface RPXmppManager : NSObject
 
 + (RPXmppManager *)sharedInstance ;

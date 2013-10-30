@@ -17,9 +17,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    
-    
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -34,7 +31,6 @@
     [super didReceiveMemoryWarning];
     
 }
-
 
 - (void)btnClick:(id)sender
 {

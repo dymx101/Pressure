@@ -9,10 +9,12 @@
 #ifndef Pressure_RPNotif_h
 #define Pressure_RPNotif_h
 
-#define kNotif_XmppConnectSuccess    @"kNotif_XmppConnectSuccess"
-#define kNotif_XmppLoginSuccess    @"kNotif_XmppLoginSuccess"
-#define kNotif_XmppLoginFailed     @"kNotif_XmppLoginFailed"
-#define kNotif_XmppTalkingMessage  @"kNotif_XmppTalkingMessage"
+#define kNotif_XmppConnectSuccess   @"kNotif_XmppConnectSuccess"
+#define kNotif_XmppLoginSuccess     @"kNotif_XmppLoginSuccess"
+#define kNotif_XmppLoginFailed      @"kNotif_XmppLoginFailed"
+#define kNotif_XmppTalkingMessage   @"kNotif_XmppTalkingMessage"
+#define kNotif_SinaWeiBoAuthSucc    @"kNotif_SinaWeiBoAuthSucc"
+#define kNotif_SinaWeiBoAuthSucc    @"kNotif_SinaWeiBoAuthSucc"
 
 
 #endif

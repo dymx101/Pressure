@@ -7,9 +7,32 @@
 //
 
 #import "RPAuthModel.h"
-
+#import "RPProfile.h"
+#import "RPSinaModel.h"
+#import "RPXmppProfile.h"
+#define kProfile @"profile"
+static RPAuthModel * authModel = nil;
 @implementation RPAuthModel
 
+
++ (RPAuthModel *)sharedInstance
+{
+    if (authModel == nil)
+    {
+        authModel = [[RPAuthModel alloc] init];
+    }
+    return  authModel;
+}
+
+- (id)init
+{
+    self = [super init];
+    if (self)
+    {
+        
+    }
+    return self;
+}
 
 - (id)initWithJSONDic:(NSDictionary *)jsonDic
 {
@@ -17,6 +40,7 @@
     self = [super init];
     if (self)
     {
+        _profile = [[RPProfile alloc] initWithJSONDic:jsonDic[kProfile]];
         
     }
     return self;
@@ -31,6 +55,12 @@
 {
     
     //子类继承
+}
+
+
+- (BOOL)logined
+{
+    return YES;
 }
 
 @end

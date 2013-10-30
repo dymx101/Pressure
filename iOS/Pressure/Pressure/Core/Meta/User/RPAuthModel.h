@@ -7,22 +7,19 @@
 //
 
 #import "RPObject.h"
-typedef enum _User_Xmpp_OnlineStatus
-{
-    User_Xmpp_OnlineStatus_Online,
-    User_Xmpp_OnlineStatus_Offline
-    
-}User_Xmpp_OnlineStatus;
+@class RPSinaModel;
+@class RPProfile;
+@class RPXmppProfile;
 
 @interface RPAuthModel : RPObject
 
+@property (nonatomic,retain) RPSinaModel *sinaModel;
+@property (nonatomic,retain) RPProfile *profile;
+@property (nonatomic,retain) RPXmppProfile *xmppProfile;
 
-@property (nonatomic) User_Xmpp_OnlineStatus onlineStatus;
 
-
-- (id)initWithJSONDic:(NSDictionary *)jsonDic ;
-- (void)setWithJSONDic:(NSDictionary *)dic;
-- (NSDictionary *)proxyForJson;
++ (RPAuthModel *)sharedInstance;
+- (BOOL)logined;
 
 
 

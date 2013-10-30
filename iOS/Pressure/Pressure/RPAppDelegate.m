@@ -11,7 +11,8 @@
 #import "MLNavigationController.h"
 #import "WeiboSDK.h"
 #import "RPLoginVCTL.h"
-
+#import "RPAuthModel.h"
+#import "RPSinaModel.h"
 @interface RPAppDelegate ()  <WeiboSDKDelegate>
 {
     
@@ -45,10 +46,6 @@
     return [WeiboSDK handleOpenURL:url delegate:self];
 }
 
-
-
-
-
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -79,18 +76,24 @@
 
 - (void)choiceViewController
 {
-    //RPIndexVCTL *indexVCTL = [[RPIndexVCTL alloc] init];
-    RPLoginVCTL *loginVCTL = [[RPLoginVCTL alloc] init];
-    if (!_nav)
-    {
-        _nav = [[MLNavigationController alloc] initWithRootViewController:loginVCTL];
-    }
     
-    self.window.rootViewController = _nav;
+    if ([[RPAuthModel sharedInstance] logined])
+    {
+        
+    }else
+    {
+        RPLoginVCTL *loginVCTL = [[RPLoginVCTL alloc] init];
+        if (!_nav)
+        {
+            _nav = [[MLNavigationController alloc] initWithRootViewController:loginVCTL];
+        }
+        self.window.rootViewController = _nav;
+    }
     
 }
 
-
+#pragma mark -
+#pragma mark WBBaseRequest Delegate
 - (void)didReceiveWeiboRequest:(WBBaseRequest *)request
 {
     NSLog(@"%@",@"123");
@@ -98,11 +101,13 @@
 
 - (void)didReceiveWeiboResponse:(WBBaseResponse *)response
 {
+    //如果是认证回调
     if ([response isKindOfClass:[WBAuthorizeResponse class]])
     {
-        NSString *message = [NSString stringWithFormat:@"响应状态: %d\nresponse.userId: %@\nresponse.accessToken: %@\n响应UserInfo数据: %@\n原请求UserInfo数据: %@",
-                             response.statusCode, [(WBAuthorizeResponse *)response userID], [(WBAuthorizeResponse *)response accessToken], response.userInfo, response.requestUserInfo];
-        NSLog(@"%@",message);
+        RPSinaModel *sinaModel  = [[RPSinaModel alloc] initWithJSONDic:response.userInfo];
+        RPAuthModel *authModel  = [RPAuthModel sharedInstance];
+        authModel.sinaModel     = sinaModel;
+        [[NSNotificationCenter defaultCenter] postNotificationName:kNotif_SinaWeiBoAuthSucc object:nil];
     }
     
 }

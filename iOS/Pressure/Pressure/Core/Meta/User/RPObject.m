@@ -11,5 +11,25 @@
 @implementation RPObject
 
 
+- (id)initWithJSONDic:(NSDictionary *)jsonDic
+{
+    
+    self = [super init];
+    if (self)
+    {
+        
+    }
+    return self;
+}
 
+- (NSDictionary *)proxyForJson
+{
+    return [NSDictionary dictionary];
+}
+
+- (void)setWithJSONDic:(NSDictionary *)dic
+{
+    
+    //子类继承
+}
 @end
