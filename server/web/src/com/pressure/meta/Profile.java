@@ -23,17 +23,55 @@ public class Profile implements Serializable {
 	 */
 	private String UserName;
 	/**
-	 * 名字
+	 * 昵称
 	 */
-	private String name;
-	/**
-	 * 账户密码
-	 */
-	private String Password;
+	private String NickName;
 	/**
 	 * 创建时间
 	 */
-	private long createTime;
+	private long CreateTime;
+	/**
+	 * 上次登录时间
+	 */
+	private long LastUpdateTime;
+	/**
+	 * 用户头像
+	 */
+	private String AvatorUrl;
+	/**
+	 * 用户等级
+	 */
+	private int level;
+
+	public enum ProfileLevel {
+		Member {
+			@Override
+			public int getValue() {
+				return 0;
+			}
+		},
+		VIP {
+			@Override
+			public int getValue() {
+				return 1;
+			}
+		},
+		Admin {
+			@Override
+			public int getValue() {
+				return 2;
+			}
+		};
+		public abstract int getValue();
+
+		public static ProfileLevel genProfileLevel(int t) {
+			for (ProfileLevel level : ProfileLevel.values()) {
+				if (level.getValue() == t)
+					return level;
+			}
+			return null;
+		}
+	}
 
 	public long getUserId() {
 		return UserId;
@@ -51,27 +89,43 @@ public class Profile implements Serializable {
 		this.UserName = UserName;
 	}
 
-	public String getPassword() {
-		return Password;
-	}
-
-	public void setPassword(String password) {
-		Password = password;
-	}
-
 	public long getCreateTime() {
-		return createTime;
+		return CreateTime;
 	}
 
 	public void setCreateTime(long createTime) {
-		this.createTime = createTime;
+		CreateTime = createTime;
 	}
 
-	public String getName() {
-		return name;
+	public String getNickName() {
+		return NickName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setNickName(String nickName) {
+		NickName = nickName;
+	}
+
+	public long getLastUpdateTime() {
+		return LastUpdateTime;
+	}
+
+	public void setLastUpdateTime(long lastUpdateTime) {
+		LastUpdateTime = lastUpdateTime;
+	}
+
+	public String getAvatorUrl() {
+		return AvatorUrl;
+	}
+
+	public void setAvatorUrl(String avatorUrl) {
+		AvatorUrl = avatorUrl;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
 	}
 }

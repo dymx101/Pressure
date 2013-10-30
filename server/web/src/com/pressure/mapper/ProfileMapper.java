@@ -10,8 +10,10 @@ import org.apache.ibatis.annotations.Param;
  * @date 2013-10-28 обнГ01:57:12
  */
 public interface ProfileMapper {
-	public int addProfile(@Param(value = "userName") String userName,
-			@Param(value = "password") String password,
-			@Param(value = "name") String name,
-			@Param(value = "createTime") long createTime);
+	public int addProfile(@Param(value = "UserName") String UserName,
+			@Param(value = "NickName") String NickName,
+			@Param(value = "CreateTime") long CreateTime,
+			@Param(value = "LastUpdateTime") long LastUpdateTime,
+			@Param(value = "AvatorUrl") String AvatorUrl,
+			@Param(value = "level") int level);
 }

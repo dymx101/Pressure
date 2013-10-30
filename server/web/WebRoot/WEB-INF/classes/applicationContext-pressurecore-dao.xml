@@ -15,7 +15,7 @@
 
 	<context:component-scan base-package="com.pressure">
 		<context:exclude-filter type="regex"
-			expression="com\.pressure\.web\..*" />
+			expression="com\.pressure\.controller\..*" />
 	</context:component-scan>
 
 	<!-- 导入属性配置文件 -->
@@ -64,5 +64,9 @@
 	<bean id="accountMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 		<property name="mapperInterface" value="com.pressure.mapper.AccountMapper" />
+	</bean>
+	<bean id="sourceAccountMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<property name="mapperInterface" value="com.pressure.mapper.SourceAccountMapper" />
 	</bean>
 </beans>
