@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pressure.mapper.AccountMapper">
+	<resultMap type="SourceAccount" id="sourceAccountMap">
+		<id property="Id" column="Id" />
+		<result property="UserId" column="UserId" />
+		<result property="AccessUserId" column="AccessUserId" />
+		<result property="AccessUserName" column="AccessUserName" />
+		<result property="AccessToken" column="AccessToken" />
+		<result property="ExpiresIn" column="ExpiresIn" />
+		<result property="SourceType" column="SourceType" />
+		<result property="CreateTime" column="CreateTime" />
+	</resultMap>
+
+	<insert id="addSourceAccount">
+		INSERT INTO
+		TB_SourceAccount(
+		UserId,
+		AccessUserId,
+		AccessUserName,
+		AccessToken,
+		ExpiresIn,
+		SourceType,
+		CreateTime
+		)VALUES(
+		#{UserId},
+		#{AccessUserId},
+		#{AccessUserName},
+		#{AccessToken},
+		#{ExpiresIn},
+		#{SourceType},
+		#{CreateTime}
+		)
+		<selectKey keyProperty="Id" resultType="long">
+			SELECT
+			LAST_INSERT_ID() AS VALUE
+		</selectKey>
+	</insert>
+
+	<select id="getSourceAccountByUserId" resultType="SourceAccount">
+		select * from
+		TB_SourceAccount where UserId=#{UserId} and SourceType=#{SourceType};
+	</select>
+</mapper>

@@ -7,33 +7,22 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.pressure.mapper.ProfileMapper;
+import com.pressure.meta.Profile;
 import com.pressure.service.ProfileService;
 
-/**
- * 
- * @ClassName: ProfileServiceImpl
- * @Description: TODO
- * @author yunshang_734@163.com
- * @date 2013-10-28 ÏÂÎç01:58:46
- */
-@Service("profileService")
+@Service("profileServiceImpl")
 public class ProfileServiceImpl implements ProfileService {
 
 	@Resource
 	private ProfileMapper profileMapper;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.pressure.service.ProfileService#addProfile(java.lang.String,
-	 * java.lang.String, java.lang.String)
-	 */
 	@Override
-	public boolean addProfile(String userName, String password, String name) {
-		if (userName == null || password == null || name == null) {
-			return false;
+	public boolean addProfile(String UserName, String NickName, String AvatorUrl) {
+		if (profileMapper.addProfile(UserName, NickName, new Date().getTime(),
+				new Date().getTime(), AvatorUrl,
+				Profile.ProfileLevel.Member.getValue()) > 0) {
+			return true;
 		}
-		long createTime = new Date().getTime();
-		return profileMapper.addProfile(userName, password, name, createTime) > 0;
+		return false;
 	}
 }

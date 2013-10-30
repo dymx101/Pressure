@@ -14,43 +14,52 @@ public class Account implements Serializable {
 	 * serialVersionUID
 	 */
 	private static final long serialVersionUID = 2L;
-
 	/**
-	 * 用于调用access_token，接口获取授权后的access token
+	 * 用户ID
 	 */
-	private String access_token;
-
+	private long UserId;
 	/**
-	 * access_token的生命周期，单位是秒数。
+	 * 用户名
 	 */
-	private String expires_in;
-
+	private String UserName;
 	/**
-	 * 当前授权用户的UID。
+	 * 密码
 	 */
-	private String uidString;
+	private String PassWord;
+	/**
+	 * 创建时间
+	 */
+	private long CreateTime;
 
-	public String getAccess_token() {
-		return access_token;
+	public long getUserId() {
+		return UserId;
 	}
 
-	public void setAccess_token(String access_token) {
-		this.access_token = access_token;
+	public void setUserId(long userId) {
+		UserId = userId;
 	}
 
-	public String getExpires_in() {
-		return expires_in;
+	public String getUserName() {
+		return UserName;
 	}
 
-	public void setExpires_in(String expires_in) {
-		this.expires_in = expires_in;
+	public void setUserName(String userName) {
+		UserName = userName;
 	}
 
-	public String getUidString() {
-		return uidString;
+	public String getPassWord() {
+		return PassWord;
 	}
 
-	public void setUidString(String uidString) {
-		this.uidString = uidString;
+	public void setPassWord(String passWord) {
+		PassWord = passWord;
+	}
+
+	public long getCreateTime() {
+		return CreateTime;
+	}
+
+	public void setCreateTime(long createTime) {
+		CreateTime = createTime;
 	}
 }

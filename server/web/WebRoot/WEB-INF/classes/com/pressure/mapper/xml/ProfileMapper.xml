@@ -4,23 +4,33 @@
 	<resultMap type="Profile" id="profileMap">
 		<id property="UserId" column="UserId" />
 		<result property="UserName" column="UserName" />
-		<result property="Password" column="Password" />
-		<result property="createTime" column="createTime" />
-		<result property="name" column="name" />
+		<result property="NickName" column="NickName" />
+		<result property="CreateTime" column="CreateTime" />
+		<result property="LastUpdateTime" column="LastUpdateTime" />
+		<result property="AvatorUrl" column="AvatorUrl" />
+		<result property="level" column="level" />
 	</resultMap>
 
 	<insert id="addProfile" parameterType="Profile">
 		INSERT INTO
 		TB_Profile(
 		UserName,
-		Password,
-		createTime,
-		name
+		NickName,
+		CreateTime,
+		LastUpdateTime,
+		AvatorUrl,
+		level
 		)VALUES(
 		#{UserName},
-		#{Password},
-		#{createTime},
-		#{name}
+		#{NiceName},
+		#{CreateTime},
+		#{LastUpdateTime},
+		#{AvatorUrl},
+		#{level}
 		)
+		<selectKey keyProperty="UserId" resultType="long">
+			SELECT
+			LAST_INSERT_ID() AS VALUE
+		</selectKey>
 	</insert>
 </mapper>

@@ -2,22 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pressure.mapper.AccountMapper">
 	<resultMap type="Account" id="accountMap">
-		<id property="id" column="id" />
-		<result property="access_token" column="access_token" />
-		<result property="expires_in" column="expires_in" />
-		<result property="uid" column="uid" />
+		<id property="UserId" column="UserId" />
+		<result property="UserName" column="UserName" />
+		<result property="PassWord" column="PassWord" />
+		<result property="CreateTime" column="CreateTime" />
 	</resultMap>
 
 	<insert id="addAccount" parameterType="Account">
 		INSERT INTO
 		TB_Account(
-		access_token,
-		expires_in,
-		uid
+		UserName,
+		PassWord,
+		CreateTime
 		)VALUES(
-		#{access_token},
-		#{expires_in},
-		#{uid}
+		#{UserName},
+		#{Password},
+		#{CreateTime}
 		)
+		<selectKey keyProperty="UserId" resultType="long">
+			SELECT
+			LAST_INSERT_ID() AS VALUE
+		</selectKey>
 	</insert>
 </mapper>
