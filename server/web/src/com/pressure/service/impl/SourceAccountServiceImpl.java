@@ -6,7 +6,10 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.pressure.mapper.ProfileMapper;
 import com.pressure.mapper.SourceAccountMapper;
+import com.pressure.meta.Profile;
+import com.pressure.meta.SourceAccount;
 import com.pressure.service.SourceAccountService;
 
 @Service("sourceAccountServiceImpl")
@@ -15,21 +18,40 @@ public class SourceAccountServiceImpl implements SourceAccountService {
 	@Resource
 	private SourceAccountMapper sourceAccountMapper;
 
+	@Resource
+	private ProfileMapper profileMapper;
+
 	@Override
-	public boolean addSourceAccount(long AccessUserId, String AccessToken,
+	public boolean sourceAccountLogin(long AccessUserId, String AccessToken,
 			String ExpiresIn, int SourceType) {
-		if (sourceAccountMapper.getSourceAccountByUserId(AccessUserId,
-				SourceType) != null) {
+		SourceAccount sourceAccount = sourceAccountMapper
+				.getSourceAccountByAccessUserId(AccessUserId, SourceType);
+		if (sourceAccount != null) {
 			return false;
 		}
 
-		long UserId = 0;
-		String AccessUserName = "";
+		long CreateTime = new Date().getTime();
+		long LastUpdateTime = new Date().getTime();
 
-		if (sourceAccountMapper.addSourceAccount(UserId, AccessUserId,
-				AccessUserName, AccessToken, ExpiresIn, SourceType,
-				new Date().getTime()) > 0) {
-			return true;
+		Profile profile = new Profile();
+		profile.setUserName("未命名");
+		profile.setNickName("未命名");
+		profile.setCreateTime(CreateTime);
+		profile.setLastUpdateTime(LastUpdateTime);
+		profile.setAvatorUrl("未添加");
+		profile.setLevel(Profile.ProfileLevel.Member.getValue());
+
+		if (profileMapper.addProfile(profile) > 0) {
+			String AccessUserName = "未命名";
+			SourceAccount sourceAccount2 = new SourceAccount();
+			sourceAccount2.setUserId(profile.getUserId());
+			sourceAccount2.setAccessUserId(AccessUserId);
+			sourceAccount2.setAccessUserName(AccessUserName);
+			sourceAccount2.setAccessToken(AccessToken);
+			sourceAccount2.setExpiresIn(ExpiresIn);
+			sourceAccount2.setSourceType(SourceType);
+			if (sourceAccountMapper.addSourceAccount(sourceAccount2) > 0)
+				return true;
 		}
 		return false;
 	}

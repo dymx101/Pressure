@@ -14,11 +14,9 @@ public abstract class AbstractBaseController extends MultiActionController {
 	@Resource(name = "paramResolver")
 	private MethodNameResolver methodNameResolver;
 
-	
 	@PostConstruct
 	public void baseInit() {
 		super.setMethodNameResolver(methodNameResolver);
 	}
 
-	
 }

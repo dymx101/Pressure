@@ -6,10 +6,6 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
-import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
-import org.apache.commons.httpclient.methods.multipart.Part;
-import org.apache.commons.httpclient.methods.multipart.StringPart;
-import org.apache.http.entity.StringEntity;
 
 /**
  * 
@@ -22,7 +18,7 @@ public class TestAddSourceAccount {
 
 	public static void main(String[] args) {
 
-		String strURL = "http://127.0.0.1:8080/Pressure/apiPressurePub.do?action=addSourceAccount";
+		String strURL = "http://127.0.0.1:8080/Pressure/apiPressurePub.do?action=sourceAccountLogin";
 		HttpClient httpclient = new HttpClient();
 		PostMethod post = new PostMethod(strURL);
 

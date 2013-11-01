@@ -5,12 +5,12 @@ package com.pressure.service;
  * @ClassName: SourceAccountService
  * @Description: TODO
  * @author yunshang_734@163.com
- * @date 2013-10-30 ÉÏÎç12:40:52
+ * @date 2013-10-30 é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·12:40:52
  */
 public interface SourceAccountService {
 
 	/**
-	 * Ìí¼Ó×ÊÔ´ÓÃ»§ÐÅÏ¢
+	 * é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿçš†è¾¾æ‹·æ²¡é”Ÿæ–¤æ‹·é”Ÿè¾ƒï¿½
 	 * 
 	 * @param UserId
 	 * @param AccessUserId
@@ -20,6 +20,6 @@ public interface SourceAccountService {
 	 * @param SourceType
 	 * @return
 	 */
-	public boolean addSourceAccount(long AccessUserId, String AccessToken,
+	public boolean sourceAccountLogin(long AccessUserId, String AccessToken,
 			String ExpiresIn, int SourceType);
 }

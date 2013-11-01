@@ -5,6 +5,7 @@
 
 <dwr>
 	<allow>
-
+		<convert converter="bean"
+			match="com.pressure.meta.Profile" />
 	</allow>
 </dwr>

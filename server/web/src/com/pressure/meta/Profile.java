@@ -85,16 +85,8 @@ public class Profile implements Serializable {
 		return UserName;
 	}
 
-	public void setUserName(String UserName) {
-		this.UserName = UserName;
-	}
-
-	public long getCreateTime() {
-		return CreateTime;
-	}
-
-	public void setCreateTime(long createTime) {
-		CreateTime = createTime;
+	public void setUserName(String userName) {
+		UserName = userName;
 	}
 
 	public String getNickName() {
@@ -103,6 +95,14 @@ public class Profile implements Serializable {
 
 	public void setNickName(String nickName) {
 		NickName = nickName;
+	}
+
+	public long getCreateTime() {
+		return CreateTime;
+	}
+
+	public void setCreateTime(long createTime) {
+		CreateTime = createTime;
 	}
 
 	public long getLastUpdateTime() {

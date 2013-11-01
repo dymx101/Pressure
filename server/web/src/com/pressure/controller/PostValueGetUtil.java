@@ -63,7 +63,7 @@ public class PostValueGetUtil {
 			return null;
 		}
 		JSONObject jsonObject = JSONObject.fromObject(jsonString);
-		return (JSONObject)jsonObject.get("requestData");
+		return (JSONObject) jsonObject.get("requestData");
 	}
 
 }

@@ -9,12 +9,4 @@ package com.pressure.service;
  */
 public interface ProfileService {
 
-	/**
-	 * 
-	 * @param UserName
-	 * @param NickName
-	 * @param AvatorUrl
-	 * @return
-	 */
-	public boolean addProfile(String UserName, String NickName, String AvatorUrl);
 }

@@ -1,7 +1,6 @@
 package com.pressure.security;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.Filter;
@@ -26,7 +25,7 @@ public class MySecurityDelegatingFilter extends HttpServlet implements Filter {
 	private static final String[] noAuthURIConfig = { "/**/apiPressurePub.do*" };
 
 	private static final String[] noAdminURIConfig = { "/**/apiPressure.do*" };
-	
+
 	private static final String[] apiConfig = { "/**/apiPressure.do*" };
 
 	private static final PathMatcher urlMatcher = new AntPathMatcher();
@@ -61,14 +60,14 @@ public class MySecurityDelegatingFilter extends HttpServlet implements Filter {
 			throw new ServletException();
 		}
 
-//		if (this.noNeedAdminConfig(uri, httpRequest))
-//		{
-//			if (this.isFromApi(httpRequest, uri))
-//			{
-//				this.checkUser(httpRequest, httpResponse);
-//			}
-//		}
-		
+		// if (this.noNeedAdminConfig(uri, httpRequest))
+		// {
+		// if (this.isFromApi(httpRequest, uri))
+		// {
+		// this.checkUser(httpRequest, httpResponse);
+		// }
+		// }
+
 		arg2.doFilter(request, response);
 
 	}
@@ -119,35 +118,35 @@ public class MySecurityDelegatingFilter extends HttpServlet implements Filter {
 			throw new TokenNotFoundException();
 		}
 
-//		try {
-//			Long userId = MyInterfaceTokenUtil.getUserIdFromToken(obj
-//					.toString());
-//			MyUser user = userMap.get(userId);
-//			if (user == null) {
-//				// 如果是空的,如果认证正确,需要重新生成一个user
-//				if (userId > 0) {
-//					user = new MyUser();
-//					user.setAuthToken(obj.toString());
-//					user.setUserId(userId);
-//					user.setLastRegisterTime(new Date().getTime());
-//					userMap.put(userId, user);
-//				} else {
-//					logger.error("TokenInvalidException where userid=" + userId
-//							+ " and  token=" + obj.toString());
-//					throw new TokenInvalidException();
-//				}
-//			} else {
-//				if (!MyInterfaceTokenUtil.isValidToken(obj.toString(), user)) {
-//					logger.error("TokenInvalidException where is not Valid Token userid="
-//							+ userId + " and  token=" + obj.toString());
-//					throw new TokenInvalidException();
-//				}
-//				user.setLastRegisterTime(new Date().getTime());
-//			}
-//
-//		} catch (Exception e) {
-//			throw new TokenInvalidException();
-//		}
+		// try {
+		// Long userId = MyInterfaceTokenUtil.getUserIdFromToken(obj
+		// .toString());
+		// MyUser user = userMap.get(userId);
+		// if (user == null) {
+		// // 如果是空的,如果认证正确,需要重新生成一个user
+		// if (userId > 0) {
+		// user = new MyUser();
+		// user.setAuthToken(obj.toString());
+		// user.setUserId(userId);
+		// user.setLastRegisterTime(new Date().getTime());
+		// userMap.put(userId, user);
+		// } else {
+		// logger.error("TokenInvalidException where userid=" + userId
+		// + " and  token=" + obj.toString());
+		// throw new TokenInvalidException();
+		// }
+		// } else {
+		// if (!MyInterfaceTokenUtil.isValidToken(obj.toString(), user)) {
+		// logger.error("TokenInvalidException where is not Valid Token userid="
+		// + userId + " and  token=" + obj.toString());
+		// throw new TokenInvalidException();
+		// }
+		// user.setLastRegisterTime(new Date().getTime());
+		// }
+		//
+		// } catch (Exception e) {
+		// throw new TokenInvalidException();
+		// }
 	}
 
 	/**

@@ -8,7 +8,6 @@ import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pressure.constant.BasicObjectConstant;
@@ -20,17 +19,17 @@ import com.pressure.service.SourceAccountService;
  * @ClassName: ApiPressurePubController
  * @Description: TODO
  * @author yunshang_734@163.com
- * @date 2013-10-30 ÉÏÎç01:09:05
+ * @date 2013-10-30 ï¿½ï¿½ï¿½ï¿½01:09:05
  */
 @Controller("apiPressurePubController")
-public class ApiPressurePubController extends AbstractBaseController{
+public class ApiPressurePubController extends AbstractBaseController {
 	private static final Logger logger = Logger
 			.getLogger(ApiPressurePubController.class);
 
 	@Resource
 	private SourceAccountService sourceAccountService;
 
-	public ModelAndView addSourceAccount(HttpServletRequest request,
+	public ModelAndView sourceAccountLogin(HttpServletRequest request,
 			HttpServletResponse response) {
 
 		ModelAndView modelAndView = new ModelAndView("return");
@@ -45,14 +44,13 @@ public class ApiPressurePubController extends AbstractBaseController{
 			modelAndView.addObject("returnObject", returnObject.toString());
 			return modelAndView;
 		}
-		String access_token = ServletRequestUtils.getStringParameter(request,
-				"access_token", null);
-		String expires_in = ServletRequestUtils.getStringParameter(request,
-				"expires_in", null);
-		long uid = ServletRequestUtils.getLongParameter(request, "uid", -1L);
-		int type = ServletRequestUtils.getIntParameter(request, "type", -1);
 
-		if (sourceAccountService.addSourceAccount(uid, access_token,
+		String access_token = jsonObject.getString("access_token");
+		String expires_in = jsonObject.getString("expires_in");
+		long uid = jsonObject.getLong("uid");
+		int type = jsonObject.getInt("type");
+
+		if (sourceAccountService.sourceAccountLogin(uid, access_token,
 				expires_in, type)) {
 			returnObject.put(BasicObjectConstant.kReturnObject_Code,
 					ReturnCodeConstant.SUCCESS);
