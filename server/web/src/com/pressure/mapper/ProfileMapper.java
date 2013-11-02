@@ -2,18 +2,29 @@ package com.pressure.mapper;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.pressure.meta.Profile;
+
 /**
  * 
  * @ClassName: ProfileMapper
  * @Description: TODO
  * @author yunshang_734@163.com
- * @date 2013-10-28 ����01:57:12
+ * @date 2013-10-28 01:57:12
  */
 public interface ProfileMapper {
-	public int addProfile(@Param(value = "UserName") String UserName,
-			@Param(value = "NickName") String NickName,
-			@Param(value = "CreateTime") long CreateTime,
-			@Param(value = "LastUpdateTime") long LastUpdateTime,
-			@Param(value = "AvatorUrl") String AvatorUrl,
-			@Param(value = "level") int level);
+	/**
+	 * 添加用户信息
+	 * 
+	 * @param profile
+	 * @return
+	 */
+	public int addProfile(Profile profile);
+
+	/**
+	 * 获取用户信息
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public Profile getProfileByUserId(@Param(value = "userId") long userId);
 }

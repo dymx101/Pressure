@@ -7,7 +7,7 @@
   j2ee-spec="5.0"
   archive="Pressure.war">
   <attributes>
-    <attribute name="webrootdir" value="WebRoot" />
+    <attribute name="webrootdir" value="/WebRoot" />
   </attributes>
 </project-module>
 

@@ -1,8 +1,60 @@
 package com.pressure.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONObject;
+
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.pressure.constant.BasicObjectConstant;
+import com.pressure.constant.ReturnCodeConstant;
+import com.pressure.meta.Session;
+import com.pressure.util.http.HttpReturnUtil;
+import com.pressure.util.http.PostValueGetUtil;
 
 @Controller("apiPressureController")
 public class ApiPressureController extends AbstractBaseController {
 
+	private static final Logger logger = Logger
+			.getLogger(ApiPressureController.class);
+
+	/**
+	 * 刷新token操作
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ModelAndView refreshToken(HttpServletRequest request,
+			HttpServletResponse response) {
+		ModelAndView mv = new ModelAndView("return");
+
+		String jsonString = PostValueGetUtil.parseRequestAsString(request,
+				"utf-8");
+		JSONObject jsonObject = PostValueGetUtil.parseRequestData(jsonString);
+		JSONObject returnObject = new JSONObject();
+		if (jsonObject == null) {
+			return this.jsonErrorReturn(mv, jsonString);
+		}
+		int returnCode = this.checkTokenValid(request, response);
+		if (returnCode == ReturnCodeConstant.tokenNotFound) {
+			return this.tokenErrorReturn(mv, returnCode);
+		}
+		String refreshToken = request.getHeader("refreshToken");
+		long userId = Long.valueOf(request.getHeader("userId"));
+		Session session = profileService.updateSessionByRefreshToken(
+				refreshToken, userId);
+		if (session == null) {
+			logger.error("refreshToken return session == null");
+
+		}
+		HttpReturnUtil.ReturnDataRefreshToken(session, mv);
+		returnObject.put(BasicObjectConstant.kReturnObject_Code,
+				ReturnCodeConstant.SUCCESS);
+		mv.addObject("returnObject", returnObject.toString());
+		return mv;
+	}
 }

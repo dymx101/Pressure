@@ -21,4 +21,12 @@ public interface SessionMapper {
 	 */
 	public Session getSessionByRefreshToken(
 			@Param(value = "refreshToken") String refreshToken);
+
+	/**
+	 * 更新session
+	 * 
+	 * @param session
+	 * @return
+	 */
+	public int updateSession(Session session);
 }

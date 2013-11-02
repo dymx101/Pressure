@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.pressure.mapper.AccountMapper">
+<mapper namespace="com.pressure.mapper.SourceAccountMapper">
 	<resultMap type="SourceAccount" id="sourceAccountMap">
 		<id property="Id" column="Id" />
 		<result property="UserId" column="UserId" />
@@ -14,7 +14,7 @@
 
 	<insert id="addSourceAccount">
 		INSERT INTO
-		TB_SourceAccount(
+		TB_Source_Account(
 		UserId,
 		AccessUserId,
 		AccessUserName,
@@ -37,8 +37,8 @@
 		</selectKey>
 	</insert>
 
-	<select id="getSourceAccountByUserId" resultType="SourceAccount">
+	<select id="getSourceAccountByAccessUserId" resultType="SourceAccount">
 		select * from
-		TB_SourceAccount where UserId=#{UserId} and SourceType=#{SourceType};
+		TB_Source_Account where AccessUserId=#{AccessUserId} and SourceType=#{SourceType};
 	</select>
 </mapper>

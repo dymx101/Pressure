@@ -8,19 +8,21 @@ import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pressure.constant.BasicObjectConstant;
 import com.pressure.constant.ReturnCodeConstant;
+import com.pressure.meta.Profile;
+import com.pressure.meta.Session;
 import com.pressure.service.SourceAccountService;
+import com.pressure.util.http.HttpReturnUtil;
+import com.pressure.util.http.PostValueGetUtil;
 
 /**
  * 
  * @ClassName: ApiPressurePubController
  * @Description: TODO
  * @author yunshang_734@163.com
- * @date 2013-10-30 01:09:05
  */
 @Controller("apiPressurePubController")
 public class ApiPressurePubController extends AbstractBaseController {
@@ -29,19 +31,6 @@ public class ApiPressurePubController extends AbstractBaseController {
 
 	@Resource
 	private SourceAccountService sourceAccountService;
-
-	/**
-	 * 刷新token操作
-	 * 
-	 * @param request
-	 * @param response
-	 * @return
-	 */
-	public ModelAndView refreshToken(HttpServletRequest request,
-			HttpServletResponse response) {
-		ModelAndView modelAndView = new ModelAndView("return");
-		return modelAndView;
-	}
 
 	/**
 	 * 第三方登录操作
@@ -53,35 +42,36 @@ public class ApiPressurePubController extends AbstractBaseController {
 	public ModelAndView thirdPartLogin(HttpServletRequest request,
 			HttpServletResponse response) {
 
-		ModelAndView modelAndView = new ModelAndView("return");
+		ModelAndView mv = new ModelAndView("return");
 
 		String jsonString = PostValueGetUtil.parseRequestAsString(request,
 				"utf-8");
 		JSONObject jsonObject = PostValueGetUtil.parseRequestData(jsonString);
 		JSONObject returnObject = new JSONObject();
 		if (jsonObject == null) {
-			returnObject.put(BasicObjectConstant.kReturnObject_Code,
-					ReturnCodeConstant.FAILED);
-			modelAndView.addObject("returnObject", returnObject.toString());
-			return modelAndView;
+			return this.jsonErrorReturn(mv, jsonString);
 		}
-		String access_token = ServletRequestUtils.getStringParameter(request,
-				"access_token", null);
-		String expires_in = ServletRequestUtils.getStringParameter(request,
-				"expires_in", null);
-		long uid = ServletRequestUtils.getLongParameter(request, "uid", -1L);
-		int type = ServletRequestUtils.getIntParameter(request, "type", -1);
 
-		if (sourceAccountService.addSourceAccount(uid, access_token,
-				expires_in, type)) {
+		String access_token = jsonObject.getString("access_token");
+		String expires_in = jsonObject.getString("expires_in");
+		long uid = jsonObject.getLong("uid");
+		int type = jsonObject.getInt("type");
+
+		long userId = sourceAccountService.sourceAccountLogin(uid,
+				access_token, expires_in, type);
+		if (userId < 0) {
 			returnObject.put(BasicObjectConstant.kReturnObject_Code,
-					ReturnCodeConstant.SUCCESS);
-			modelAndView.addObject("returnObject", returnObject.toString());
-			return modelAndView;
+					ReturnCodeConstant.UserNoFound);
+			mv.addObject("returnObject", returnObject.toString());
+			return mv;
 		}
+
+		Session session = profileService.createSessionByUserId(userId);
+		Profile profile = profileService.getProfileByUserId(userId);
+		HttpReturnUtil.ReturnDataThirdPartLogin(session, profile, mv);
 		returnObject.put(BasicObjectConstant.kReturnObject_Code,
-				ReturnCodeConstant.FAILED);
-		modelAndView.addObject("returnObject", returnObject.toString());
-		return modelAndView;
+				ReturnCodeConstant.SUCCESS);
+		mv.addObject("returnObject", returnObject.toString());
+		return mv;
 	}
 }

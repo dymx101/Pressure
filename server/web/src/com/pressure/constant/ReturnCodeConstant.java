@@ -22,6 +22,10 @@ public class ReturnCodeConstant {
 	 * 用户找不到
 	 */
 	public static final int UserNoFound = -10;
+	/**
+	 * api的参数找不到
+	 */
+	public static final int ParamNotFound = -11;
 
 	/**
 	 * token找不到

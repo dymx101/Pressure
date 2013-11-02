@@ -14,7 +14,6 @@
 	<insert id="addProfile" parameterType="Profile">
 		INSERT INTO
 		TB_Profile(
-		UserId,
 		UserName,
 		NickName,
 		CreateTime,
@@ -22,13 +21,24 @@
 		AvatorUrl,
 		level
 		)VALUES(
-		#{UserId},
 		#{UserName},
-		#{NiceName},
+		#{NickName},
 		#{CreateTime},
 		#{LastUpdateTime},
 		#{AvatorUrl},
 		#{level}
 		)
+		<selectKey keyProperty="UserId" resultType="long">
+			SELECT
+			LAST_INSERT_ID() AS VALUE
+		</selectKey>
 	</insert>
+
+	<!-- 查询Ridding -->
+	<select id="getProfileByUserId" resultMap="profileMap">
+		SELECT * from
+		TB_Profile where
+		userId=#{userId};
+	</select>
+
 </mapper>
