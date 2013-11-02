@@ -5,21 +5,31 @@ package com.pressure.constant;
  * @ClassName: ReturnCodeConstant
  * @Description: TODO
  * @author yunshang_734@163.com
- * @date 2013-10-29 ÏÂÎç05:57:29
+ * @date 2013-10-29 ï¿½ï¿½ï¿½ï¿½05:57:29
  */
 public class ReturnCodeConstant {
-	/**
-	 * ½âÎöjson´íÎó
-	 */
+
 	public static final int INNEREXCEPTION = -100;
 	/**
-	 * Ê§°Ü
+	 * å¤±è´¥
 	 */
 	public static final int FAILED = -1;
 	/**
-	 * ³É¹¦
+	 * æˆåŠŸ
 	 */
 	public static final int SUCCESS = 1;
-
+	/**
+	 * ç”¨æˆ·æ‰¾ä¸åˆ°
+	 */
 	public static final int UserNoFound = -10;
+
+	/**
+	 * tokenæ‰¾ä¸åˆ°
+	 */
+	public static final int tokenNotFound = -100;
+	/**
+	 * tokenå¤±æ•ˆ
+	 */
+	public static final int tokenIsInvalid = -101;
+
 }

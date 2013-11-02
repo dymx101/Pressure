@@ -20,17 +20,37 @@ import com.pressure.service.SourceAccountService;
  * @ClassName: ApiPressurePubController
  * @Description: TODO
  * @author yunshang_734@163.com
- * @date 2013-10-30 ����01:09:05
+ * @date 2013-10-30 01:09:05
  */
 @Controller("apiPressurePubController")
-public class ApiPressurePubController extends AbstractBaseController{
+public class ApiPressurePubController extends AbstractBaseController {
 	private static final Logger logger = Logger
 			.getLogger(ApiPressurePubController.class);
 
 	@Resource
 	private SourceAccountService sourceAccountService;
 
-	public ModelAndView addSourceAccount(HttpServletRequest request,
+	/**
+	 * 刷新token操作
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ModelAndView refreshToken(HttpServletRequest request,
+			HttpServletResponse response) {
+		ModelAndView modelAndView = new ModelAndView("return");
+		return modelAndView;
+	}
+
+	/**
+	 * 第三方登录操作
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ModelAndView thirdPartLogin(HttpServletRequest request,
 			HttpServletResponse response) {
 
 		ModelAndView modelAndView = new ModelAndView("return");
