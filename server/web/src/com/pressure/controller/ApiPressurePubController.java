@@ -68,7 +68,7 @@ public class ApiPressurePubController extends AbstractBaseController {
 
 		Session session = profileService.createSessionByUserId(userId);
 		Profile profile = profileService.getProfileByUserId(userId);
-		HttpReturnUtil.ReturnDataThirdPartLogin(session, profile, mv);
+		HttpReturnUtil.ReturnDataThirdPartLogin(session, profile, returnObject);
 		returnObject.put(BasicObjectConstant.kReturnObject_Code,
 				ReturnCodeConstant.SUCCESS);
 		mv.addObject("returnObject", returnObject.toString());

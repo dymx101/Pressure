@@ -36,14 +36,13 @@ public class SourceAccountServiceImpl implements SourceAccountService {
 			return sourceAccount.getUserId();
 		}
 
-		long CreateTime = new Date().getTime();
-		long LastUpdateTime = new Date().getTime();
+		long nowTime = new Date().getTime();
 
 		Profile profile = new Profile();
 		profile.setUserName("未命名");
 		profile.setNickName("未命名");
-		profile.setCreateTime(CreateTime);
-		profile.setLastUpdateTime(LastUpdateTime);
+		profile.setCreateTime(nowTime);
+		profile.setLastUpdateTime(nowTime);
 		profile.setAvatorUrl("未添加");
 		profile.setLevel(Profile.ProfileLevel.Member.getValue());
 

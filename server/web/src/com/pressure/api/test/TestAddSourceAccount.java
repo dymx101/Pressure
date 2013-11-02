@@ -18,7 +18,7 @@ public class TestAddSourceAccount {
 
 	public static void main(String[] args) {
 
-		String strURL = "http://127.0.0.1:8080/Pressure/apiPressurePub.do?action=sourceAccountLogin";
+		String strURL = "http://127.0.0.1:8080/Pressure/apiPressurePub.do?action=thirdPartLogin";
 		HttpClient httpclient = new HttpClient();
 		PostMethod post = new PostMethod(strURL);
 

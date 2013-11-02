@@ -17,8 +17,10 @@ public class HttpReturnUtil {
 	 * @param name
 	 * @return
 	 */
-	private static void returnDataObject(JSONObject jsonObject, ModelAndView mv) {
-		mv.addObject(BasicObjectConstant.kReturnObject_Data, jsonObject);
+	private static void returnDataObject(JSONObject jsonObject,
+			JSONObject returnObject) {
+		returnObject.put(BasicObjectConstant.kReturnObject_Data, jsonObject);
+
 	}
 
 	/**
@@ -29,7 +31,7 @@ public class HttpReturnUtil {
 	 * @return
 	 */
 	public static void ReturnDataThirdPartLogin(Session session,
-			Profile profile, ModelAndView mv) {
+			Profile profile, JSONObject returnObject) {
 
 		JSONObject dataObject = new JSONObject();
 		if (session != null) {
@@ -44,7 +46,7 @@ public class HttpReturnUtil {
 			profileObject.put("user_name", profile.getUserName());
 			dataObject.put(BasicObjectConstant.kReturnObject_Profile, profile);
 		}
-		HttpReturnUtil.returnDataObject(dataObject, mv);
+		HttpReturnUtil.returnDataObject(dataObject, returnObject);
 	}
 
 	/**
@@ -53,7 +55,8 @@ public class HttpReturnUtil {
 	 * @param session
 	 * @param mv
 	 */
-	public static void ReturnDataRefreshToken(Session session, ModelAndView mv) {
+	public static void ReturnDataRefreshToken(Session session,
+			JSONObject returnObject) {
 
 		JSONObject dataObject = new JSONObject();
 		if (session != null) {
@@ -62,7 +65,7 @@ public class HttpReturnUtil {
 			sessionObj.put("expire_in", session.getExpireIn());
 			dataObject.put(BasicObjectConstant.kReturnObject_Session, session);
 		}
-		HttpReturnUtil.returnDataObject(dataObject, mv);
+		HttpReturnUtil.returnDataObject(dataObject, returnObject);
 	}
 
 }

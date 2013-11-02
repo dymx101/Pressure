@@ -3,24 +3,24 @@
 <mapper namespace="com.pressure.mapper.SessionMapper">
 	<resultMap type="Session" id="sessionMap">
 		<id property="id" column="id" />
-		<result property="UserId" column="UserId" />
+		<result property="userId" column="userId" />
 		<result property="refreshToken" column="refreshToken" />
-		<result property="CreateTime" column="CreateTime" />
-		<result property="ExpireIn" column="ExpireIn" />
+		<result property="createTime" column="ureateTime" />
+		<result property="expireIn" column="expireIn" />
 	</resultMap>
 
 	<insert id="addSession" parameterType="Session">
 		INSERT INTO
 		TB_Session(
-		UserId,
+		userId,
 		refreshToken,
-		CreateTime,
-		ExpireIn
+		createTime,
+		expireIn
 		)VALUES(
-		#{UserId},
+		#{userId},
 		#{refreshToken},
-		#{CreateTime},
-		#{ExpireIn}
+		#{createTime},
+		#{expireIn}
 		)
 		<selectKey keyProperty="id" resultType="long">
 			SELECT
@@ -29,11 +29,19 @@
 	</insert>
 
 
+	<select id="getSessionByRefreshToken" resultType="Session">
+		SELECT *
+		from
+		TB_Session where
+		refreshToken=#{refreshToken};
+	</select>
+
+
 	<update id="updateSession" parameterType="Session" flushCache="true"
 		statementType="PREPARED">
 		update TB_Session set
 		refreshToken = #{refreshToken},
-		ExpireIn = #{ExpireIn}
+		expireIn = #{expireIn}
 		where id
 		= #{id} ;
 	</update>

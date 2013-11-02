@@ -16,12 +16,11 @@ public class TestRefreshToken {
 
 		try {
 
-
 			JSONObject requestObject = new JSONObject();
-			
-			post.addRequestHeader("Authorization",
-					"bb796e96-a4ef-41a9-89f3-2a49535812f2");
-			post.addRequestHeader("UserName", "allin02");
+
+			post.addRequestHeader("refreshToken",
+					"a0a6409731787823af2c20445ae8355c");
+			post.addRequestHeader("userId", "1");
 
 			RequestEntity entity = new StringRequestEntity(
 					requestObject.toString());

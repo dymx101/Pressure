@@ -32,13 +32,7 @@ public class ApiPressureController extends AbstractBaseController {
 			HttpServletResponse response) {
 		ModelAndView mv = new ModelAndView("return");
 
-		String jsonString = PostValueGetUtil.parseRequestAsString(request,
-				"utf-8");
-		JSONObject jsonObject = PostValueGetUtil.parseRequestData(jsonString);
 		JSONObject returnObject = new JSONObject();
-		if (jsonObject == null) {
-			return this.jsonErrorReturn(mv, jsonString);
-		}
 		int returnCode = this.checkTokenValid(request, response);
 		if (returnCode == ReturnCodeConstant.tokenNotFound) {
 			return this.tokenErrorReturn(mv, returnCode);
@@ -51,7 +45,7 @@ public class ApiPressureController extends AbstractBaseController {
 			logger.error("refreshToken return session == null");
 
 		}
-		HttpReturnUtil.ReturnDataRefreshToken(session, mv);
+		HttpReturnUtil.ReturnDataRefreshToken(session, returnObject);
 		returnObject.put(BasicObjectConstant.kReturnObject_Code,
 				ReturnCodeConstant.SUCCESS);
 		mv.addObject("returnObject", returnObject.toString());
