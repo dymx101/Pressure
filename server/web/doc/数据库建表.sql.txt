@@ -7,6 +7,8 @@ LastUpdateTime bigint(20) NOT NULL default '0' COMMENT '上次上线时间',
 AvatorUrl varchar(128) NOT NULL DEFAULT ' ' COMMENT '用户头像',
 level int(11) NOT NULL DEFAULT '0' COMMENT '用户等级' ,
 initedXmpp int(11) NOT NULL DEFAULT '0' COMMENT '是否初始化了xmpp用户数据' ,
+xmppUserName varchar(127) NOT NULL DEFAULT ' ' COMMENT 'xmpp用户名',
+domain varchar(63) NOT NULL DEFAULT ' ' COMMENT 'domain域',
 PRIMARY KEY  (`UserId`)
 )   DEFAULT CHARSET=UTF8 COMMENT '用户信息表';
 

@@ -12,7 +12,8 @@
 #import "WeiboSDK.h"
 #import "RPLoginVCTL.h"
 #import "RPAuthModel.h"
-#import "RPSinaModel.h"
+#import "RPThirdModel.h"
+#import "RPAppServerOperation.h"
 @interface RPAppDelegate ()  <WeiboSDKDelegate>
 {
     
@@ -23,9 +24,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [WeiboSDK registerApp:@"246524502"];
+    [WeiboSDK registerApp:kSinaRegisterKey];
     [WeiboSDK enableDebugMode:YES];
-    
     
     [application registerForRemoteNotificationTypes:(UIRemoteNotificationType)(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
     
@@ -104,10 +104,13 @@
     //如果是认证回调
     if ([response isKindOfClass:[WBAuthorizeResponse class]])
     {
-        RPSinaModel *sinaModel  = [[RPSinaModel alloc] initWithJSONDic:response.userInfo];
+        RPThirdModel *sinaModel  = [[RPThirdModel alloc] initWithJSONDic:response.userInfo];
+        sinaModel.type = RPThirdModelType_SinaWeiBo;
         RPAuthModel *authModel  = [RPAuthModel sharedInstance];
-        authModel.sinaModel     = sinaModel;
-        [[NSNotificationCenter defaultCenter] postNotificationName:kNotif_SinaWeiBoAuthSucc object:nil];
+        authModel.thirdModel     = sinaModel ;
+        
+//        [[NSNotificationCenter defaultCenter] postNotificationName:kNotif_SinaWeiBoAuthSucc object:nil];
+        [[RPAppServerOperation sharedRPAppServerOperation] asynLoginWithThirdPartAuth];
     }
     
 }

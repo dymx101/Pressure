@@ -135,7 +135,7 @@ static RPXmppStream *rpXmppStream = nil;
     }
     
     //设置用户
-    [_xmppStream setMyJID:[XMPPJID jidWithString:[self nameWithHost:name]]];
+    [_xmppStream setMyJID:[XMPPJID jidWithString:name]];
     
     //设置服务器
     [_xmppStream setHostName:kXMPPHost];
@@ -166,8 +166,6 @@ static RPXmppStream *rpXmppStream = nil;
 
 - (void)sendMessage:(NSString *)message toName:(NSString *)to_userName fromName:(NSString *)from_userName {
     
-
-    
     NSXMLElement *body = [NSXMLElement elementWithName:kElement_Body];
     
     [body setStringValue:message];
@@ -177,9 +175,9 @@ static RPXmppStream *rpXmppStream = nil;
     //消息类型
     [mes addAttributeWithName:kElement_Type stringValue:kElement_MessageType_chat];
     //发送给谁
-    [mes addAttributeWithName:kElement_To stringValue:[self nameWithHost:to_userName]];
+    [mes addAttributeWithName:kElement_To stringValue:to_userName];
     //由谁发送
-    [mes addAttributeWithName:kElement_From stringValue:[self nameWithHost:from_userName]];
+    [mes addAttributeWithName:kElement_From stringValue:from_userName];
     
     
     [mes addChild:body];
@@ -219,51 +217,51 @@ static RPXmppStream *rpXmppStream = nil;
 
 //收到消息
 - (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message {
-
-  NSString *body = [[message elementForName:kElement_Body] stringValue];
-  NSString *from = [[message attributeForName:kElement_From] stringValue];
-  NSString *type = [[message attributeForName:kElement_Type] stringValue];
-  NSXMLElement *composing = [message elementForName:kElement_Composing];
-  NSXMLElement *pause = [message elementForName:kElement_Pause];
+    
+    NSString *body = [[message elementForName:kElement_Body] stringValue];
+    NSString *from = [[message attributeForName:kElement_From] stringValue];
+    NSString *type = [[message attributeForName:kElement_Type] stringValue];
+    NSXMLElement *composing = [message elementForName:kElement_Composing];
+    NSXMLElement *pause = [message elementForName:kElement_Pause];
     NSXMLElement *error = nil;//[message elementForName:kElement_Nova_Error];
-
-  if (error) {
-
-    if ([error attributeForName:kRPXmppErrorCode]) {
-
-      int errorCode = [error attributeInt32ValueForName:kRPXmppErrorCode];
-      NSString *errorMessage = [error attributeStringValueForName:kRPXmppErrorMessage withDefaultValue:@""];
-      NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-      SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(dic, errorMessage, kRPXmppErrorMessage);
-      SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(dic, body, kRPXmppErrorUserInfoBody);
-      [self.delegate messageError:self errorCode:errorCode userInfo:dic];
+    
+    if (error) {
+        
+        if ([error attributeForName:kRPXmppErrorCode]) {
+            
+            int errorCode = [error attributeInt32ValueForName:kRPXmppErrorCode];
+            NSString *errorMessage = [error attributeStringValueForName:kRPXmppErrorMessage withDefaultValue:@""];
+            NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+            SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(dic, errorMessage, kRPXmppErrorMessage);
+            SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(dic, body, kRPXmppErrorUserInfoBody);
+            [self.delegate messageError:self errorCode:errorCode userInfo:dic];
+        }
+        return;
     }
-    return;
-  }
-
-  if ((!body || !from || !type) && !composing && !pause) {
-    return;
-  }
-
-
-  if (body != nil) {
-    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:body forKey:kElement_Msg];
-    [dic setObject:from forKey:kElement_Sender];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(messageReceived:xmppBodyString:typeString:from:)]) {
-      [self.delegate messageReceived:self xmppBodyString:body typeString:type from:from];
+    
+    if ((!body || !from || !type) && !composing && !pause) {
+        return;
     }
-  } else if (composing != nil) {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(messageReceivedComposing:from:)]) {
-      [self.delegate messageReceivedComposing:self from:from];
+    
+    
+    if (body != nil) {
+        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+        [dic setObject:body forKey:kElement_Msg];
+        [dic setObject:from forKey:kElement_Sender];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(messageReceived:xmppBodyString:typeString:from:)]) {
+            [self.delegate messageReceived:self xmppBodyString:body typeString:type from:from];
+        }
+    } else if (composing != nil) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(messageReceivedComposing:from:)]) {
+            [self.delegate messageReceivedComposing:self from:from];
+        }
+        
+    } else if (pause != nil) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(messageReceivedPause:from:)]) {
+            [self.delegate messageReceivedPause:self from:from];
+        }
+        
     }
-
-  } else if (pause != nil) {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(messageReceivedPause:from:)]) {
-      [self.delegate messageReceivedPause:self from:from];
-    }
-
-  }
 }
 
 - (BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq {
@@ -309,8 +307,6 @@ static RPXmppStream *rpXmppStream = nil;
 
 - (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence {
 
-
-
   //取得好友状态
   NSString *presenceType = [presence type]; //online/offline
   //当前用户
@@ -333,9 +329,9 @@ static RPXmppStream *rpXmppStream = nil;
   //消息类型
   [mes addAttributeWithName:kElement_Type stringValue:kElement_MessageType_chat];
   //发送给谁
-  [mes addAttributeWithName:kElement_To stringValue:[self nameWithHost:to_userName]];
+  [mes addAttributeWithName:kElement_To stringValue:to_userName];
   //由谁发送
-  [mes addAttributeWithName:kElement_From stringValue:[self nameWithHost:from_userName]];
+  [mes addAttributeWithName:kElement_From stringValue:from_userName];
 
   NSXMLElement *body = [NSXMLElement elementWithName:kElement_Composing];
 
@@ -351,9 +347,9 @@ static RPXmppStream *rpXmppStream = nil;
   //消息类型
   [mes addAttributeWithName:kElement_Type stringValue:kElement_MessageType_chat];
   //发送给谁
-  [mes addAttributeWithName:kElement_To stringValue:[self nameWithHost:to_userName]];
+  [mes addAttributeWithName:kElement_To stringValue:to_userName];
   //由谁发送
-  [mes addAttributeWithName:kElement_From stringValue:[self nameWithHost:from_userName]];
+  [mes addAttributeWithName:kElement_From stringValue:from_userName];
 
   NSXMLElement *body = [NSXMLElement elementWithName:kElement_Pause];
 
@@ -361,14 +357,7 @@ static RPXmppStream *rpXmppStream = nil;
   [_xmppStream sendElement:mes];
 }
 
-- (NSString *)nameWithHost:(NSString *)userName {
 
-  if ([userName isContainString:kXMPPHostPostfix]) {
-    return userName;
-  }
-  
-  return [NSString stringWithFormat:@"%@%@", userName, kXMPPHostPostfix];
-}
 
 - (BOOL)isDisconnedted {
 

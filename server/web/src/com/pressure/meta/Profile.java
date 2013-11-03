@@ -2,6 +2,8 @@ package com.pressure.meta;
 
 import java.io.Serializable;
 
+import com.pressure.constant.ServerConstant;
+
 /**
  * 
  * @ClassName: Profile
@@ -42,6 +44,15 @@ public class Profile implements Serializable {
 	 * 
 	 */
 	private int level;
+	/**
+	 * openfire的userName
+	 */
+	private String xmppUserName;
+
+	/**
+	 * xmpp的域
+	 */
+	private String domain;
 	/**
 	 * 初始化了openfire,0表示没有
 	 */
@@ -141,4 +152,23 @@ public class Profile implements Serializable {
 		this.initedXmpp = initedXmpp;
 	}
 
+	public String getXmppUserName() {
+		return xmppUserName;
+	}
+
+	public void setXmppUserName(String xmppUserName) {
+		this.xmppUserName = xmppUserName;
+	}
+
+	public String getDomain() {
+		return domain;
+	}
+
+	public void setDomain(String domain) {
+		this.domain = domain;
+	}
+
+	public static String genXmppUserName(long userId) {
+		return ServerConstant.OpenFire_Domain + userId;
+	}
 }

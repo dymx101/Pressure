@@ -11,4 +11,5 @@ public interface OpenfireService {
 	 * @return
 	 */
 	public boolean createOpenfireUser(OpenfireUser openfireUser);
+
 }

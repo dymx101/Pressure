@@ -42,6 +42,7 @@
         shouldRotateToOrientation = [super shouldAutorotateToInterfaceOrientation:toInterfaceOrientation];
     }
     
+    
     return shouldRotateToOrientation;
 }
 

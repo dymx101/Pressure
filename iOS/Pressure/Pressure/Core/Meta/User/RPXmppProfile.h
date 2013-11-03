@@ -19,5 +19,9 @@ typedef enum _User_Xmpp_OnlineStatus
 
 @property (nonatomic,copy) NSString *xmppUserName;
 @property (nonatomic) User_Xmpp_OnlineStatus onlineStatus;
+@property (nonatomic,copy) NSString *secretKey;
+@property (nonatomic,copy) NSString *domain;
 
+- (NSString *)fullUserName;
+- (NSString *)password;
 @end

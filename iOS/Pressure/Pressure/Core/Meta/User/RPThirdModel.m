@@ -6,9 +6,9 @@
 //  Copyright (c) 2013年 EasonCompany. All rights reserved.
 //
 
-#import "RPSinaModel.h"
+#import "RPThirdModel.h"
 
-@implementation RPSinaModel
+@implementation RPThirdModel
 
 
 - (id)initWithJSONDic:(NSDictionary *)jsonDic
@@ -19,6 +19,7 @@
         _accessToken = [jsonDic objectForKey:@"access_token"];
         _uid         = [jsonDic objectForKey:@"uid"];
         _expires_in  = [[jsonDic objectForKey:@"expires_in"]longLongValue];
+        _type       = [[jsonDic objectForKey:@"type"] intValue];
     }
     return self;
 }

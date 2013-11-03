@@ -16,7 +16,6 @@ import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
 import com.pressure.constant.BasicObjectConstant;
 import com.pressure.constant.ReturnCodeConstant;
-import com.pressure.mapper.SessionMapper;
 import com.pressure.meta.Session;
 import com.pressure.service.ProfileService;
 
@@ -87,12 +86,12 @@ public abstract class AbstractBaseController extends MultiActionController {
 			// token不存在
 			if (session == null || session.getUserId() != userId) {
 
-				return ReturnCodeConstant.tokenNotFound;
+				return ReturnCodeConstant.TokenNotFound;
 			}
 			// token已经失效
 			long nowTime = new Date().getTime();
 			if (nowTime > session.getCreateTime() + session.getExpireIn()) {
-				return ReturnCodeConstant.tokenIsInvalid;
+				return ReturnCodeConstant.TokenIsInvalid;
 			}
 			return ReturnCodeConstant.SUCCESS;
 		} catch (Exception e) {

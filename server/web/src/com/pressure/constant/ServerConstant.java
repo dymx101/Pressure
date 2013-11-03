@@ -13,5 +13,10 @@ public class ServerConstant {
 	 * 域
 	 */
 	public static final String OpenFire_Domain = "pressure";
+	
+	/**
+	 * 秘钥
+	 */
+	public static final String OpenFire_PassWord_Secrect_Key = "pressure";
 
 }

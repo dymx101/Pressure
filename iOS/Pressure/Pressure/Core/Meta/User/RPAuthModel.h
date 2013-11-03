@@ -7,20 +7,24 @@
 //
 
 #import "RPObject.h"
-@class RPSinaModel;
+@class RPThirdModel;
 @class RPProfile;
 @class RPXmppProfile;
-
+@class RPSession;
 @interface RPAuthModel : RPObject
 
-@property (nonatomic,retain) RPSinaModel *sinaModel;
+@property (nonatomic,retain) RPThirdModel *thirdModel;
 @property (nonatomic,retain) RPProfile *profile;
 @property (nonatomic,retain) RPXmppProfile *xmppProfile;
-
+@property (nonatomic,retain) RPSession *session;
 
 + (RPAuthModel *)sharedInstance;
+
+//判断本地是否已经登录
 - (BOOL)logined;
+//判断token是否有效的登录
+- (BOOL)serverLogined;
 
-
+- (void)setLoginSuccValue:(NSDictionary *)jsonDic;
 
 @end

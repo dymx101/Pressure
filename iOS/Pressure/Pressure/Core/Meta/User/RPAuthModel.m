@@ -8,9 +8,9 @@
 
 #import "RPAuthModel.h"
 #import "RPProfile.h"
-#import "RPSinaModel.h"
+#import "RPThirdModel.h"
 #import "RPXmppProfile.h"
-#define kProfile @"profile"
+#import "RPSession.h"
 static RPAuthModel * authModel = nil;
 @implementation RPAuthModel
 
@@ -29,7 +29,10 @@ static RPAuthModel * authModel = nil;
     self = [super init];
     if (self)
     {
-        
+        _profile = [[RPProfile alloc] init];
+        _session = [[RPSession alloc] init];
+        _thirdModel = [[RPThirdModel alloc] init];
+        _xmppProfile = [[RPXmppProfile alloc] init];
     }
     return self;
 }
@@ -40,10 +43,22 @@ static RPAuthModel * authModel = nil;
     self = [super init];
     if (self)
     {
-        _profile = [[RPProfile alloc] initWithJSONDic:jsonDic[kProfile]];
-        
+        _profile = [[RPProfile alloc] init];
+        _session = [[RPSession alloc] init];
+        _thirdModel = [[RPThirdModel alloc] init];
+        _xmppProfile = [[RPXmppProfile alloc] init];
     }
     return self;
+}
+
+
+- (void)setLoginSuccValue:(NSDictionary *)jsonDic
+{
+    
+    _profile = [[RPProfile alloc] initWithJSONDic:jsonDic[kMetaKey_Profile]];
+    _session = [[RPSession alloc] initWithJSONDic:jsonDic[kMetaKey_Session]];
+    _xmppProfile = [[RPXmppProfile alloc] initWithJSONDic:jsonDic[kMetaKey_XmppProfile]];
+    
 }
 
 - (NSDictionary *)proxyForJson
@@ -60,7 +75,16 @@ static RPAuthModel * authModel = nil;
 
 - (BOOL)logined
 {
-    return YES;
+    if (_session && _session.refreshToken && ![_session.refreshToken isEqualToString:@""])
+    {
+        return YES;
+    }
+    return NO;
 }
 
+
+- (BOOL)serverLogined
+{
+    return YES;
+}
 @end

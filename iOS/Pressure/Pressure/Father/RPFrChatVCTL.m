@@ -29,10 +29,15 @@
 {
     
     [super viewDidLoad];
-    [[RPXmppManager sharedInstance] doConnect:@"zys" xmppPassWord:@"zys"];
+    
+    RPAuthModel *authModel = [RPAuthModel sharedInstance];
+    
+    [[RPXmppManager sharedInstance] doConnect:[authModel.xmppProfile fullUserName] xmppPassWord:[authModel.xmppProfile password]];
+    
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleXmppLoginSuccNotif:) name:kNotif_XmppLoginSuccess object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleXmppLoginFailedNotif:) name:kNotif_XmppLoginFailed object:nil];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -45,6 +50,7 @@
 - (void)handleXmppLoginSuccNotif:(NSNotification *)notif
 {
     [MMProgressHUD dismissWithSuccess:@"登录成功"];
+    [[RPXmppManager sharedInstance] sendOnlineStatus:User_Xmpp_OnlineStatus_Online];
     
 }
 

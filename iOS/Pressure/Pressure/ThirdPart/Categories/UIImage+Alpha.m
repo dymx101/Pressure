@@ -117,7 +117,7 @@
 	
 	CGSize imageSize = self.size;
     CGContextRef shadowContext = CGBitmapContextCreate(NULL, self.size.width + w, self.size.height + h, CGImageGetBitsPerComponent(self.CGImage), 0, 
-													   colourSpace, kCGImageAlphaPremultipliedLast);
+													   colourSpace, (CGBitmapInfo)kCGImageAlphaPremultipliedLast);
     CGColorSpaceRelease(colourSpace);
 	
     CGContextSetShadowWithColor(shadowContext, _shadowSize, _blur, _shadowColor.CGColor);

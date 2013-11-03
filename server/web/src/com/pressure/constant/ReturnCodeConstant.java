@@ -30,10 +30,10 @@ public class ReturnCodeConstant {
 	/**
 	 * token找不到
 	 */
-	public static final int tokenNotFound = -100;
+	public static final int TokenNotFound = -100;
 	/**
 	 * token失效
 	 */
-	public static final int tokenIsInvalid = -101;
+	public static final int TokenIsInvalid = -101;
 
 }

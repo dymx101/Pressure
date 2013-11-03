@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "RPMetaKeyDef.h"
 @interface RPObject : NSObject
 
 

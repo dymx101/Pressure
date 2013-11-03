@@ -15,6 +15,7 @@
 #define kNotif_XmppTalkingMessage   @"kNotif_XmppTalkingMessage"
 #define kNotif_SinaWeiBoAuthSucc    @"kNotif_SinaWeiBoAuthSucc"
 #define kNotif_SinaWeiBoAuthSucc    @"kNotif_SinaWeiBoAuthSucc"
+#define kNotif_ThirdPartLoginSucc   @"kNotif_ThirdPartLoginSucc"
 
 
 #endif

@@ -10,4 +10,7 @@
 
 @interface RPProfile : RPObject
 
+@property (nonatomic) long long userId;
+@property (nonatomic,copy) NSString *userName;
+
 @end

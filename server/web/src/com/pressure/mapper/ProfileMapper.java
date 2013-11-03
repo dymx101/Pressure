@@ -37,4 +37,14 @@ public interface ProfileMapper {
 	public int updateXmppInit(@Param(value = "initedXmpp") int initedXmpp,
 			@Param(value = "userId") long userId);
 
+	/**
+	 * 更新xmpp用户名
+	 * 
+	 * @param xmppUserName
+	 * @return
+	 */
+	public int updateXmppUserName(
+			@Param(value = "xmppUserName") String xmppUserName,
+			@Param(value = "userId") long userId);
+
 }

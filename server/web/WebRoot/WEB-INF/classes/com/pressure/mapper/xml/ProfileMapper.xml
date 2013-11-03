@@ -10,6 +10,8 @@
 		<result property="AvatorUrl" column="AvatorUrl" />
 		<result property="level" column="level" />
 		<result property="initedXmpp" column="initedXmpp" />
+		<result property="xmppUserName" column="xmppUserName" />
+		<result property="domain" column="domain" />
 	</resultMap>
 
 	<insert id="addProfile" parameterType="Profile">
@@ -21,7 +23,9 @@
 		LastUpdateTime,
 		AvatorUrl,
 		level,
-		initedXmpp
+		initedXmpp,
+		xmppUserName,
+		domain
 		)VALUES(
 		#{UserName},
 		#{NickName},
@@ -29,7 +33,9 @@
 		#{LastUpdateTime},
 		#{AvatorUrl},
 		#{level},
-		#{initedXmpp}
+		#{initedXmpp},
+		#{xmppUserName},
+		#{domain}
 		)
 		<selectKey keyProperty="UserId" resultType="long">
 			SELECT
@@ -47,6 +53,13 @@
 	<update id="updateXmppInit" flushCache="true" statementType="PREPARED">
 		update TB_Profile set
 		initedXmpp = #{initedXmpp}
+		where userId
+		= #{userId} ;
+	</update>
+	
+	<update id="updateXmppUserName" flushCache="true" statementType="PREPARED">
+		update TB_Profile set
+		xmppUserName = #{xmppUserName}
 		where userId
 		= #{userId} ;
 	</update>

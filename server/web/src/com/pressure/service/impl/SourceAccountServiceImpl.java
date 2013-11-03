@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.pressure.constant.ServerConstant;
 import com.pressure.mapper.SourceAccountMapper;
 import com.pressure.meta.Profile;
 import com.pressure.meta.SourceAccount;
@@ -35,20 +36,22 @@ public class SourceAccountServiceImpl implements SourceAccountService {
 		if (sourceAccount != null) {
 			Profile profile = profileService.getProfileByUserId(sourceAccount
 					.getUserId());
-			if (profile.getInitedXmpp() == 0) {
+			if (profile != null && profile.getInitedXmpp() == 0) {
 				profileService.createOpenfireUser(profile);
 			}
 			return sourceAccount.getUserId();
 		}
 
 		long nowTime = new Date().getTime();
-		
+
 		Profile profile = new Profile();
 		profile.setUserName("未命名");
 		profile.setNickName("未命名");
 		profile.setCreateTime(nowTime);
 		profile.setLastUpdateTime(nowTime);
 		profile.setAvatorUrl("未添加");
+		profile.setXmppUserName("");
+		profile.setDomain(ServerConstant.OpenFire_Domain);
 		profile.setLevel(Profile.ProfileLevel.Member.getValue());
 
 		if (profileService.addProfile(profile)) {

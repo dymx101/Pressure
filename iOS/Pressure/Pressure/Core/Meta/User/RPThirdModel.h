@@ -7,12 +7,16 @@
 //
 
 #import "RPObject.h"
-
-@interface RPSinaModel : RPObject
+typedef enum _RPThirdModelType
+{
+    RPThirdModelType_SinaWeiBo = 1
+}RPThirdModelType;
+@interface RPThirdModel : RPObject
 
 @property (nonatomic,copy) NSString *uid;
 @property (nonatomic,copy) NSString *accessToken;
 @property (nonatomic) long long expires_in;
+@property (nonatomic) RPThirdModelType type;
 
 
 @end

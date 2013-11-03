@@ -33,7 +33,7 @@ public class ApiPressureController extends AbstractBaseController {
 
 		JSONObject returnObject = new JSONObject();
 		int returnCode = this.checkTokenValid(request, response);
-		if (returnCode == ReturnCodeConstant.tokenNotFound) {
+		if (returnCode == ReturnCodeConstant.TokenNotFound) {
 			return this.tokenErrorReturn(mv, returnCode);
 		}
 		String refreshToken = request.getHeader("refreshToken");

@@ -9,8 +9,8 @@
 #ifndef Pressure_RPDefine_h
 #define Pressure_RPDefine_h
 
+#define kXMPPHost                   @"192.168.1.106"
+#define kSinaRegisterKey            @"246524502"
 
-#define kXMPPHostPostfix            @"@pressure"
-#define kXMPPHost                   @"192.168.1.3"
 
 #endif

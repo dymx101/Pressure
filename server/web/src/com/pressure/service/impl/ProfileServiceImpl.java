@@ -131,14 +131,18 @@ public class ProfileServiceImpl implements ProfileService {
 	 */
 	public boolean createOpenfireUser(Profile profile) {
 		OpenfireUser openfireUser = new OpenfireUser();
-		openfireUser.setUserName(profile.getUserId() + "_"
-				+ ServerConstant.OpenFire_Domain);
-		openfireUser.setPassWord(MD5Util.getMD5(openfireUser.getUserName()
-				.getBytes()));
+		openfireUser.setUserName(Profile.genXmppUserName(profile.getUserId()));
+		openfireUser.setPassWord(openfireUser.getUserName()
+				+ ServerConstant.OpenFire_PassWord_Secrect_Key);
 		openfireUser.setName("");
 		openfireUser.setEmail("");
 		if (openfireService.createOpenfireUser(openfireUser)) {
-			profileMapper.updateXmppInit(1, profile.getUserId());
+			profile.setInitedXmpp(1);
+			profile.setXmppUserName(openfireUser.getUserName());
+			profileMapper.updateXmppInit(profile.getInitedXmpp(),
+					profile.getUserId());
+			profileMapper.updateXmppUserName(profile.getXmppUserName(),
+					profile.getUserId());
 			return true;
 		}
 		return false;

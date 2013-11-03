@@ -8,6 +8,7 @@
 
 #import "RPLoginVCTL.h"
 #import "WeiboSDK.h"
+#import "RPAuthModel.h"
 #import "RPIndexVCTL.h"
 @interface RPLoginVCTL ()
 
@@ -36,6 +37,9 @@
     btn.frame =  CGRectMake(0, 0, 100, 44);
     btn.center = self.view.center;
     [self.view addSubview:btn];
+    
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleThirdPartLoginSuccNotif:) name:kNotif_ThirdPartLoginSucc object:nil];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -45,14 +49,27 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)loginBtnClick:(id)sender
 {
+    WBAuthorizeRequest *request = [WBAuthorizeRequest request];
+    request.redirectURI = @"http://21beizi.com";
+    request.scope = @"email,direct_messages_write";
+    [WeiboSDK sendRequest:request];
+}
+
+#pragma mark -
+#pragma mark ThirdPartLogin
+- (void)handleThirdPartLoginSuccNotif:(NSNotification *)notif
+{
+    
     RPIndexVCTL *indexVCTL = [[RPIndexVCTL alloc] init];
     [self.navigationController pushViewController:indexVCTL animated:YES];
-//    WBAuthorizeRequest *request = [WBAuthorizeRequest request];
-//    request.redirectURI = @"http://21beizi.com";
-//    request.scope = @"email,direct_messages_write";
-//    [WeiboSDK sendRequest:request];
+    
 }
 
 @end
