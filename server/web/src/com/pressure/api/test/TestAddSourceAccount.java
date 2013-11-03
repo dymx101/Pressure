@@ -25,16 +25,14 @@ public class TestAddSourceAccount {
 		try {
 
 			JSONObject object = new JSONObject();
-			object.put("access_token", "10074216906");
+			object.put("access_token", "14042161365");
 			object.put("expires_in", 111111);
-			object.put("uid", 11111);
+			object.put("uid", 1145);
 			object.put("type", 1);
 
 			JSONObject requestObject = new JSONObject();
 			requestObject.put("requestData", object.toString());
-			post.addRequestHeader("Authorization",
-					"bb796e96-a4ef-41a9-89f3-2a49535812f2");
-			post.addRequestHeader("UserId", "allin02");
+
 
 			RequestEntity entity = new StringRequestEntity(
 					requestObject.toString());

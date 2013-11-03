@@ -36,6 +36,14 @@ public interface ProfileService {
 	public Profile getProfileByUserId(long userId);
 
 	/**
+	 * 创建用户
+	 * 
+	 * @param profile
+	 * @return
+	 */
+	public boolean addProfile(Profile profile);
+
+	/**
 	 * 刷新token
 	 * 
 	 * @param refreshToken
@@ -43,4 +51,12 @@ public interface ProfileService {
 	 * @return
 	 */
 	public Session updateSessionByRefreshToken(String refreshToken, long userId);
+
+	/**
+	 * 创建openfire用户
+	 * 
+	 * @param profile
+	 * @return
+	 */
+	public boolean createOpenfireUser(Profile profile);
 }

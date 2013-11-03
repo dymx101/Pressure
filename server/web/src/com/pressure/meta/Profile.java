@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @ClassName: Profile
  * @Description: TODO
  * @author yunshang_734@163.com
- * @date 2013-10-28 下午02:37:29
+ * @date 2013-10-28
  */
 public class Profile implements Serializable {
 	/**
@@ -15,33 +15,37 @@ public class Profile implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	/**
-	 * 账户ID
+	 * ID
 	 */
 	private long UserId;
 	/**
-	 * 账户名
+	 * 
 	 */
 	private String UserName;
 	/**
-	 * 昵称
+	 * 
 	 */
 	private String NickName;
 	/**
-	 * 创建时间
+	 * 
 	 */
 	private long CreateTime;
 	/**
-	 * 上次登录时间
+	 * 
 	 */
 	private long LastUpdateTime;
 	/**
-	 * 用户头像
+	 * 
 	 */
 	private String AvatorUrl;
 	/**
-	 * 用户等级
+	 * 
 	 */
 	private int level;
+	/**
+	 * 鍒濆鍖栦簡openfire,0琛ㄧず娌℃湁
+	 */
+	private int initedXmpp;
 
 	public enum ProfileLevel {
 		Member {
@@ -128,4 +132,13 @@ public class Profile implements Serializable {
 	public void setLevel(int level) {
 		this.level = level;
 	}
+
+	public int getInitedXmpp() {
+		return initedXmpp;
+	}
+
+	public void setInitedXmpp(int initedXmpp) {
+		this.initedXmpp = initedXmpp;
+	}
+
 }

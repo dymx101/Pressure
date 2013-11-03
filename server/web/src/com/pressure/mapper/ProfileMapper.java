@@ -27,4 +27,14 @@ public interface ProfileMapper {
 	 * @return
 	 */
 	public Profile getProfileByUserId(@Param(value = "userId") long userId);
+
+	/**
+	 * 更新xmpp初始化
+	 * 
+	 * @param initedXmpp
+	 * @return
+	 */
+	public int updateXmppInit(@Param(value = "initedXmpp") int initedXmpp,
+			@Param(value = "userId") long userId);
+
 }

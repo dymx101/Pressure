@@ -13,7 +13,6 @@ import com.pressure.constant.BasicObjectConstant;
 import com.pressure.constant.ReturnCodeConstant;
 import com.pressure.meta.Session;
 import com.pressure.util.http.HttpReturnUtil;
-import com.pressure.util.http.PostValueGetUtil;
 
 @Controller("apiPressureController")
 public class ApiPressureController extends AbstractBaseController {

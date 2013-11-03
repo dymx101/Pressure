@@ -827,7 +827,7 @@ public class XMPPServer {
         // by looking for the config file
         if (openfireHome == null) {
             try {
-                openfireHome = verifyHome("..", jiveConfigName).getCanonicalFile();
+                openfireHome = verifyHome("target/openfire", jiveConfigName).getCanonicalFile();
             }
             catch (FileNotFoundException fe) {
                 // Ignore.

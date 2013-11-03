@@ -6,10 +6,10 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.pressure.mapper.ProfileMapper;
 import com.pressure.mapper.SourceAccountMapper;
 import com.pressure.meta.Profile;
 import com.pressure.meta.SourceAccount;
+import com.pressure.service.ProfileService;
 import com.pressure.service.SourceAccountService;
 
 @Service("sourceAccountServiceImpl")
@@ -19,7 +19,7 @@ public class SourceAccountServiceImpl implements SourceAccountService {
 	private SourceAccountMapper sourceAccountMapper;
 
 	@Resource
-	private ProfileMapper profileMapper;
+	private ProfileService profileService;
 
 	/*
 	 * (non-Javadoc)
@@ -33,11 +33,16 @@ public class SourceAccountServiceImpl implements SourceAccountService {
 		SourceAccount sourceAccount = sourceAccountMapper
 				.getSourceAccountByAccessUserId(AccessUserId, SourceType);
 		if (sourceAccount != null) {
+			Profile profile = profileService.getProfileByUserId(sourceAccount
+					.getUserId());
+			if (profile.getInitedXmpp() == 0) {
+				profileService.createOpenfireUser(profile);
+			}
 			return sourceAccount.getUserId();
 		}
 
 		long nowTime = new Date().getTime();
-
+		
 		Profile profile = new Profile();
 		profile.setUserName("未命名");
 		profile.setNickName("未命名");
@@ -46,7 +51,7 @@ public class SourceAccountServiceImpl implements SourceAccountService {
 		profile.setAvatorUrl("未添加");
 		profile.setLevel(Profile.ProfileLevel.Member.getValue());
 
-		if (profileMapper.addProfile(profile) > 0) {
+		if (profileService.addProfile(profile)) {
 			String accessUserName = "未命名";
 			SourceAccount sourceAccount2 = new SourceAccount();
 			sourceAccount2.setUserId(profile.getUserId());

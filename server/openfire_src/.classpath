@@ -42,7 +42,6 @@
 	<classpathentry kind="lib" path="build/lib/dist/jdic.jar"/>
 	<classpathentry kind="lib" path="build/lib/dist/jtds.jar"/>
 	<classpathentry kind="lib" path="build/lib/dist/mail.jar"/>
-	<classpathentry kind="lib" path="build/lib/dist/mysql.jar"/>
 	<classpathentry kind="lib" path="build/lib/dist/postgres.jar"/>
 	<classpathentry kind="lib" path="build/lib/dist/servlet.jar"/>
 	<classpathentry kind="lib" path="build/lib/dist/slf4j-log4j12.jar"/>
@@ -163,5 +162,6 @@
 	<classpathentry kind="lib" path="build/lib/coherence-work.jar"/>
 	<classpathentry kind="lib" path="build/lib/coherence.jar"/>
 	<classpathentry kind="lib" path="build/lib/tangosol.jar"/>
+	<classpathentry kind="lib" path="build/lib/dist/mysql-connector-java-5.1.13-bin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

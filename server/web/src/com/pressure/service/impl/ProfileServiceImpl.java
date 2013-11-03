@@ -7,10 +7,13 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.pressure.constant.ServerConstant;
 import com.pressure.mapper.ProfileMapper;
 import com.pressure.mapper.SessionMapper;
+import com.pressure.meta.OpenfireUser;
 import com.pressure.meta.Profile;
 import com.pressure.meta.Session;
+import com.pressure.service.OpenfireService;
 import com.pressure.service.ProfileService;
 import com.pressure.util.MD5Util;
 import com.pressure.util.TimeUtil;
@@ -23,6 +26,9 @@ public class ProfileServiceImpl implements ProfileService {
 
 	@Resource
 	private SessionMapper sessionMapper;
+
+	@Resource
+	private OpenfireService openfireService;
 
 	/*
 	 * (non-Javadoc)
@@ -99,5 +105,42 @@ public class ProfileServiceImpl implements ProfileService {
 				+ new Date().getTime();
 		String refreshToken = MD5Util.getMD5(originToken.getBytes());
 		session.setRefreshToken(refreshToken);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.pressure.service.ProfileService#addProfile(com.pressure.meta.Profile)
+	 */
+	@Override
+	public boolean addProfile(Profile profile) {
+		if (profileMapper.addProfile(profile) > 0) {
+			this.createOpenfireUser(profile);
+			return true;
+		}
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.pressure.service.ProfileService#createOpenfireUser(com.pressure.meta
+	 * .Profile)
+	 */
+	public boolean createOpenfireUser(Profile profile) {
+		OpenfireUser openfireUser = new OpenfireUser();
+		openfireUser.setUserName(profile.getUserId() + "_"
+				+ ServerConstant.OpenFire_Domain);
+		openfireUser.setPassWord(MD5Util.getMD5(openfireUser.getUserName()
+				.getBytes()));
+		openfireUser.setName("");
+		openfireUser.setEmail("");
+		if (openfireService.createOpenfireUser(openfireUser)) {
+			profileMapper.updateXmppInit(1, profile.getUserId());
+			return true;
+		}
+		return false;
 	}
 }
