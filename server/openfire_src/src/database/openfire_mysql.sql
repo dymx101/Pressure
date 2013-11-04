@@ -57,7 +57,7 @@ CREATE TABLE ofPresence (
 CREATE TABLE ofRoster (
   rosterID              BIGINT          NOT NULL,
   username              VARCHAR(64)     NOT NULL,
-  jid                   VARCHAR(1024)   NOT NULL,
+  jid                   VARCHAR(512)   NOT NULL,
   sub                   TINYINT         NOT NULL,
   ask                   TINYINT         NOT NULL,
   recv                  TINYINT         NOT NULL,
