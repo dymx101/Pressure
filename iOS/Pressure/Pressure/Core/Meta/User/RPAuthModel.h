@@ -9,13 +9,12 @@
 #import "RPObject.h"
 @class RPThirdModel;
 @class RPProfile;
-@class RPXmppProfile;
 @class RPSession;
 @interface RPAuthModel : RPObject
 
 @property (nonatomic,retain) RPThirdModel *thirdModel;
 @property (nonatomic,retain) RPProfile *profile;
-@property (nonatomic,retain) RPXmppProfile *xmppProfile;
+
 @property (nonatomic,retain) RPSession *session;
 
 + (RPAuthModel *)sharedInstance;
@@ -26,5 +25,7 @@
 - (BOOL)serverLogined;
 
 - (void)setLoginSuccValue:(NSDictionary *)jsonDic;
+
+
 
 @end

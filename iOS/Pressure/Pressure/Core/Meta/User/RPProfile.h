@@ -7,10 +7,11 @@
 //
 
 #import "RPObject.h"
-
+@class RPXmppProfile;
 @interface RPProfile : RPObject
 
 @property (nonatomic) long long userId;
 @property (nonatomic,copy) NSString *userName;
+@property (nonatomic,retain) RPXmppProfile *xmppProfile;
 
 @end

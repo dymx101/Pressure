@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.pressure.constant.BasicObjectConstant;
 import com.pressure.constant.ReturnCodeConstant;
+import com.pressure.constant.ServerConstant;
 import com.pressure.meta.Session;
 import com.pressure.util.http.HttpReturnUtil;
 
@@ -29,7 +30,7 @@ public class ApiPressureController extends AbstractBaseController {
 	 */
 	public ModelAndView refreshToken(HttpServletRequest request,
 			HttpServletResponse response) {
-		ModelAndView mv = new ModelAndView("return");
+		ModelAndView mv = new ModelAndView(ServerConstant.Api_Return_MV);
 
 		JSONObject returnObject = new JSONObject();
 		int returnCode = this.checkTokenValid(request, response);
@@ -44,7 +45,7 @@ public class ApiPressureController extends AbstractBaseController {
 			logger.error("refreshToken return session == null");
 
 		}
-		HttpReturnUtil.ReturnDataRefreshToken(session, returnObject);
+		HttpReturnUtil.returnDataRefreshToken(session, returnObject);
 		returnObject.put(BasicObjectConstant.kReturnObject_Code,
 				ReturnCodeConstant.SUCCESS);
 		mv.addObject("returnObject", returnObject.toString());

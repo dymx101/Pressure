@@ -1,20 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!--
-    This file stores bootstrap properties needed by Openfire.
-    Property names must be in the format: "prop.name.is.blah=value"
-    That will be stored as:
-        <prop>
-            <name>
-                <is>
-                    <blah>value</blah>
-                </is>
-            </name>
-        </prop>
-
-    Most properties are stored in the Openfire database. A
-    property viewer and editor is included in the admin console.
--->
+<!-- This file stores bootstrap properties needed by Openfire. Property names 
+	must be in the format: "prop.name.is.blah=value" That will be stored as: 
+	<prop> <name> <is> <blah>value</blah> </is> </name> </prop> Most properties 
+	are stored in the Openfire database. A property viewer and editor is included 
+	in the admin console. -->
 <!-- root element, all properties must be under this element -->
 <jive> 
   <adminConsole> 
@@ -22,23 +12,19 @@
     <port>9090</port>  
     <securePort>9091</securePort> 
   </adminConsole>  
-  <locale>zh_CN</locale>  
-  <!-- Network settings. By default, Openfire will bind to all network interfaces.
-      Alternatively, you can specify a specific network interfaces that the server
-      will listen on. For example, 127.0.0.1. This setting is generally only useful
-       on multi-homed servers. -->  
-  <!--
-    <network>
-        <interface></interface>
-    </network>
-    -->  
+  <locale>en</locale>  
+  <!-- Network settings. By default, Openfire will bind to all network interfaces. 
+		Alternatively, you can specify a specific network interfaces that the server 
+		will listen on. For example, 127.0.0.1. This setting is generally only useful 
+		on multi-homed servers. -->  
+  <!-- <network> <interface></interface> </network> -->  
   <connectionProvider> 
     <className>org.jivesoftware.database.DefaultConnectionProvider</className> 
   </connectionProvider>  
   <database> 
     <defaultProvider> 
       <driver>com.mysql.jdbc.Driver</driver>  
-      <serverURL>jdbc:mysql://localhost:3306/openfire?rewriteBatchedStatements=true</serverURL>  
+      <serverURL>jdbc:mysql://127.0.01:3306/openfire?rewriteBatchedStatements=true&amp;useUnicode=true&amp;characterEncoding=utf-8</serverURL>  
       <username>root</username>  
       <password>138233</password>  
       <testSQL>select 1</testSQL>  

@@ -52,6 +52,7 @@
 			<props>
 				<prop key="**/apiPressurePub.do">apiPressurePubController</prop>
 				<prop key="**/apiPressure.do">apiPressureController</prop>
+				<prop key="**/apiFr.do">apiFrController</prop>
 
 			</props>
 		</property>

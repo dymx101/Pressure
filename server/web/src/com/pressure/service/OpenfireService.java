@@ -12,4 +12,17 @@ public interface OpenfireService {
 	 */
 	public boolean createOpenfireUser(OpenfireUser openfireUser);
 
+	/**
+	 * 添加好友
+	 * 
+	 * @param fromUserName
+	 * @param toJid
+	 * @param name
+	 * @param sub
+	 * @param groupName
+	 * @return
+	 */
+	public boolean addRoster(String fromUserName, String toJid, String name,
+			int sub, String groupName);
+
 }

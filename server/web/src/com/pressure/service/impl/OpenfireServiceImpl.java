@@ -84,4 +84,28 @@ public class OpenfireServiceImpl implements OpenfireService {
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.pressure.service.OpenfireService#addRoster(java.lang.String,
+	 * java.lang.String, java.lang.String, int, java.lang.String)
+	 */
+	@Override
+	public boolean addRoster(String fromUserName, String toJid, String name,
+			int sub, String groupName) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("/plugins/userService/userservice?type=add_roster&secret="
+				+ ServerConstant.OpenFire_UserService_Secret);
+		sb.append("&username=" + fromUserName);
+		sb.append("&item_jid=" + toJid);
+		sb.append("&name=" + URLEncoder.encode(name));
+		sb.append("&sub=" + sub);
+		sb.append("$groups=" + groupName);
+		String returnStr = this.sendHttpRequest(ServerConstant.OpenFireIp
+				+ sb.toString());
+		if (returnStr.toLowerCase().contains("ok")) {
+			return true;
+		}
+		return false;
+	}
 }

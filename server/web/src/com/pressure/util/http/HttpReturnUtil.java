@@ -29,7 +29,7 @@ public class HttpReturnUtil {
 	 * @param profile
 	 * @return
 	 */
-	public static void ReturnDataThirdPartLogin(Session session,
+	public static void returnDataThirdPartLogin(Session session,
 			Profile profile, JSONObject returnObject) {
 
 		JSONObject dataObject = new JSONObject();
@@ -44,15 +44,16 @@ public class HttpReturnUtil {
 			JSONObject profileObject = new JSONObject();
 			profileObject.put("user_id", profile.getUserId());
 			profileObject.put("user_name", profile.getUserName());
-			dataObject.put(BasicObjectConstant.kReturnObject_Profile,
-					profileObject);
+			
 			JSONObject xmppObject = new JSONObject();
 			xmppObject.put("xmpp_user_name", profile.getXmppUserName());
 			xmppObject.put("secret_key",
 					ServerConstant.OpenFire_PassWord_Secrect_Key);
 			xmppObject.put("domain", profile.getDomain());
-			dataObject.put(BasicObjectConstant.kReturnObject_XmppProfile,
+			profileObject.put(BasicObjectConstant.kReturnObject_XmppProfile,
 					xmppObject);
+			dataObject.put(BasicObjectConstant.kReturnObject_Profile,
+					profileObject);
 		}
 		HttpReturnUtil.returnDataObject(dataObject, returnObject);
 	}
@@ -63,7 +64,7 @@ public class HttpReturnUtil {
 	 * @param session
 	 * @param mv
 	 */
-	public static void ReturnDataRefreshToken(Session session,
+	public static void returnDataRefreshToken(Session session,
 			JSONObject returnObject) {
 
 		JSONObject dataObject = new JSONObject();
@@ -73,6 +74,32 @@ public class HttpReturnUtil {
 			sessionObj.put("expire_in", session.getExpireIn());
 			dataObject.put(BasicObjectConstant.kReturnObject_Session,
 					sessionObj);
+		}
+		HttpReturnUtil.returnDataObject(dataObject, returnObject);
+	}
+
+	/**
+	 * 返回用户匹配
+	 * 
+	 * @param returnObject
+	 */
+	public static void returnDataFrMatch(Profile profile,
+			JSONObject returnObject) {
+		JSONObject dataObject = new JSONObject();
+		if (profile != null) {
+			JSONObject profileObject = new JSONObject();
+			profileObject.put("user_id", profile.getUserId());
+			profileObject.put("user_name", profile.getUserName());
+			
+			JSONObject xmppObject = new JSONObject();
+			xmppObject.put("xmpp_user_name", profile.getXmppUserName());
+			xmppObject.put("secret_key",
+					ServerConstant.OpenFire_PassWord_Secrect_Key);
+			xmppObject.put("domain", profile.getDomain());
+			profileObject.put(BasicObjectConstant.kReturnObject_XmppProfile,
+					xmppObject);
+			dataObject.put(BasicObjectConstant.kReturnObject_Profile,
+					profileObject);
 		}
 		HttpReturnUtil.returnDataObject(dataObject, returnObject);
 	}

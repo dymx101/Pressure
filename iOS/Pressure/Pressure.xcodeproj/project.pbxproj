@@ -215,6 +215,7 @@
 		9B631CDE182626FB00076458 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B631CDD182626FB00076458 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9B631CE11826271D00076458 /* RPUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B631CE01826271D00076458 /* RPUtilities.m */; };
 		9B631CE318262F6700076458 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B631CE218262F6700076458 /* libz.dylib */; };
+		9BBEE8331827E1E000555695 /* RPBaseVCTL+Server.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BBEE8321827E1E000555695 /* RPBaseVCTL+Server.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -648,6 +649,8 @@
 		9B631CDF1826271D00076458 /* RPUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPUtilities.h; sourceTree = "<group>"; };
 		9B631CE01826271D00076458 /* RPUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPUtilities.m; sourceTree = "<group>"; };
 		9B631CE218262F6700076458 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		9BBEE8311827E1E000555695 /* RPBaseVCTL+Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RPBaseVCTL+Server.h"; sourceTree = "<group>"; };
+		9BBEE8321827E1E000555695 /* RPBaseVCTL+Server.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RPBaseVCTL+Server.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1676,6 +1679,8 @@
 				3803BCBC181D62E700256559 /* RPDefine.h */,
 				9B631CDF1826271D00076458 /* RPUtilities.h */,
 				9B631CE01826271D00076458 /* RPUtilities.m */,
+				9BBEE8311827E1E000555695 /* RPBaseVCTL+Server.h */,
+				9BBEE8321827E1E000555695 /* RPBaseVCTL+Server.m */,
 			);
 			name = Core;
 			path = Pressure/Core;
@@ -2048,6 +2053,7 @@
 				3803BCA5181D124500256559 /* RPIndexVCTL.m in Sources */,
 				3803BCB5181D132100256559 /* RPXmppManager.m in Sources */,
 				3803BC48181D09B000256559 /* XMPPvCardCoreDataStorage.m in Sources */,
+				9BBEE8331827E1E000555695 /* RPBaseVCTL+Server.m in Sources */,
 				3803BC06181D09B000256559 /* SDImageCache.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

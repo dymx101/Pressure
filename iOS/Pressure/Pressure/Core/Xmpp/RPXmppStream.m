@@ -72,7 +72,7 @@ static RPXmppStream *rpXmppStream = nil;
 - (void)sendOnlineStatus {
 
   //发送在线状态
-  XMPPPresence *presence = [XMPPPresence presence];
+  XMPPPresence *presence = [XMPPPresence presenceWithType:kElement_PresenceType_Aavaliable];
   [_xmppStream sendElement:presence];
 }
 
@@ -166,23 +166,13 @@ static RPXmppStream *rpXmppStream = nil;
 
 - (void)sendMessage:(NSString *)message toName:(NSString *)to_userName fromName:(NSString *)from_userName {
     
-    NSXMLElement *body = [NSXMLElement elementWithName:kElement_Body];
+    XMPPMessage *mes = [[XMPPMessage alloc] initWithType:kElement_MessageType_chat to:[XMPPJID jidWithString:to_userName] elementID:from_userName];
+  
+    [mes addBody:message];
     
-    [body setStringValue:message];
-    
-    NSXMLElement *mes = [NSXMLElement elementWithName:kElement_Message];
-    
-    //消息类型
-    [mes addAttributeWithName:kElement_Type stringValue:kElement_MessageType_chat];
-    //发送给谁
-    [mes addAttributeWithName:kElement_To stringValue:to_userName];
-    //由谁发送
-    [mes addAttributeWithName:kElement_From stringValue:from_userName];
-    
-    
-    [mes addChild:body];
     [_xmppStream sendElement:mes];
 }
+
 
 
 #pragma mark XMPPStreamDelegate

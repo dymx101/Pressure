@@ -32,7 +32,7 @@ static RPAuthModel * authModel = nil;
         _profile = [[RPProfile alloc] init];
         _session = [[RPSession alloc] init];
         _thirdModel = [[RPThirdModel alloc] init];
-        _xmppProfile = [[RPXmppProfile alloc] init];
+
     }
     return self;
 }
@@ -46,7 +46,6 @@ static RPAuthModel * authModel = nil;
         _profile = [[RPProfile alloc] init];
         _session = [[RPSession alloc] init];
         _thirdModel = [[RPThirdModel alloc] init];
-        _xmppProfile = [[RPXmppProfile alloc] init];
     }
     return self;
 }
@@ -57,7 +56,6 @@ static RPAuthModel * authModel = nil;
     
     _profile = [[RPProfile alloc] initWithJSONDic:jsonDic[kMetaKey_Profile]];
     _session = [[RPSession alloc] initWithJSONDic:jsonDic[kMetaKey_Session]];
-    _xmppProfile = [[RPXmppProfile alloc] initWithJSONDic:jsonDic[kMetaKey_XmppProfile]];
     
 }
 
@@ -87,4 +85,6 @@ static RPAuthModel * authModel = nil;
 {
     return YES;
 }
+
+
 @end

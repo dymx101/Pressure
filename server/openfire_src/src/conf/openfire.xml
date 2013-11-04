@@ -20,8 +20,4 @@
 		on multi-homed servers. -->
 	<!-- <network> <interface></interface> </network> -->
 
-	<jdbcProvider>
-		<driver>com.mysql.jdbc.Driver</driver>
-		<connectionString>jdbc:mysql://localhost:3306/pressure?useUnicode=true&characterEncoding=utf-8?user=root&password=138233</connectionString>
-	</jdbcProvider>
 </jive>

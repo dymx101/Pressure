@@ -2248,20 +2248,20 @@ enum XMPPStreamConfig
 			
 			while (modifiedMessage && [delegateEnumerator getNextDelegate:&del delegateQueue:&dq forSelector:selector])
 			{
-				#if DEBUG
-				{
-					char methodReturnType[32];
-				
-					Method method = class_getInstanceMethod([del class], selector);
-					method_getReturnType(method, methodReturnType, sizeof(methodReturnType));
-				
-					if (strcmp(methodReturnType, @encode(XMPPMessage*)) != 0)
-					{
-						NSAssert(NO, @"Method xmppStream:willSendMessage: is no longer void (see XMPPStream.h). "
-						             @"Culprit = %@", NSStringFromClass([del class]));
-					}
-				}
-				#endif
+//				#if DEBUG
+//				{
+//					char methodReturnType[32];
+//				
+//					Method method = class_getInstanceMethod([del class], selector);
+//					method_getReturnType(method, methodReturnType, sizeof(methodReturnType));
+//				
+//					if (strcmp(methodReturnType, @encode(XMPPMessage*)) != 0)
+//					{
+//						NSAssert(NO, @"Method xmppStream:willSendMessage: is no longer void (see XMPPStream.h). "
+//						             @"Culprit = %@", NSStringFromClass([del class]));
+//					}
+//				}
+//				#endif
 				
 				dispatch_sync(dq, ^{ @autoreleasepool {
 					

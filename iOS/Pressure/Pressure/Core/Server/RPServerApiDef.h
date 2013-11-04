@@ -15,6 +15,8 @@
 
 #define kServerApi_RefreshToken     @"refreshToken"
 #define kServerApi_ThirdPartLogin   @"thirdPartLogin"
+#define kServerApi_FrMatch          @"frMatch"
+
 
 
 #endif

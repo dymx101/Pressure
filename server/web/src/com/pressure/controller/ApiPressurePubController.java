@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.pressure.constant.BasicObjectConstant;
 import com.pressure.constant.ReturnCodeConstant;
+import com.pressure.constant.ServerConstant;
 import com.pressure.meta.Profile;
 import com.pressure.meta.Session;
 import com.pressure.service.SourceAccountService;
@@ -42,7 +43,7 @@ public class ApiPressurePubController extends AbstractBaseController {
 	public ModelAndView thirdPartLogin(HttpServletRequest request,
 			HttpServletResponse response) {
 
-		ModelAndView mv = new ModelAndView("return");
+		ModelAndView mv = new ModelAndView(ServerConstant.Api_Return_MV);
 
 		String jsonString = PostValueGetUtil.parseRequestAsString(request,
 				"utf-8");
@@ -68,7 +69,7 @@ public class ApiPressurePubController extends AbstractBaseController {
 
 		Session session = profileService.createSessionByUserId(userId);
 		Profile profile = profileService.getProfileByUserId(userId);
-		HttpReturnUtil.ReturnDataThirdPartLogin(session, profile, returnObject);
+		HttpReturnUtil.returnDataThirdPartLogin(session, profile, returnObject);
 		returnObject.put(BasicObjectConstant.kReturnObject_Code,
 				ReturnCodeConstant.SUCCESS);
 		mv.addObject("returnObject", returnObject.toString());

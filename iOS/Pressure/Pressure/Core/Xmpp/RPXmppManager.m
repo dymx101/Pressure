@@ -8,6 +8,9 @@
 
 #import "RPXmppManager.h"
 #import "RPXmppStream.h"
+#import "RPProfile.h"
+#import "RPAuthModel.h"
+#import "RPXmppProfile.h"
 static RPXmppManager *lvXmppMnagager = nil;
 @interface RPXmppManager () <RPXmppStreamDelegate>
 {
@@ -63,6 +66,16 @@ static RPXmppManager *lvXmppMnagager = nil;
     }
 }
 
+- (void)sendMessage:(NSString *)message toUser:(RPXmppProfile *)toUser
+{
+    RPAuthModel *authModel = [RPAuthModel sharedInstance];
+    if (!authModel || !authModel.profile || !authModel.profile.xmppProfile)
+    {
+        return;
+    }
+    RPXmppProfile *xmppProfile = authModel.profile.xmppProfile;
+    [_stream sendMessage:message toName:[toUser jID] fromName:[xmppProfile jID]];
+}
 #pragma mark -
 #pragma mark XMPPStream Delegate
 - (void)didConnectSuccess:(BOOL)success

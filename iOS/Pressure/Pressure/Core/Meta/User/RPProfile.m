@@ -7,6 +7,8 @@
 //
 
 #import "RPProfile.h"
+#import "RPXmppProfile.h"
+#import "RPMetaKeyDef.h"
 #define kUserId @"user_id"
 #define kUserName @"user_name"
 @implementation RPProfile
@@ -19,7 +21,10 @@
     {
         _userId = [jsonDic[kUserId] longLongValue];
         _userName = jsonDic[kUserName];
+        _xmppProfile = [[RPXmppProfile alloc]initWithJSONDic:jsonDic[kMetaKey_XmppProfile]];
     }
     return  self;
 }
+
+
 @end

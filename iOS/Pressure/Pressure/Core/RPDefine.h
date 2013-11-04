@@ -9,7 +9,7 @@
 #ifndef Pressure_RPDefine_h
 #define Pressure_RPDefine_h
 
-#define kXMPPHost                   @"192.168.1.106"
+#define kXMPPHost                   @"192.168.1.9"
 #define kSinaRegisterKey            @"246524502"
 
 

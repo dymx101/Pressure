@@ -25,7 +25,7 @@
 }
 
 
-- (NSString *)fullUserName
+- (NSString *)jID
 {
     return [NSString stringWithFormat:@"%@@%@",_xmppUserName,_domain];
 }
@@ -34,4 +34,7 @@
 {
     return [NSString stringWithFormat:@"%@%@",_xmppUserName,_secretKey];
 }
+
+
+
 @end

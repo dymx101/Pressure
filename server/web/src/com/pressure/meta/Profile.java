@@ -171,4 +171,13 @@ public class Profile implements Serializable {
 	public static String genXmppUserName(long userId) {
 		return ServerConstant.OpenFire_Domain + userId;
 	}
+
+	/**
+	 * 获取jid
+	 * 
+	 * @return
+	 */
+	public String getJid() {
+		return this.UserName + "@" + this.domain;
+	}
 }
