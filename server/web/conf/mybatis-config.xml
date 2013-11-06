@@ -6,11 +6,13 @@
 		<typeAlias alias="Account" type="com.pressure.meta.Account" />
 		<typeAlias alias="SourceAccount" type="com.pressure.meta.SourceAccount" />
 		<typeAlias alias="Session" type="com.pressure.meta.Session" />
+		<typeAlias alias="Treehole" type="com.pressure.meta.Treehole" />
 	</typeAliases>
 	<mappers>
 		<mapper resource="com/pressure/mapper/xml/ProfileMapper.xml" />
 		<mapper resource="com/pressure/mapper/xml/AccountMapper.xml" />
 		<mapper resource="com/pressure/mapper/xml/SourceAccountMapper.xml" />
 		<mapper resource="com/pressure/mapper/xml/SessionMapper.xml" />
+		<mapper resource="com/pressure/mapper/xml/TreeholeMapper.xml" />
 	</mappers>
 </configuration>
