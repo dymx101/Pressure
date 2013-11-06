@@ -47,6 +47,7 @@ public class SourceAccountServiceImpl implements SourceAccountService {
 		Profile profile = new Profile();
 		profile.setUserName("未命名");
 		profile.setNickName("未命名");
+		profile.setTreeholePassWord("");
 		profile.setCreateTime(nowTime);
 		profile.setLastUpdateTime(nowTime);
 		profile.setAvatorUrl("未添加");

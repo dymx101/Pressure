@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pressure.mapper.TreeholeMapper">
+	<resultMap type="Treehole" id="treeholeMap">
+		<id property="Id" column="Id" />
+	</resultMap>
+
+	<insert id="addTreehole" parameterType="Treehole">
+		INSERT INTO
+		TB_Treehole(
+		Id
+		)VALUES(
+		#{Id}
+		)
+		<selectKey keyProperty="Id" resultType="long">
+			SELECT
+			LAST_INSERT_ID() AS VALUE
+		</selectKey>
+	</insert>
+</mapper>

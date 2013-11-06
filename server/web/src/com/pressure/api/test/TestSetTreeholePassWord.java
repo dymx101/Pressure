@@ -7,28 +7,18 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 
-/**
- * 
- * @ClassName: TestAddSourceAccount
- * @Description: TODO
- * @author yunshang_734@163.com
- * @date 2013-10-30 03:35:03
- */
-public class TestAddSourceAccount {
-
+public class TestSetTreeholePassWord {
 	public static void main(String[] args) {
 
-		String strURL = "http://127.0.0.1:8080/Pressure/apiPressurePub.do?action=thirdPartLogin";
+		String strURL = "http://127.0.0.1:8080/Pressure/apiTreehole.do?action=setTreeholePassWord";
 		HttpClient httpclient = new HttpClient();
 		PostMethod post = new PostMethod(strURL);
 
 		try {
 
 			JSONObject object = new JSONObject();
-			object.put("access_token", "14042161365");
-			object.put("expires_in", 111111);
-			object.put("uid", 1145);
-			object.put("type", 1);
+			object.put("userId", 13);
+			object.put("newTreeholePassWord", "771234");
 
 			JSONObject requestObject = new JSONObject();
 			requestObject.put("requestData", object.toString());

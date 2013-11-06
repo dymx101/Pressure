@@ -129,6 +129,7 @@ public class ProfileServiceImpl implements ProfileService {
 	 * com.pressure.service.ProfileService#createOpenfireUser(com.pressure.meta
 	 * .Profile)
 	 */
+	@Override
 	public boolean createOpenfireUser(Profile profile) {
 		OpenfireUser openfireUser = new OpenfireUser();
 		openfireUser.setUserName(Profile.genXmppUserName(profile.getUserId()));
@@ -143,6 +144,14 @@ public class ProfileServiceImpl implements ProfileService {
 					profile.getUserId());
 			profileMapper.updateXmppUserName(profile.getXmppUserName(),
 					profile.getUserId());
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean updateTreeholePassword(long userId, String treeholePassWord) {
+		if (profileMapper.updateTreeholePassWord(userId, treeholePassWord) > 0) {
 			return true;
 		}
 		return false;

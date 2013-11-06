@@ -5,6 +5,7 @@
 		<id property="UserId" column="UserId" />
 		<result property="UserName" column="UserName" />
 		<result property="NickName" column="NickName" />
+		<result property="TreeholePassWord" column="TreeholePassWord" />
 		<result property="CreateTime" column="CreateTime" />
 		<result property="LastUpdateTime" column="LastUpdateTime" />
 		<result property="AvatorUrl" column="AvatorUrl" />
@@ -19,6 +20,7 @@
 		TB_Profile(
 		UserName,
 		NickName,
+		TreeholePassWord,
 		CreateTime,
 		LastUpdateTime,
 		AvatorUrl,
@@ -29,6 +31,7 @@
 		)VALUES(
 		#{UserName},
 		#{NickName},
+		#{TreeholePassWord},
 		#{CreateTime},
 		#{LastUpdateTime},
 		#{AvatorUrl},
@@ -54,14 +57,24 @@
 		update TB_Profile set
 		initedXmpp = #{initedXmpp}
 		where userId
-		= #{userId} ;
+		= #{userId}
+		;
 	</update>
-	
+
 	<update id="updateXmppUserName" flushCache="true" statementType="PREPARED">
 		update TB_Profile set
 		xmppUserName = #{xmppUserName}
 		where userId
-		= #{userId} ;
+		=
+		#{userId} ;
 	</update>
 
+	<update id="updateTreeholePassWord" flushCache="true"
+		statementType="PREPARED">
+		update TB_Profile set
+		TreeholePassWord=#{TreeholePassWord}
+		where userId
+		=
+		#{userId};
+	</update>
 </mapper>
