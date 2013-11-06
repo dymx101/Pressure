@@ -29,10 +29,10 @@ public class SourceAccountServiceImpl implements SourceAccountService {
 	 * java.lang.String, java.lang.String, int)
 	 */
 	@Override
-	public long sourceAccountLogin(long AccessUserId, String AccessToken,
-			String ExpiresIn, int SourceType) {
+	public long sourceAccountLogin(long accessUserId, String accessToken,
+			String expiresIn, int sourceType) {
 		SourceAccount sourceAccount = sourceAccountMapper
-				.getSourceAccountByAccessUserId(AccessUserId, SourceType);
+				.getSourceAccountByAccessUserId(accessUserId, sourceType);
 		if (sourceAccount != null) {
 			Profile profile = profileService.getProfileByUserId(sourceAccount
 					.getUserId());
@@ -58,11 +58,11 @@ public class SourceAccountServiceImpl implements SourceAccountService {
 			String accessUserName = "未命名";
 			SourceAccount sourceAccount2 = new SourceAccount();
 			sourceAccount2.setUserId(profile.getUserId());
-			sourceAccount2.setAccessUserId(AccessUserId);
+			sourceAccount2.setAccessUserId(accessUserId);
 			sourceAccount2.setAccessUserName(accessUserName);
-			sourceAccount2.setAccessToken(AccessToken);
-			sourceAccount2.setExpiresIn(ExpiresIn);
-			sourceAccount2.setSourceType(SourceType);
+			sourceAccount2.setAccessToken(accessToken);
+			sourceAccount2.setExpiresIn(expiresIn);
+			sourceAccount2.setSourceType(sourceType);
 			if (sourceAccountMapper.addSourceAccount(sourceAccount2) > 0)
 				return profile.getUserId();
 		}
