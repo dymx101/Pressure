@@ -36,6 +36,10 @@ public class Treehole implements Serializable {
 	 */
 	private long CreateTime;
 	/**
+	 * 上次更新时间
+	 */
+	private long LastUpdateTime;
+	/**
 	 * 状态
 	 */
 	private int status;
@@ -118,6 +122,14 @@ public class Treehole implements Serializable {
 
 	public void setCreateTime(long createTime) {
 		CreateTime = createTime;
+	}
+
+	public long getLastUpdateTime() {
+		return LastUpdateTime;
+	}
+
+	public void setLastUpdateTime(long lastUpdateTime) {
+		LastUpdateTime = lastUpdateTime;
 	}
 
 	public int getStatus() {
