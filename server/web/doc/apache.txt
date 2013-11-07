@@ -11,5 +11,6 @@
 		RewriteRule ^/api/refreshToken/?$ /Pressure/apiPressure.do?action=refreshToken&%{QUERY_STRING} [PT,L]
 		RewriteRule ^/api/frMatch/?$ /Pressure/apiFr.do?action=frMatch&%{QUERY_STRING} [PT,L]
 		RewriteRule ^/api/treehole/?$ /Pressure/apiTreehole.do?action=setTreeholePassWord&%{QUERY_STRING} [PT,L]
+		RewriteRule ^/api/treehole/add/?$ /Pressure/apiTreehole.do?action=setTreehole&%{QUERY_STRING} [PT,L]
     </IfModule>
 </VirtualHost>
