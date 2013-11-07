@@ -3,14 +3,38 @@
 <mapper namespace="com.pressure.mapper.TreeholeMapper">
 	<resultMap type="Treehole" id="treeholeMap">
 		<id property="Id" column="Id" />
+		<result property="UserId" column="UserId" />
+		<result property="PictureUrl" column="PictureUrl" />
+		<result property="Voice" column="Voice" />
+		<result property="Location" column="Location" />
+		<result property="content" column="content" />
+		<result property="CreateTime" column="CreateTime" />
+		<result property="LastUpdateTime" column="LastUpdateTime" />
+		<result property="status" column="status" />
 	</resultMap>
 
 	<insert id="addTreehole" parameterType="Treehole">
 		INSERT INTO
 		TB_Treehole(
-		Id
+		Id,
+		UserId,
+		PictureUrl,
+		Voice,
+		Location,
+		content,
+		CreateTime,
+		LastUpdateTime,
+		status
 		)VALUES(
-		#{Id}
+		#{Id},
+		#{UserId},
+		#{PictureUrl},
+		#{Voice},
+		#{Location},
+		#{content},
+		#{CreateTime},
+		#{LastUpdateTime},
+		#{status}
 		)
 		<selectKey keyProperty="Id" resultType="long">
 			SELECT
