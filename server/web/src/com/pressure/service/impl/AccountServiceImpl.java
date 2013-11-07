@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.pressure.mapper.AccountMapper;
 import com.pressure.service.AccountService;
 
-@Service("accountServiceImpl")
+@Service("accountService")
 public class AccountServiceImpl implements AccountService {
 
 	@Resource

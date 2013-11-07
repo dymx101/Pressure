@@ -18,7 +18,7 @@ import com.pressure.service.ProfileService;
 import com.pressure.util.MD5Util;
 import com.pressure.util.TimeUtil;
 
-@Service("profileServiceImpl")
+@Service("profileService")
 public class ProfileServiceImpl implements ProfileService {
 
 	@Resource

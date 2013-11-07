@@ -41,4 +41,16 @@
 			LAST_INSERT_ID() AS VALUE
 		</selectKey>
 	</insert>
+
+	<update id="updateTreehole" flushCache="true" statementType="PREPARED">
+		update TB_Treehole set
+		PictureUrl =#{PictureUrl},
+		Voice=#{Voice},
+		Location=#{Location},
+		content=#{content},
+		LastUpdateTime=#{LastUpdateTime}
+		where Id
+		=
+		#{Id} ;
+	</update>
 </mapper>

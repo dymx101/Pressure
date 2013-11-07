@@ -13,7 +13,7 @@ import com.pressure.meta.SourceAccount;
 import com.pressure.service.ProfileService;
 import com.pressure.service.SourceAccountService;
 
-@Service("sourceAccountServiceImpl")
+@Service("sourceAccountService")
 public class SourceAccountServiceImpl implements SourceAccountService {
 
 	@Resource
