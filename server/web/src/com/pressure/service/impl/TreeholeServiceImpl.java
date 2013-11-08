@@ -56,4 +56,19 @@ public class TreeholeServiceImpl implements TreeholeService {
 		}
 		return false;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.pressure.service.TreeholeService#buryTreehole(long, long)
+	 */
+	@Override
+	public boolean buryTreehole(long id, long userId) {
+		long LastUpdateTime = new Date().getTime();
+		int status = Treehole.TreeholeStatus.Delete.getValue();
+		if (treeholeMapper.buryTreehole(id, userId, LastUpdateTime, status) > 0) {
+			return true;
+		}
+		return false;
+	}
 }

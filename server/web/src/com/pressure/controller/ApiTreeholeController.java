@@ -136,4 +136,46 @@ public class ApiTreeholeController extends AbstractBaseController {
 		mv.addObject("returnObject", returnObject.toString());
 		return mv;
 	}
+
+	/**
+	 * 埋葬树洞
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ModelAndView buryTreehole(HttpServletRequest request,
+			HttpServletResponse response) {
+		ModelAndView mv = new ModelAndView(ServerConstant.Api_Return_MV);
+		JSONObject returnObject = new JSONObject();
+
+		String jsonString = PostValueGetUtil.parseRequestAsString(request,
+				"utf-8");
+		JSONObject jsonObject = PostValueGetUtil.parseRequestData(jsonString);
+		if (jsonObject == null) {
+			return this.jsonErrorReturn(mv, jsonString);
+		}
+
+		long id = jsonObject.getLong("id");
+		long userId = jsonObject.getLong("userId");
+
+		if (userId < 0 || id < 0) {
+			returnObject.put(BasicObjectConstant.kReturnObject_Code,
+					ReturnCodeConstant.FAILED);
+			mv.addObject("returnObject", returnObject.toString());
+			return mv;
+		}
+
+		if (treeholeService.buryTreehole(id, userId)) {
+			returnObject.put(BasicObjectConstant.kReturnObject_Code,
+					ReturnCodeConstant.SUCCESS);
+			mv.addObject("returnObject", returnObject.toString());
+			return mv;
+		}
+
+		returnObject.put(BasicObjectConstant.kReturnObject_Code,
+				ReturnCodeConstant.FAILED);
+		mv.addObject("returnObject", returnObject.toString());
+		return mv;
+	}
 }

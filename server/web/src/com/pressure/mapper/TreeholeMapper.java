@@ -37,4 +37,18 @@ public interface TreeholeMapper {
 			@Param(value = "Location") String location,
 			@Param(value = "content") String content,
 			@Param(value = "LastUpdateTime") long lastUpdateTime);
+
+	/**
+	 * 埋葬树洞
+	 * 
+	 * @param id
+	 * @param userId
+	 * @param lastUpdateTime
+	 * @param status
+	 * @return
+	 */
+	public int buryTreehole(@Param(value = "Id") long id,
+			@Param(value = "UserId") long userId,
+			@Param(value = "LastUpdateTime") long LastUpdateTime,
+			@Param(value = "status") int status);
 }

@@ -34,4 +34,13 @@ public interface TreeholeService {
 	 */
 	public boolean updateTreehole(long id, String pictureUrl, String voice,
 			String location, String content);
+
+	/**
+	 * 埋葬树洞
+	 * 
+	 * @param id
+	 * @param userId
+	 * @return
+	 */
+	public boolean buryTreehole(long id, long userId);
 }

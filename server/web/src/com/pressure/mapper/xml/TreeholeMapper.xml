@@ -53,4 +53,12 @@
 		=
 		#{Id} ;
 	</update>
+
+	<update id="buryTreehole" flushCache="true" statementType="PREPARED">
+		UPDATE TB_Treehole set
+		status=#{status},
+		LastUpdateTime=#{LastUpdateTime}
+		WHERE Id=#{Id} and
+		UserId=#{UserId};
+	</update>
 </mapper>
