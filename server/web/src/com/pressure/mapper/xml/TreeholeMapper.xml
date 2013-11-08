@@ -61,4 +61,15 @@
 		WHERE Id=#{Id} and
 		UserId=#{UserId};
 	</update>
+
+	<select id="getTreeholeList" resultMap="treeholeMap">
+		SELECT * from TB_Treehole
+		WHERE UserId=#{UserId} and
+		status=#{status}
+		order by CreateTime desc
+		<if test="offset >=0 ">
+			limit #{limit} offset #{offset};
+		</if>
+		;
+	</select>
 </mapper>

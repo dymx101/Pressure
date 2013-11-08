@@ -1,9 +1,12 @@
 package com.pressure.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
@@ -13,8 +16,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.pressure.constant.BasicObjectConstant;
 import com.pressure.constant.ReturnCodeConstant;
 import com.pressure.constant.ServerConstant;
+import com.pressure.meta.Treehole;
 import com.pressure.service.ProfileService;
 import com.pressure.service.TreeholeService;
+import com.pressure.util.ListUtils;
 import com.pressure.util.http.PostValueGetUtil;
 
 /**
@@ -175,6 +180,71 @@ public class ApiTreeholeController extends AbstractBaseController {
 
 		returnObject.put(BasicObjectConstant.kReturnObject_Code,
 				ReturnCodeConstant.FAILED);
+		mv.addObject("returnObject", returnObject.toString());
+		return mv;
+	}
+
+	/**
+	 * 获取树洞列表
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ModelAndView getTreeholeList(HttpServletRequest request,
+			HttpServletResponse response) {
+		ModelAndView mv = new ModelAndView(ServerConstant.Api_Return_MV);
+		JSONObject returnObject = new JSONObject();
+
+		String jsonString = PostValueGetUtil.parseRequestAsString(request,
+				"utf-8");
+		JSONObject jsonObject = PostValueGetUtil.parseRequestData(jsonString);
+		if (jsonObject == null) {
+			return this.jsonErrorReturn(mv, jsonString);
+		}
+
+		long userId = jsonObject.getLong("userId");
+		int limit = jsonObject.getInt("limit");
+		int offset = jsonObject.getInt("offset");
+
+		if (userId < 0 || limit < 0 || offset < 0) {
+			returnObject.put(BasicObjectConstant.kReturnObject_Code,
+					ReturnCodeConstant.FAILED);
+			mv.addObject("returnObject", returnObject.toString());
+			return mv;
+		}
+
+		List<Treehole> treeholeList = treeholeService.getTreeholeList(userId,
+				limit, offset);
+
+		JSONObject dataObject = new JSONObject();
+		JSONArray treeholeArray = new JSONArray();
+		if (!ListUtils.isEmptyList(treeholeList)) {
+			for (Treehole treehole : treeholeList) {
+				JSONObject treeholeObject = new JSONObject();
+				treeholeObject.put(Treehole.KTREEHOLE_ID, treehole.getId());
+				treeholeObject.put(Treehole.KTREEHOLE_USERID,
+						treehole.getUserId());
+				treeholeObject.put(Treehole.KTREEHOLE_PICTRUEURL,
+						treehole.getPictureUrl());
+				treeholeObject.put(Treehole.KTREEHOLE_VOICE,
+						treehole.getVoice());
+				treeholeObject.put(Treehole.KTREEHOLE_LOCATION,
+						treehole.getLocation());
+				treeholeObject.put(Treehole.KTREEHOLE_CONTENT,
+						treehole.getContent());
+				treeholeObject.put(Treehole.KTREEHOLE_CREATETIME,
+						treehole.getCreateTime());
+				treeholeObject.put(Treehole.KTREEHOLE_LASTUPDATETIME,
+						treehole.getLastUpdateTime());
+				treeholeArray.add(treeholeObject);
+			}
+		}
+		dataObject.put("treeholeList", treeholeArray.toString());
+		returnObject.put(BasicObjectConstant.kReturnObject_Data,
+				dataObject.toString());
+		returnObject.put(BasicObjectConstant.kReturnObject_Code,
+				ReturnCodeConstant.SUCCESS);
 		mv.addObject("returnObject", returnObject.toString());
 		return mv;
 	}

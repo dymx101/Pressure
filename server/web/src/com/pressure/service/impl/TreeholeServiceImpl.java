@@ -1,6 +1,7 @@
 package com.pressure.service.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -70,5 +71,17 @@ public class TreeholeServiceImpl implements TreeholeService {
 			return true;
 		}
 		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.pressure.service.TreeholeService#getTreeholeList(long, int, int)
+	 */
+	@Override
+	public List<Treehole> getTreeholeList(long userId, int limit, int offset) {
+		int status = Treehole.TreeholeStatus.Active.getValue();
+		return treeholeMapper.getTreeholeList(userId, status, limit, offset);
+
 	}
 }

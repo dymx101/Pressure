@@ -44,6 +44,15 @@ public class Treehole implements Serializable {
 	 */
 	private int status;
 
+	public static final String KTREEHOLE_ID = "Id";
+	public static final String KTREEHOLE_USERID = "UserId";
+	public static final String KTREEHOLE_PICTRUEURL = "PictureUrl";
+	public static final String KTREEHOLE_VOICE = "Voice";
+	public static final String KTREEHOLE_LOCATION = "Location";
+	public static final String KTREEHOLE_CONTENT = "content";
+	public static final String KTREEHOLE_CREATETIME = "CreateTime";
+	public static final String KTREEHOLE_LASTUPDATETIME = "LastUpdateTime";
+
 	public enum TreeholeStatus {
 		Active {
 			@Override

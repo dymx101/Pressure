@@ -1,5 +1,9 @@
 package com.pressure.service;
 
+import java.util.List;
+
+import com.pressure.meta.Treehole;
+
 /**
  * 
  * @ClassName: TreeholeService
@@ -43,4 +47,11 @@ public interface TreeholeService {
 	 * @return
 	 */
 	public boolean buryTreehole(long id, long userId);
+
+	/**
+	 * 获取树洞列表
+	 * 
+	 * @return
+	 */
+	public List<Treehole> getTreeholeList(long userId, int limit, int offset);
 }
