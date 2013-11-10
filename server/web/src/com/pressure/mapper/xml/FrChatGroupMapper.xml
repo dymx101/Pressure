@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pressure.mapper.FrChatGroupMapper">
+	<resultMap type="FrChatGroup" id="frChatGroupMap">
+		<id property="groupId" column="groupId" />
+		<result property="groupName" column="groupName" />
+		<result property="user1" column="user1" />
+		<result property="user2" column="user2" />
+		<result property="status" column="status" />
+	</resultMap>
+
+	<insert id="addFrChatGroup" parameterType="Account">
+		INSERT INTO
+		TB_FrChatGroup(
+		groupName,
+		user1,
+		user2,
+		status
+		)VALUES(
+		#{groupName},
+		#{user1},
+		#{user2},
+		#{status}
+		)
+		<selectKey keyProperty="groupId" resultType="long">
+			SELECT
+			LAST_INSERT_ID() AS VALUE
+		</selectKey>
+	</insert>
+	
+	
+</mapper>
