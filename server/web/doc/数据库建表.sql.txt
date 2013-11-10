@@ -2,6 +2,7 @@ CREATE TABLE TB_Profile (
 UserId bigint(20) NOT NULL  AUTO_INCREMENT  COMMENT '用户id',
 UserName varchar(64) NOT NULL DEFAULT '' COMMENT '用户名',
 NickName varchar(64) NOT NULL DEFAULT '' COMMENT '昵称',
+TreeholePassWord varchar(64) NOT NULL DEFAULT '' COMMENT '树洞密码',
 CreateTime bigint(20) NOT NULL default '0' COMMENT '创建时间',
 LastUpdateTime bigint(20) NOT NULL default '0' COMMENT '上次上线时间',
 AvatorUrl varchar(128) NOT NULL DEFAULT ' ' COMMENT '用户头像',
@@ -42,6 +43,7 @@ ExpireIn bigint(20) NOT NULL DEFAULT '0' COMMENT  '失效时间，精确到毫�
 PRIMARY KEY  (`Id`)
 )   DEFAULT CHARSET=UTF8 COMMENT '用户Token表';
 
+<<<<<<< HEAD
 
 CREATE TABLE TB_FrChatGroup (
 groupId bigint(20) NOT NULL AUTO_INCREMENT  COMMENT 'id',
@@ -52,3 +54,17 @@ CreateTime bigint(20) NOT NULL DEFAULT '0' COMMENT '创建时间',
 status int(11) NOT NULL DEFAULT '0' COMMENT '状态' ,
 PRIMARY KEY  (`groupId`)
 )   DEFAULT CHARSET=UTF8 COMMENT '用户聊天组表';
+=======
+CREATE TABLE TB_Treehole (
+Id bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id,自增长',
+UserId bigint(20) NOT NULL DEFAULT '0' COMMENT '用户id',
+PictureUrl varchar(127) NOT NULL DEFAULT ' ' COMMENT '图片',
+Voice varchar(127) NOT NULL DEFAULT ' ' COMMENT '声音',
+Location varchar(127) NOT NULL DEFAULT ' ' COMMENT '地点',
+content varchar(1023) NOT NULL DEFAULT ' ' COMMENT '内容',
+CreateTime bigint(20) NOT NULL DEFAULT '0' COMMENT '创建时间',
+LastUpdateTime bigint(20) NOT NULL DEFAULT '0' COMMENT '上次更新时间',
+status int(11) NOT NULL DEFAULT '0' COMMENT '状态',
+PRIMARY KEY (`Id`)
+)	DEFAULT CHARSET=UTF8 COMMENT '树洞表';
+>>>>>>> d60e3a5de5f23cf628dc21f27f75497af47c1e9b

@@ -33,7 +33,6 @@ public class TestAddSourceAccount {
 			JSONObject requestObject = new JSONObject();
 			requestObject.put("requestData", object.toString());
 
-
 			RequestEntity entity = new StringRequestEntity(
 					requestObject.toString());
 			// Part[] parts = { new StringPart("requestData", object.toString())

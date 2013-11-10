@@ -1,0 +1,18 @@
+<VirtualHost *:80>
+    ServerName pressure.zys-wings.com
+    DocumentRoot D:/apache-tomcat-7.0.35/webapps/Pressure
+    JkMount /*.do pressure
+    JkMount /*dwr/*.dwr pressure
+    JkLogLevel info
+    <IfModule mod_rewrite.so>
+        RewriteEngine On
+        RewriteRule ^/pressure/api/sourceaccount/?$ /Pressure/apiPressurePub.do?action=sourceAccountLogin&%{QUERY_STRING} [PT,L]
+		RewriteRule ^/api/thirdPartLogin/?$  /Pressure/apiPressurePub.do?action=thirdPartLogin&%{QUERY_STRING} [PT,L]
+		RewriteRule ^/api/refreshToken/?$ /Pressure/apiPressure.do?action=refreshToken&%{QUERY_STRING} [PT,L]
+		RewriteRule ^/api/frMatch/?$ /Pressure/apiFr.do?action=frMatch&%{QUERY_STRING} [PT,L]
+		RewriteRule ^/api/treehole/?$ /Pressure/apiTreehole.do?action=setTreeholePassWord&%{QUERY_STRING} [PT,L]
+		RewriteRule ^/api/treehole/add/?$ /Pressure/apiTreehole.do?action=setTreehole&%{QUERY_STRING} [PT,L]	
+		RewriteRule ^/api/treehole/bury/?$ /Pressure/apiTreehole.do?action=buryTreehole&%{QUERY_STRING} [PT,L]
+		RewriteRule ^/api/treehole/list/?$ /Pressure/apiTreehole.do?action=getTreeholeList&%{QUERY_STRING} [PT,L]
+    </IfModule>
+</VirtualHost>

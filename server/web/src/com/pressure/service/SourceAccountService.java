@@ -20,6 +20,6 @@ public interface SourceAccountService {
 	 * @param SourceType
 	 * @return
 	 */
-	public long sourceAccountLogin(long AccessUserId, String AccessToken,
-			String ExpiresIn, int SourceType);
+	public long sourceAccountLogin(long accessUserId, String accessToken,
+			String expiresIn, int sourceType);
 }

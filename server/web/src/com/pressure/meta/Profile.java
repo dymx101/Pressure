@@ -31,6 +31,10 @@ public class Profile implements Serializable {
 	/**
 	 * 
 	 */
+	private String TreeholePassWord;
+	/**
+	 * 
+	 */
 	private long CreateTime;
 	/**
 	 * 
@@ -110,6 +114,14 @@ public class Profile implements Serializable {
 
 	public void setNickName(String nickName) {
 		NickName = nickName;
+	}
+
+	public String getTreeholePassWord() {
+		return TreeholePassWord;
+	}
+
+	public void setTreeholePassWord(String treeholePassWord) {
+		TreeholePassWord = treeholePassWord;
 	}
 
 	public long getCreateTime() {

@@ -59,4 +59,13 @@ public interface ProfileService {
 	 * @return
 	 */
 	public boolean createOpenfireUser(Profile profile);
+
+	/**
+	 * 更改树洞密码
+	 * 
+	 * @param userId
+	 * @param treeholePassWord
+	 * @return
+	 */
+	public boolean updateTreeholePassword(long userId, String treeholePassWord);
 }

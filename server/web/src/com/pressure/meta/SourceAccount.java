@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @ClassName: SourceAccount
  * @Description: TODO
  * @author yunshang_734@163.com
- * @date 2013-10-29 下午09:48:44
+ * @date 2013-10-29 锟斤拷锟斤拷09:48:44
  */
 public class SourceAccount implements Serializable {
 	/**
@@ -19,31 +19,31 @@ public class SourceAccount implements Serializable {
 	 */
 	private long Id;
 	/**
-	 * 用户Id
+	 * 锟矫伙拷Id
 	 */
 	private long UserId;
 	/**
-	 * 资源用户Id
+	 * 锟斤拷源锟矫伙拷Id
 	 */
 	private long AccessUserId;
 	/**
-	 * 资源用户名
+	 * 锟斤拷源锟矫伙拷锟斤拷
 	 */
 	private String AccessUserName;
 	/**
-	 * 用户对应Token
+	 * 锟矫伙拷锟斤拷应Token
 	 */
 	private String AccessToken;
 	/**
-	 * Token时长
+	 * Token时锟斤拷
 	 */
 	private String ExpiresIn;
 	/**
-	 * 外部资源类型
+	 * 锟解部锟斤拷源锟斤拷锟斤拷
 	 */
 	private int SourceType;
 	/**
-	 * 创建时间
+	 * 锟斤拷锟斤拷时锟斤拷
 	 */
 	private long CreateTime;
 
@@ -62,7 +62,7 @@ public class SourceAccount implements Serializable {
 		};
 		public abstract int getValue();
 
-		public static SourceAccountType genProfileLevel(int t) {
+		public static SourceAccountType genAccountLevel(int t) {
 			for (SourceAccountType type : SourceAccountType.values()) {
 				if (type.getValue() == t)
 					return type;

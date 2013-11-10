@@ -47,4 +47,6 @@ public interface ProfileMapper {
 			@Param(value = "xmppUserName") String xmppUserName,
 			@Param(value = "userId") long userId);
 
+	public int updateTreeholePassWord(@Param(value = "userId") long userId,
+			@Param(value = "TreeholePassWord") String treeholePassWord);
 }
