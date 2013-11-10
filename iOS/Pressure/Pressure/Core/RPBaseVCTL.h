@@ -11,7 +11,9 @@
 @interface RPBaseVCTL : UIViewController
 
 
+@property (nonatomic,retain) UIView *maskView;
 
 - (void)backToPrefix;
+- (void)maskViewTapGesture:(UITapGestureRecognizer *)gesture;
 
 @end

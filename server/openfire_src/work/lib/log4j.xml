@@ -3,9 +3,9 @@
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
 	<appender name="debug-out" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="${openfireHome}/logs/debug.log" />
-		<param name="MaxFileSize" value="1024KB"/>
-		<param name="MaxBackupIndex" value="5"/>
+		<param name="File" value="logs/debug.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="5" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{yyyy.MM.dd HH:mm:ss} %c - %m%n" />
 		</layout>
@@ -16,9 +16,9 @@
 	</appender>
 
 	<appender name="info-out" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="${openfireHome}/logs/info.log" />
-		<param name="MaxFileSize" value="1024KB"/>
-		<param name="MaxBackupIndex" value="5"/>
+		<param name="File" value="logs/info.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="5" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{yyyy.MM.dd HH:mm:ss} %c - %m%n" />
 		</layout>
@@ -30,9 +30,9 @@
 	</appender>
 
 	<appender name="warn-out" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="${openfireHome}/logs/warn.log" />
-		<param name="MaxFileSize" value="1024KB"/>
-		<param name="MaxBackupIndex" value="5"/>
+		<param name="File" value="logs/warn.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="5" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{yyyy.MM.dd HH:mm:ss} %c - %m%n" />
 		</layout>
@@ -42,11 +42,11 @@
 			<param name="AcceptOnMatch" value="true" />
 		</filter>
 	</appender>
-	
+
 	<appender name="error-out" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="${openfireHome}/logs/error.log" />
-		<param name="MaxFileSize" value="1024KB"/>
-		<param name="MaxBackupIndex" value="5"/>
+		<param name="File" value="logs/error.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="5" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{yyyy.MM.dd HH:mm:ss} %c - %m%n" />
 		</layout>
@@ -55,18 +55,25 @@
 			<param name="AcceptOnMatch" value="true" />
 		</filter>
 	</appender>
+	<appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d [%24F:%-4L:%-5p][%x] -%m%n" />
+		</layout>
+	</appender>
 
-	<!-- OF-506: Jetty INFO messages are generally not useful. Ignore them by default. -->
+	<!-- OF-506: Jetty INFO messages are generally not useful. Ignore them by 
+		default. -->
 	<logger name="org.eclipse.jetty">
 		<level value="warn" />
 	</logger>
-	
-   	<root>
+
+	<root>
 		<level value="info" />
+		<appender-ref ref="STDOUT" />
 		<appender-ref ref="debug-out" />
 		<appender-ref ref="info-out" />
 		<appender-ref ref="warn-out" />
 		<appender-ref ref="error-out" />
 	</root>
-	
+
 </log4j:configuration>

@@ -16,4 +16,5 @@
     #import "RPDefine.h"
     #import "Macro.h"
     #import "RPNotif.h"
+    #import "RPUserDef.h"
 #endif

@@ -15,4 +15,6 @@ typedef void (^NSStringBlockType)(NSString *);
 
 
 + (void)runOnMainQueueWithoutDeadlocking:(VoidBlockType)block;
+
++ (BOOL)openUrl:(NSURL *)url;;
 @end

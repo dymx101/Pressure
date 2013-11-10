@@ -4,6 +4,7 @@ import net.sf.json.JSONObject;
 
 import com.pressure.constant.BasicObjectConstant;
 import com.pressure.constant.ServerConstant;
+import com.pressure.meta.FrChatGroup;
 import com.pressure.meta.Profile;
 import com.pressure.meta.Session;
 
@@ -44,7 +45,9 @@ public class HttpReturnUtil {
 			JSONObject profileObject = new JSONObject();
 			profileObject.put("user_id", profile.getUserId());
 			profileObject.put("user_name", profile.getUserName());
-			
+			profileObject.put("avatar_url", profile.getAvatorUrl());
+			profileObject.put("nick_name", profile.getNickName());
+
 			JSONObject xmppObject = new JSONObject();
 			xmppObject.put("xmpp_user_name", profile.getXmppUserName());
 			xmppObject.put("secret_key",
@@ -84,13 +87,13 @@ public class HttpReturnUtil {
 	 * @param returnObject
 	 */
 	public static void returnDataFrMatch(Profile profile,
-			JSONObject returnObject) {
+			JSONObject returnObject, FrChatGroup chatGroup) {
 		JSONObject dataObject = new JSONObject();
 		if (profile != null) {
 			JSONObject profileObject = new JSONObject();
 			profileObject.put("user_id", profile.getUserId());
 			profileObject.put("user_name", profile.getUserName());
-			
+
 			JSONObject xmppObject = new JSONObject();
 			xmppObject.put("xmpp_user_name", profile.getXmppUserName());
 			xmppObject.put("secret_key",
@@ -100,6 +103,13 @@ public class HttpReturnUtil {
 					xmppObject);
 			dataObject.put(BasicObjectConstant.kReturnObject_Profile,
 					profileObject);
+		}
+		if (chatGroup != null) {
+			JSONObject groupObj = new JSONObject();
+			groupObj.put("group_id", chatGroup.getGroupId());
+			groupObj.put("group_name", chatGroup.getGroupName());
+			dataObject.put(BasicObjectConstant.kReturnObject_XmppGroup,
+					groupObj);
 		}
 		HttpReturnUtil.returnDataObject(dataObject, returnObject);
 	}

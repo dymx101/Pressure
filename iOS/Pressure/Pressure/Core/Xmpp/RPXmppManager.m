@@ -9,8 +9,12 @@
 #import "RPXmppManager.h"
 #import "RPXmppStream.h"
 #import "RPProfile.h"
+#import "RPMessage.h"
 #import "RPAuthModel.h"
 #import "RPXmppProfile.h"
+#import "JSON20.h"
+#import "RPAppModel.h"
+
 static RPXmppManager *lvXmppMnagager = nil;
 @interface RPXmppManager () <RPXmppStreamDelegate>
 {
@@ -80,7 +84,7 @@ static RPXmppManager *lvXmppMnagager = nil;
 #pragma mark XMPPStream Delegate
 - (void)didConnectSuccess:(BOOL)success
 {
-    if (!success)
+    if (success)
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:kNotif_XmppConnectSuccess object:nil];
     }
@@ -115,9 +119,18 @@ static RPXmppManager *lvXmppMnagager = nil;
 - (void)messageReceived:(RPXmppStream *)stream xmppBodyString:(NSString *)xmppBodyString
              typeString:(NSString *)typeString from:(NSString *)fromName
 {
-    NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] init];
-    SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(userInfo, SAFESTR(xmppBodyString), @"msg");
-    [[NSNotificationCenter defaultCenter] postNotificationName:kNotif_XmppTalkingMessage object:nil userInfo:userInfo];
+    NSDictionary *messageDic = [xmppBodyString JSONValue];
+    if ([[messageDic objectForKey:[RPMessage rpMessageTypeKey]] isEqualToString:RPMessage_Type])
+    {
+        if (![[RPAppModel sharedInstance] dealWithFrMessage:messageDic])
+        {
+            return;
+        }
+        NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] init];
+        long long userId = [messageDic[[RPMessage rpMessageUserIdKey]] longLongValue];
+        SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(userInfo, LONGLONG2STR(userId), [RPMessage rpMessageUserIdKey]);
+        [[NSNotificationCenter defaultCenter] postNotificationName:kNotif_XmppTalkingMessage object:nil userInfo:userInfo];
+    }
 }
 
 

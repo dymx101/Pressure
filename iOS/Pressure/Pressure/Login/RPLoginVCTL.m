@@ -66,10 +66,7 @@
 #pragma mark ThirdPartLogin
 - (void)handleThirdPartLoginSuccNotif:(NSNotification *)notif
 {
-    
-    RPIndexVCTL *indexVCTL = [[RPIndexVCTL alloc] init];
-    [self.navigationController pushViewController:indexVCTL animated:YES];
-    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kNotif_LoginSucc object:nil];
 }
 
 @end

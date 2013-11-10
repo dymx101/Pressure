@@ -8,8 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#define kOnlineHost     @"https://21beizi.com"
-#define kDebugHost      @"http://127.0.0.1"
+
 
 @class RPServerRequest;
 @interface RPServerOperation : NSObject

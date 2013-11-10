@@ -26,14 +26,24 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.navigationController setNavigationBarHidden:YES];
     self.view.backgroundColor = [UIColor whiteColor];
-	// Do any additional setup after loading the view.
+    
+    if (!_maskView)
+    {
+        _maskView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+        _maskView.backgroundColor = [UIColor clearColor];
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(maskViewTapGesture:)];
+        [_maskView addGestureRecognizer:tapGesture];
+        [self.view addSubview:_maskView];
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
 }
 
 
@@ -53,6 +63,12 @@
     }else {
             [self dismissViewControllerAnimated:YES completion:nil];
 	}
+}
+
+
+- (void)maskViewTapGesture:(UITapGestureRecognizer *)gesture
+{
+    
 }
 
 @end

@@ -62,6 +62,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(RPAppServerOperation)
         {
             RPAuthModel *authModel = [RPAuthModel sharedInstance];
             [authModel setLoginSuccValue:serverResp.obj];
+            [authModel saveData];
             [[NSNotificationCenter defaultCenter] postNotificationName:kNotif_ThirdPartLoginSucc object:nil];
         }
     }

@@ -15,4 +15,5 @@ public class BasicObjectConstant {
 	public static final String kReturnObject_Session = "session";
 	public static final String kReturnObject_Profile = "profile";
 	public static final String kReturnObject_XmppProfile = "xmpp_profile";
+	public static final String kReturnObject_XmppGroup = "xmpp_group";
 }

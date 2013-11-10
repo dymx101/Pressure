@@ -14,6 +14,7 @@
 #import "RPAuthModel.h"
 #import "RPThirdModel.h"
 #import "RPAppServerOperation.h"
+#import "FMDBObject.h"
 @interface RPAppDelegate ()  <WeiboSDKDelegate>
 {
     
@@ -76,18 +77,23 @@
 
 - (void)choiceViewController
 {
-    
     if ([[RPAuthModel sharedInstance] logined])
     {
-        
+        if (!_nav)
+        {
+            RPIndexVCTL *indexVCTL = [[RPIndexVCTL alloc] init];
+            _nav = [[MLNavigationController alloc] initWithRootViewController:indexVCTL];
+            _nav.hidesBottomBarWhenPushed = YES;
+        }
+        if (self.window.rootViewController != _nav)
+        {
+            self.window.rootViewController = _nav;
+        }
     }else
     {
         RPLoginVCTL *loginVCTL = [[RPLoginVCTL alloc] init];
-        if (!_nav)
-        {
-            _nav = [[MLNavigationController alloc] initWithRootViewController:loginVCTL];
-        }
-        self.window.rootViewController = _nav;
+        self.window.rootViewController = loginVCTL;
+         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(choiceViewController) name:kNotif_LoginSucc object:nil];
     }
     
 }
@@ -114,5 +120,23 @@
     }
     
 }
+
+
++ (void)initialize
+{
+    
+    //第一次登陆的一些操作，包括数据库新建，更新等
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if (![userDefault boolForKey:kUserDefault_EverLaunched])
+    {
+        [userDefault setBool:YES forKey:kUserDefault_EverLaunched];
+        [FMDBObject sharedInstance];
+    }
+
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    //打开就清0
+}
+
 
 @end

@@ -11,6 +11,8 @@
 #import "RPMetaKeyDef.h"
 #define kUserId @"user_id"
 #define kUserName @"user_name"
+#define kNickName @"nick_name"
+#define kAvatarUrl @"avatar_url"
 @implementation RPProfile
 
 
@@ -21,6 +23,8 @@
     {
         _userId = [jsonDic[kUserId] longLongValue];
         _userName = jsonDic[kUserName];
+        _nickName = jsonDic[kNickName];
+        _avatarUrl = jsonDic[kAvatarUrl];
         _xmppProfile = [[RPXmppProfile alloc]initWithJSONDic:jsonDic[kMetaKey_XmppProfile]];
     }
     return  self;

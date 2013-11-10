@@ -12,6 +12,10 @@
 
 @property (nonatomic) long long userId;
 @property (nonatomic,copy) NSString *userName;
+@property (nonatomic,copy) NSString *avatarUrl;
+@property (nonatomic,copy) NSString *nickName;
 @property (nonatomic,retain) RPXmppProfile *xmppProfile;
 
+
+@property (nonatomic) BOOL isChating;
 @end

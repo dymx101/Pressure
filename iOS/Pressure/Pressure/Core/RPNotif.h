@@ -16,6 +16,6 @@
 #define kNotif_SinaWeiBoAuthSucc    @"kNotif_SinaWeiBoAuthSucc"
 #define kNotif_SinaWeiBoAuthSucc    @"kNotif_SinaWeiBoAuthSucc"
 #define kNotif_ThirdPartLoginSucc   @"kNotif_ThirdPartLoginSucc"
-
+#define kNotif_LoginSucc            @"kNotif_LoginSucc"
 
 #endif

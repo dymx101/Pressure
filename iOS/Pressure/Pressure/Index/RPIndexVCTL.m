@@ -7,7 +7,9 @@
 //
 
 #import "RPIndexVCTL.h"
-#import "RPFrChatVCTL.h"
+#import "RPFrChatIndexVCTL.h"
+#import "RPAutoGenSettingVCTL.h"
+#import "AutoGen.h"
 @interface RPIndexVCTL ()
 
 @end
@@ -18,12 +20,27 @@
 {
     [super viewDidLoad];
     
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
-    btn.frame = CGRectMake(0, 0, 100, 44);
-    btn.center = self.view.center;
-    [btn setTitle:@"点击" forState:UIControlStateNormal];
-    [self.view addSubview:btn];
+    UIButton *holeBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [holeBtn addTarget:self action:@selector(holeClick:) forControlEvents:UIControlEventTouchUpInside];
+    holeBtn.frame = CGRectMake(0, 0, 100, 44);
+    
+    [holeBtn setTitle:@"树洞" forState:UIControlStateNormal];
+    [self.view addSubview:holeBtn];
+    
+    
+    UIButton *frBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [frBtn addTarget:self action:@selector(frClick:) forControlEvents:UIControlEventTouchUpInside];
+    frBtn.frame = CGRectMake(50, 50, 100, 44);
+    
+    [frBtn setTitle:@"神父" forState:UIControlStateNormal];
+    [self.view addSubview:frBtn];
+    
+    UIButton *settingBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [settingBtn addTarget:self action:@selector(settingClick:) forControlEvents:UIControlEventTouchUpInside];
+    settingBtn.frame = CGRectMake(100, 100, 100, 44);
+    
+    [settingBtn setTitle:@"设置" forState:UIControlStateNormal];
+    [self.view addSubview:settingBtn];
 }
 
 - (void)didReceiveMemoryWarning
@@ -32,10 +49,25 @@
     
 }
 
-- (void)btnClick:(id)sender
+- (void)holeClick:(id)sender
 {
-    RPFrChatVCTL *chatVCTL = [[RPFrChatVCTL alloc] init];
+    
+}
+
+- (void)frClick:(id)sender
+{
+    RPFrChatIndexVCTL *chatVCTL = [[RPFrChatIndexVCTL alloc] init];
     [self.navigationController pushViewController:chatVCTL animated:YES];
+}
+
+- (void)settingClick:(id)sender
+{
+    NSString *path      = [[NSBundle mainBundle] pathForResource:@"Setting" ofType:@"plist"];
+    NSDictionary *dic   = [[NSDictionary alloc] initWithContentsOfFile:path];
+    AutoGen *autoGen    = [[AutoGen alloc] initWithJSONDic:dic];
+    RPAutoGenSettingVCTL *settingVCTL = [[RPAutoGenSettingVCTL alloc] init];
+    settingVCTL.autoGen = autoGen;
+    [self.navigationController pushViewController:settingVCTL animated:YES];
 }
 
 

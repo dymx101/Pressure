@@ -21,4 +21,19 @@
     }
 }
 
+
++ (BOOL)openUrl:(NSURL *)url
+{
+    if (!url)
+    {
+        return NO;
+    }
+    if ([[UIApplication sharedApplication] canOpenURL:url])
+    {
+        [[UIApplication sharedApplication] openURL:url];
+        return YES;
+    }
+    return  NO;
+}
+
 @end

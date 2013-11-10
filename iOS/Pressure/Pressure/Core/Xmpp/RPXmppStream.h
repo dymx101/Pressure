@@ -67,15 +67,7 @@
 - (void)sendofflineStatus;
 
 //发送ping
-//- (void)sendPingFromUser:(RPMyself *)fromUser;
-
-
-
-//添加好友
-//- (void)sendAddFriend:(NSString *)toUserName fromUserName:(NSString *)fromUserName fromDevice:(NSString *)device accepted:(RPXmppStreamAccepted)accepted matchType:(int)matchType;
-
-//删除好友
-//- (void)sendDeleteFriend:(NSString *)toUserName fromUserName:(NSString *)fromUserName  fromDevice:(NSString *)device accepted:(RPXmppStreamAccepted)accepted;
+- (void)sendPingFromUser:(NSString *)from_UserName;
 
 //尝试连接
 - (BOOL)doConnect:(NSString *)name password:(NSString *)password;

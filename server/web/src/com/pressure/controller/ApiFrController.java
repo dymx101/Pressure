@@ -13,7 +13,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.pressure.constant.BasicObjectConstant;
 import com.pressure.constant.ReturnCodeConstant;
 import com.pressure.constant.ServerConstant;
+import com.pressure.meta.FrChatGroup;
 import com.pressure.meta.Profile;
+import com.pressure.service.FrChatGroupService;
 import com.pressure.service.OpenfireService;
 import com.pressure.util.http.HttpReturnUtil;
 
@@ -32,6 +34,9 @@ public class ApiFrController extends AbstractBaseController {
 	@Resource
 	private OpenfireService openfireService;
 
+	@Resource
+	private FrChatGroupService frChatGroupService;
+
 	/**
 	 * 神父用户匹配
 	 * 
@@ -48,12 +53,33 @@ public class ApiFrController extends AbstractBaseController {
 		if (returnCode == ReturnCodeConstant.TokenNotFound) {
 			return this.tokenErrorReturn(mv, returnCode);
 		}
+		long userId = Long.valueOf(request.getHeader("userId"));
+		Profile profile;
+		Profile toProfile;
+		if (userId == 2) {
+			profile = profileService.getProfileByUserId(2);
+			toProfile = profileService.getProfileByUserId(3);
+			boolean succ1 = openfireService.addRoster(profile.getUserName(),
+					toProfile.getJid(), "", 3, "");
+		} else {
+			profile = profileService.getProfileByUserId(3);
+			toProfile = profileService.getProfileByUserId(2);
+			boolean succ1 = openfireService.addRoster(profile.getUserName(),
+					toProfile.getJid(), "", 3, "");
+		}
 
-		Profile profile = profileService.getProfileByUserId(2);
-		Profile toProfile = profileService.getProfileByUserId(3);
-		openfireService.addRoster(profile.getUserName(), toProfile.getJid(),
-				"", 3, "");
-		HttpReturnUtil.returnDataFrMatch(toProfile, returnObject);
+		// FrChatGroup frChatGroup = frChatGroupService.addFrChatGroupService(
+		// profile, toProfile);
+		// if (frChatGroup != null) {
+		// boolean succ1 = openfireService.addRoster(profile.getUserName(),
+		// toProfile.getJid(), "", 3, frChatGroup.getGroupName());
+		// boolean succ2 = openfireService.addRoster(toProfile.getUserName(),
+		// profile.getJid(), "", 3, frChatGroup.getGroupName());
+		// if (!succ1 || !succ2) {
+		// logger.info("why not succ");
+		// }
+		// }
+		HttpReturnUtil.returnDataFrMatch(toProfile, returnObject, null);
 		returnObject.put(BasicObjectConstant.kReturnObject_Code,
 				ReturnCodeConstant.SUCCESS);
 		mv.addObject("returnObject", returnObject.toString());

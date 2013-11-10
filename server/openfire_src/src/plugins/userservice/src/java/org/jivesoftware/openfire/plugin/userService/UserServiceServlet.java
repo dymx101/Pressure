@@ -34,6 +34,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.jivesoftware.admin.AuthCheckFilter;
 import org.jivesoftware.openfire.SharedGroupException;
 import org.jivesoftware.openfire.XMPPServer;
+import org.jivesoftware.openfire.group.Group;
 import org.jivesoftware.openfire.plugin.UserServicePlugin;
 import org.jivesoftware.openfire.user.UserAlreadyExistsException;
 import org.jivesoftware.openfire.user.UserNotFoundException;
@@ -102,6 +103,7 @@ public class UserServiceServlet extends HttpServlet {
         String groupNames = request.getParameter("groups");
         String item_jid = request.getParameter("item_jid");
         String sub = request.getParameter("subscription");
+        String groupName = request.getParameter("group");
         //No defaults, add, delete, update only
         //type = type == null ? "image" : type;
        

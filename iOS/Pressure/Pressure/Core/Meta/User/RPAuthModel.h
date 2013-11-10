@@ -7,6 +7,7 @@
 //
 
 #import "RPObject.h"
+#import "NSObject+ALModel.h"
 @class RPThirdModel;
 @class RPProfile;
 @class RPSession;
@@ -14,8 +15,9 @@
 
 @property (nonatomic,retain) RPThirdModel *thirdModel;
 @property (nonatomic,retain) RPProfile *profile;
-
 @property (nonatomic,retain) RPSession *session;
+
+@property (nonatomic) BOOL connectedOpenFireSucc;
 
 + (RPAuthModel *)sharedInstance;
 
@@ -25,6 +27,8 @@
 - (BOOL)serverLogined;
 
 - (void)setLoginSuccValue:(NSDictionary *)jsonDic;
+
+- (void)saveData;
 
 
 

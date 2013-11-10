@@ -23,6 +23,10 @@
 @property (strong, nonatomic) NSMutableData *imageData;
 @property (strong, nonatomic) NSURLConnection *connection;
 
+#if TARGET_OS_IPHONE && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_4_0
+@property (assign, nonatomic) UIBackgroundTaskIdentifier backgroundTaskId;
+#endif
+
 @end
 
 @implementation SDWebImageDownloaderOperation
@@ -57,6 +61,25 @@
         return;
     }
 
+#if TARGET_OS_IPHONE && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_4_0
+    if ([self shouldContinueWhenAppEntersBackground])
+    {
+        __weak __typeof__(self) wself = self;
+        self.backgroundTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^
+        {
+            __strong __typeof(wself)sself = wself;
+
+            if (sself)
+            {
+                [sself cancel];
+
+                [[UIApplication sharedApplication] endBackgroundTask:sself.backgroundTaskId];
+                sself.backgroundTaskId = UIBackgroundTaskInvalid;
+            }
+        }];
+    }
+#endif
+
     self.executing = YES;
     self.connection = [NSURLConnection.alloc initWithRequest:self.request delegate:self startImmediately:NO];
 
@@ -70,10 +93,18 @@
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:SDWebImageDownloadStartNotification object:self];
 
-        // Make sure to run the runloop in our background thread so it can process downloaded data
-        // Note: we use a timeout to work around an issue with NSURLConnection cancel under iOS 5
-        //       not waking up the runloop, leading to dead threads (see https://github.com/rs/SDWebImage/issues/466)
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 10, false);
+        if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_5_1)
+        {
+            // Make sure to run the runloop in our background thread so it can process downloaded data
+            // Note: we use a timeout to work around an issue with NSURLConnection cancel under iOS 5
+            //       not waking up the runloop, leading to dead threads (see https://github.com/rs/SDWebImage/issues/466)
+            CFRunLoopRunInMode(kCFRunLoopDefaultMode, 10, false);
+        }
+        else
+        {
+            CFRunLoopRun();
+        }
+
         if (!self.isFinished)
         {
             [self.connection cancel];
@@ -333,6 +364,11 @@
     {
         return cachedResponse;
     }
+}
+
+- (BOOL)shouldContinueWhenAppEntersBackground
+{
+    return self.options & SDWebImageDownloaderContinueInBackground;
 }
 
 

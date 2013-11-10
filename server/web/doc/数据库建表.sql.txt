@@ -41,3 +41,14 @@ CreateTime bigint(20) NOT NULL DEFAULT '0' COMMENT '创建时间',
 ExpireIn bigint(20) NOT NULL DEFAULT '0' COMMENT  '失效时间，精确到毫秒',
 PRIMARY KEY  (`Id`)
 )   DEFAULT CHARSET=UTF8 COMMENT '用户Token表';
+
+
+CREATE TABLE TB_FrChatGroup (
+groupId bigint(20) NOT NULL AUTO_INCREMENT  COMMENT 'id',
+groupName varchar(127) NOT NULL DEFAULT '' COMMENT 'token',
+user1 bigint(20) NOT NULL  DEFAULT '0'  COMMENT '用户id1',
+user2 bigint(20) NOT NULL  DEFAULT '0'  COMMENT '用户id2',
+CreateTime bigint(20) NOT NULL DEFAULT '0' COMMENT '创建时间',
+status int(11) NOT NULL DEFAULT '0' COMMENT '状态' ,
+PRIMARY KEY  (`groupId`)
+)   DEFAULT CHARSET=UTF8 COMMENT '用户聊天组表';

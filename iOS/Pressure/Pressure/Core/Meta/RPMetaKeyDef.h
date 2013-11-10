@@ -12,6 +12,8 @@
 #define kMetaKey_Profile @"profile"
 #define kMetaKey_Session @"session"
 #define kMetaKey_XmppProfile @"xmpp_profile"
+#define kMetaKey_XmppGroup  @"xmpp_group"
+
 
 
 #endif
