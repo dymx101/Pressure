@@ -17,7 +17,9 @@ public class TestSetTreeholePassWord {
 		try {
 
 			JSONObject object = new JSONObject();
-			object.put("userId", 13);
+			post.addRequestHeader("refreshToken",
+					"a0a6409731787823af2c20445ae8355c");
+			post.addRequestHeader("userId", "13");
 			object.put("newTreeholePassWord", "771234");
 
 			JSONObject requestObject = new JSONObject();

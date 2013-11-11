@@ -20,7 +20,7 @@ public class TestRefreshToken {
 
 			post.addRequestHeader("refreshToken",
 					"a0a6409731787823af2c20445ae8355c");
-			post.addRequestHeader("userId", "1");
+			post.addRequestHeader("userId", "1145");
 
 			RequestEntity entity = new StringRequestEntity(
 					requestObject.toString());

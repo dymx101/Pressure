@@ -1,5 +1,8 @@
 package com.pressure.util.http;
 
+import java.util.List;
+
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import com.pressure.constant.BasicObjectConstant;
@@ -7,6 +10,8 @@ import com.pressure.constant.ServerConstant;
 import com.pressure.meta.FrChatGroup;
 import com.pressure.meta.Profile;
 import com.pressure.meta.Session;
+import com.pressure.meta.Treehole;
+import com.pressure.util.ListUtils;
 
 public class HttpReturnUtil {
 
@@ -114,4 +119,39 @@ public class HttpReturnUtil {
 		HttpReturnUtil.returnDataObject(dataObject, returnObject);
 	}
 
+	/**
+	 * 返回树洞信息
+	 * 
+	 * @param treehole
+	 * @param returnObject
+	 */
+	public static void returnDataTreehole(List<Treehole> treeholeList,
+			JSONObject returnObject) {
+		JSONObject dataObject = new JSONObject();
+		JSONArray treeholeArray = new JSONArray();
+		if (!ListUtils.isEmptyList(treeholeList)) {
+			for (Treehole treehole : treeholeList) {
+				JSONObject treeholeObject = new JSONObject();
+				treeholeObject.put(Treehole.KTREEHOLE_ID, treehole.getId());
+				treeholeObject.put(Treehole.KTREEHOLE_USERID,
+						treehole.getUserId());
+				treeholeObject.put(Treehole.KTREEHOLE_PICTRUEURL,
+						treehole.getPictureUrl());
+				treeholeObject.put(Treehole.KTREEHOLE_VOICE,
+						treehole.getVoice());
+				treeholeObject.put(Treehole.KTREEHOLE_LOCATION,
+						treehole.getLocation());
+				treeholeObject.put(Treehole.KTREEHOLE_CONTENT,
+						treehole.getContent());
+				treeholeObject.put(Treehole.KTREEHOLE_CREATETIME,
+						treehole.getCreateTime());
+				treeholeObject.put(Treehole.KTREEHOLE_LASTUPDATETIME,
+						treehole.getLastUpdateTime());
+				treeholeArray.add(treeholeObject);
+			}
+		}
+		dataObject.put("treeholeList", treeholeArray.toString());
+		dataObject.put(BasicObjectConstant.kReturnObject_Treehole, dataObject);
+		HttpReturnUtil.returnDataObject(dataObject, returnObject);
+	}
 }
