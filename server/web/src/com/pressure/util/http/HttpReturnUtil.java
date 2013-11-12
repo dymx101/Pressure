@@ -93,7 +93,9 @@ public class HttpReturnUtil {
 			JSONObject profileObject = new JSONObject();
 			profileObject.put("user_id", profile.getUserId());
 			profileObject.put("user_name", profile.getUserName());
-
+			profileObject.put("avatar_url", profile.getAvatorUrl());
+			profileObject.put("nick_name", profile.getNickName());
+			
 			JSONObject xmppObject = new JSONObject();
 			xmppObject.put("xmpp_user_name", profile.getXmppUserName());
 			xmppObject.put("secret_key",

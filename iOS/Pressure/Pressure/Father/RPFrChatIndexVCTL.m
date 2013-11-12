@@ -37,12 +37,6 @@
     
     [super viewDidLoad];
     
-    RPAuthModel *authModel = [RPAuthModel sharedInstance];
-    if (!authModel.connectedOpenFireSucc)
-    {
-        [[RPXmppManager sharedInstance] doConnect:[authModel.profile.xmppProfile jID] xmppPassWord:[authModel.profile.xmppProfile password]];
-    }
-    
     UIButton *matchBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [matchBtn addTarget:self action:@selector(matchClick:) forControlEvents:UIControlEventTouchUpInside];
     matchBtn.frame = CGRectMake(50, 50, 100, 44);
@@ -50,8 +44,7 @@
     [matchBtn setTitle:@"找神父" forState:UIControlStateNormal];
     [self.view addSubview:matchBtn];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleXmppLoginSuccNotif:) name:kNotif_XmppLoginSuccess object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleXmppLoginFailedNotif:) name:kNotif_XmppLoginFailed object:nil];
+
     
 }
 
@@ -101,22 +94,6 @@
     }
 }
 
-#pragma mark -
-#pragma mark Xmpp Notification
-- (void)handleXmppLoginSuccNotif:(NSNotification *)notif
-{
-    [MMProgressHUD dismissWithSuccess:@"登录成功"];
-    [[RPXmppManager sharedInstance] sendOnlineStatus:User_Xmpp_OnlineStatus_Online];
-    RPAuthModel *authModel = [RPAuthModel sharedInstance];
-    authModel.connectedOpenFireSucc = YES;
-    
-}
-
-- (void)handleXmppLoginFailedNotif:(NSNotification *)notif
-{
-    [MMProgressHUD dismissWithSuccess:@"登录失败"];
-    
-}
 
 
 

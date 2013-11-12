@@ -15,7 +15,6 @@ static __strong NSMutableArray * historyLoginUsersList = nil;
 static RPAuthModel * authModel = nil;
 @implementation RPAuthModel
 
-
 + (RPAuthModel *)sharedInstance
 {
     @try {
@@ -49,6 +48,7 @@ static RPAuthModel * authModel = nil;
     if (authModel == nil)
     {
         authModel = [[RPAuthModel alloc] init];
+        authModel.connectedOpenFireSucc = NO;
     }
     return  authModel;
 }
@@ -82,10 +82,8 @@ static RPAuthModel * authModel = nil;
 
 - (void)setLoginSuccValue:(NSDictionary *)jsonDic
 {
-    
     _profile = [[RPProfile alloc] initWithJSONDic:jsonDic[kMetaKey_Profile]];
     _session = [[RPSession alloc] initWithJSONDic:jsonDic[kMetaKey_Session]];
-    
 }
 
 - (NSDictionary *)proxyForJson

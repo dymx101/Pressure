@@ -11,4 +11,5 @@
 
 
 #define kUserDefault_EverLaunched @"kUserDefault_EverLaunched"
+#define kUserDefault_FirstLogin   @"kUserDefault_FirstLogin"
 #endif

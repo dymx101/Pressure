@@ -12,8 +12,13 @@
 
 
 @property (nonatomic,retain) UIView *maskView;
+@property (nonatomic) BOOL hideHeaderBar;
+@property (nonatomic,retain) UIView *contentView;
+
 
 - (void)backToPrefix;
 - (void)maskViewTapGesture:(UITapGestureRecognizer *)gesture;
+- (void)leftButtonClick;
+- (void)rightButtonClick;
 
 @end

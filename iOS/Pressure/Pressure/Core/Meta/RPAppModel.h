@@ -16,6 +16,7 @@
 @property (nonatomic,retain) NSMutableArray *chatUserArray;
 
 
+
 - (BOOL)dealWithFrMessage:(NSDictionary *)messageDic;
 - (void)resetChatingUserState:(RPProfile *)chatingUser;
 - (RPProfile *)chatingUser;

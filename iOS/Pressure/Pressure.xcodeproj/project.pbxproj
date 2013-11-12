@@ -274,7 +274,9 @@
 		9BA681F5182FCC460019F82F /* NSString+MD5Addition.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BA681F2182FCC460019F82F /* NSString+MD5Addition.m */; };
 		9BA681F9182FD2DC0019F82F /* RPFeedVCTL.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BA681F8182FD2DC0019F82F /* RPFeedVCTL.m */; };
 		9BA681FD182FD2F20019F82F /* RPFeedHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BA681FC182FD2F20019F82F /* RPFeedHeaderView.m */; };
+		9BA68200182FD68D0019F82F /* RPBaseBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BA681FF182FD68D0019F82F /* RPBaseBar.m */; };
 		9BBEE8331827E1E000555695 /* RPBaseVCTL+Server.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BBEE8321827E1E000555695 /* RPBaseVCTL+Server.m */; };
+		9BDEA6F3183125D6004442E7 /* RPUserProfileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDEA6F2183125D6004442E7 /* RPUserProfileView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -808,8 +810,12 @@
 		9BA681F8182FD2DC0019F82F /* RPFeedVCTL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPFeedVCTL.m; sourceTree = "<group>"; };
 		9BA681FB182FD2F20019F82F /* RPFeedHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPFeedHeaderView.h; sourceTree = "<group>"; };
 		9BA681FC182FD2F20019F82F /* RPFeedHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPFeedHeaderView.m; sourceTree = "<group>"; };
+		9BA681FE182FD68D0019F82F /* RPBaseBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPBaseBar.h; sourceTree = "<group>"; };
+		9BA681FF182FD68D0019F82F /* RPBaseBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPBaseBar.m; sourceTree = "<group>"; };
 		9BBEE8311827E1E000555695 /* RPBaseVCTL+Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RPBaseVCTL+Server.h"; sourceTree = "<group>"; };
 		9BBEE8321827E1E000555695 /* RPBaseVCTL+Server.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RPBaseVCTL+Server.m"; sourceTree = "<group>"; };
+		9BDEA6F1183125D6004442E7 /* RPUserProfileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPUserProfileView.h; sourceTree = "<group>"; };
+		9BDEA6F2183125D6004442E7 /* RPUserProfileView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPUserProfileView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -882,6 +888,7 @@
 			children = (
 				3803BA22181D07B000256559 /* RPAppDelegate.h */,
 				3803BA23181D07B000256559 /* RPAppDelegate.m */,
+				9BDEA6F418313654004442E7 /* Forum */,
 				9BA681F6182FD2B80019F82F /* Feed */,
 				9BA0970B182A8FA7006B4FA3 /* Hole */,
 				38F0F743181EA88300361BC9 /* Login */,
@@ -1779,6 +1786,7 @@
 		3803BC8D181D09BB00256559 /* Index */ = {
 			isa = PBXGroup;
 			children = (
+				9BDEA6F01831256B004442E7 /* view */,
 				3803BCA3181D124500256559 /* RPIndexVCTL.h */,
 				3803BCA4181D124500256559 /* RPIndexVCTL.m */,
 			);
@@ -1825,6 +1833,8 @@
 				9B631CE01826271D00076458 /* RPUtilities.m */,
 				9BBEE8311827E1E000555695 /* RPBaseVCTL+Server.h */,
 				9BBEE8321827E1E000555695 /* RPBaseVCTL+Server.m */,
+				9BA681FE182FD68D0019F82F /* RPBaseBar.h */,
+				9BA681FF182FD68D0019F82F /* RPBaseBar.m */,
 			);
 			name = Core;
 			path = Pressure/Core;
@@ -2192,6 +2202,22 @@
 			path = view;
 			sourceTree = "<group>";
 		};
+		9BDEA6F01831256B004442E7 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				9BDEA6F1183125D6004442E7 /* RPUserProfileView.h */,
+				9BDEA6F2183125D6004442E7 /* RPUserProfileView.m */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		9BDEA6F418313654004442E7 /* Forum */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Forum;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2278,6 +2304,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9BA68200182FD68D0019F82F /* RPBaseBar.m in Sources */,
 				9BA681F3182FCC460019F82F /* NSString+Addition.m in Sources */,
 				3803BA24181D07B000256559 /* RPAppDelegate.m in Sources */,
 				3803BBEC181D09B000256559 /* NSString+TomAddition.m in Sources */,
@@ -2458,6 +2485,7 @@
 				3803BC60181D09B000256559 /* XMPPCapabilitiesCoreDataStorage.m in Sources */,
 				3803BC36181D09B000256559 /* XMPPLastActivity.m in Sources */,
 				3803BC28181D09B000256559 /* XMPPGroupCoreDataStorageObject.m in Sources */,
+				9BDEA6F3183125D6004442E7 /* RPUserProfileView.m in Sources */,
 				3803BC59181D09B000256559 /* XMPPMessage+XEP_0066.m in Sources */,
 				3803BC53181D09B000256559 /* NSXMLElement+XEP_0059.m in Sources */,
 				3803BC70181D09B000256559 /* XMPPAutoTime.m in Sources */,
@@ -2602,7 +2630,7 @@
 					"${SDKROOT}/usr/include/libxml2",
 				);
 				INFOPLIST_FILE = "Pressure/Pressure-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/Pressure/ThirdPart/XMPP/Vendor/libidn",
@@ -2635,7 +2663,7 @@
 					"${SDKROOT}/usr/include/libxml2",
 				);
 				INFOPLIST_FILE = "Pressure/Pressure-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/Pressure/ThirdPart/XMPP/Vendor/libidn",
