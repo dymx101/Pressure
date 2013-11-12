@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pressure.mapper.TreeholeMapper">
+	<resultMap type="Treehole" id="treeholeMap">
+		<id property="Id" column="Id" />
+		<result property="UserId" column="UserId" />
+		<result property="PictureUrl" column="PictureUrl" />
+		<result property="Voice" column="Voice" />
+		<result property="Location" column="Location" />
+		<result property="content" column="content" />
+		<result property="CreateTime" column="CreateTime" />
+		<result property="LastUpdateTime" column="LastUpdateTime" />
+		<result property="status" column="status" />
+	</resultMap>
+
+	<insert id="addTreehole" parameterType="Treehole">
+		INSERT INTO
+		TB_Treehole(
+		Id,
+		UserId,
+		PictureUrl,
+		Voice,
+		Location,
+		content,
+		CreateTime,
+		LastUpdateTime,
+		status
+		)VALUES(
+		#{Id},
+		#{UserId},
+		#{PictureUrl},
+		#{Voice},
+		#{Location},
+		#{content},
+		#{CreateTime},
+		#{LastUpdateTime},
+		#{status}
+		)
+		<selectKey keyProperty="Id" resultType="long">
+			SELECT
+			LAST_INSERT_ID() AS VALUE
+		</selectKey>
+	</insert>
+
+	<update id="updateTreehole" flushCache="true" statementType="PREPARED">
+		update TB_Treehole set
+		PictureUrl =#{PictureUrl},
+		Voice=#{Voice},
+		Location=#{Location},
+		content=#{content},
+		LastUpdateTime=#{LastUpdateTime}
+		where Id
+		=
+		#{Id} ;
+	</update>
+
+	<update id="buryTreehole" flushCache="true" statementType="PREPARED">
+		UPDATE TB_Treehole set
+		status=#{status},
+		LastUpdateTime=#{LastUpdateTime}
+		WHERE Id=#{Id} and
+		UserId=#{UserId};
+	</update>
+
+	<select id="getTreeholeList" resultMap="treeholeMap">
+		SELECT * from TB_Treehole
+		WHERE UserId=#{UserId} and
+		status=#{status}
+		order by CreateTime desc
+		<if test="offset >=0 ">
+			limit #{limit} offset #{offset};
+		</if>
+		;
+	</select>
+</mapper>
