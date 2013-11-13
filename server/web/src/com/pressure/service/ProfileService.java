@@ -68,4 +68,14 @@ public interface ProfileService {
 	 * @return
 	 */
 	public boolean updateTreeholePassword(long userId, String treeholePassWord);
+
+	/**
+	 * 更新昵称和照片
+	 * 
+	 * @param userId
+	 * @param nickName
+	 * @param avatorUrl
+	 * @return
+	 */
+	public boolean updateProfile(long userId, String nickName, String avatorUrl);
 }

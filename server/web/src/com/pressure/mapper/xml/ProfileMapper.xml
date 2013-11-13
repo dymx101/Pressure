@@ -77,4 +77,14 @@
 		=
 		#{userId};
 	</update>
+
+	<update id="updateProfile" flushCache="true" statementType="PREPARED">
+		update TB_Profile set
+		NickName = #{NickName},
+		AvatorUrl = #{AvatorUrl},
+		LastUpdateTime = #{LastUpdateTime}
+		where userId
+		= #{userId}
+		;
+	</update>
 </mapper>

@@ -6,7 +6,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
@@ -19,7 +18,6 @@ import com.pressure.constant.ServerConstant;
 import com.pressure.meta.Treehole;
 import com.pressure.service.ProfileService;
 import com.pressure.service.TreeholeService;
-import com.pressure.util.ListUtils;
 import com.pressure.util.http.HttpReturnUtil;
 import com.pressure.util.http.PostValueGetUtil;
 

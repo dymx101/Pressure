@@ -75,4 +75,52 @@ public class ApiPressurePubController extends AbstractBaseController {
 		mv.addObject("returnObject", returnObject.toString());
 		return mv;
 	}
+
+	/**
+	 * 修改昵称和照片
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ModelAndView updateProfile(HttpServletRequest request,
+			HttpServletResponse response) {
+		ModelAndView mv = new ModelAndView(ServerConstant.Api_Return_MV);
+		JSONObject returnObject = new JSONObject();
+
+		String jsonString = PostValueGetUtil.parseRequestAsString(request,
+				"utf-8");
+		JSONObject jsonObject = PostValueGetUtil.parseRequestData(jsonString);
+
+		if (jsonObject == null) {
+			return this.jsonErrorReturn(mv, jsonString);
+		}
+
+		int returnCode = this.checkTokenValid(request, response);
+		if (returnCode == ReturnCodeConstant.TokenNotFound) {
+			return this.tokenErrorReturn(mv, returnCode);
+		}
+		long userId = Long.valueOf(request.getHeader("userId"));
+		String nickName = jsonObject.getString("nickName");
+		String avatorUrl = jsonObject.getString("avatorUrl");
+
+		if (nickName == null || avatorUrl == null) {
+			returnObject.put(BasicObjectConstant.kReturnObject_Code,
+					ReturnCodeConstant.FAILED);
+			mv.addObject("returnObject", returnObject.toString());
+			return mv;
+		}
+
+		if (profileService.updateProfile(userId, nickName, avatorUrl)) {
+			returnObject.put(BasicObjectConstant.kReturnObject_Code,
+					ReturnCodeConstant.SUCCESS);
+			mv.addObject("returnObject", returnObject.toString());
+			return mv;
+		}
+
+		returnObject.put(BasicObjectConstant.kReturnObject_Code,
+				ReturnCodeConstant.FAILED);
+		mv.addObject("returnObject", returnObject.toString());
+		return mv;
+	}
 }

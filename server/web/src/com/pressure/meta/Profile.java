@@ -21,31 +21,31 @@ public class Profile implements Serializable {
 	 */
 	private long UserId;
 	/**
-	 * 
+	 * 用户名
 	 */
 	private String UserName;
 	/**
-	 * 
+	 * 昵称
 	 */
 	private String NickName;
 	/**
-	 * 
+	 * 树洞密码
 	 */
 	private String TreeholePassWord;
 	/**
-	 * 
+	 * 创建时间
 	 */
 	private long CreateTime;
 	/**
-	 * 
+	 * 更新时间
 	 */
 	private long LastUpdateTime;
 	/**
-	 * 
+	 * 照片
 	 */
 	private String AvatorUrl;
 	/**
-	 * 
+	 * 等级
 	 */
 	private int level;
 	/**
