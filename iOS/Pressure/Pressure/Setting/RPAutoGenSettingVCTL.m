@@ -12,9 +12,9 @@
 #import "AutoGenCell.h"
 #import "RPNormalSettingCell.h"
 #import "AutoGenCell.h"
-
-
-
+#import "RPUserProfileVCTL.h"
+#import "RPAuthModel.h"
+#import "RPProfile.h"
 @interface RPAutoGenSettingVCTL ()
 {
 
@@ -66,6 +66,14 @@
 - (void)insertTableFooter
 {
     
+}
+
+- (void)userCellClick
+{
+    RPAuthModel *authModel = [RPAuthModel sharedInstance];
+    RPProfile *profile = authModel.profile;
+    RPUserProfileVCTL *profileVCTL = [[RPUserProfileVCTL alloc] initWithProfile:profile];
+    [self.navigationController pushViewController:profileVCTL animated:YES];
 }
 
 #pragma mark -

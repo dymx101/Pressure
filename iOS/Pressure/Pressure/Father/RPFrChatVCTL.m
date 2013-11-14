@@ -11,14 +11,17 @@
 #import "RPFrChatCell.h"
 #import "RPProfile.h"
 #import "RPAppModel.h"
+#import "RPFrAvatarBar.h"
 #import "RPXmppProfile.h"
+#import "RPFrChatModel.h"
 #import "RPAuthModel.h"
 #import "RPFrChatTextCell.h"
 #import "RPXmppManager.h"
 #import "JSON20.h"
 #import "RPMessage.h"
 #import "RPInputView.h"
-@interface RPFrChatVCTL () <UITableViewDataSource,UITableViewDelegate,EGORefreshTableHeaderDelegate,RPInputViewDelegate>
+#import "RPFrChatBar.h"
+@interface RPFrChatVCTL () <UITableViewDataSource,UITableViewDelegate,EGORefreshTableHeaderDelegate,RPInputViewDelegate,RPFrChatBarDelegate>
 {
     UITableView *_tv;
     EGORefreshTableHeaderView *_refreshHeaderView;
@@ -26,6 +29,7 @@
     NSMutableArray *_dataSource;
     RPInputView *_inputView;
     RPProfile *_chatingUser;
+    RPFrChatBar *_frChatBar;
 }
 
 @end
@@ -43,44 +47,49 @@
 
 - (void)viewDidLoad
 {
+    self.hideHeaderBar = YES;
     [super viewDidLoad];
     
     _dataSource = [[NSMutableArray alloc] init];
-    _chatingUser = [[RPAppModel sharedInstance] chatingUser];
+    _chatingUser = [[RPFrChatModel sharedInstance] chatingUser];
+    
+    
+    
     if (!_tv)
     {
-        _tv = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT_WITHOUT_STATUS_BAR - kRPInputView_Up_Height) style:UITableViewStylePlain];
+        _tv = [[UITableView alloc] initWithFrame:CGRectMake(0, RPFrChatBar_Height, SCREEN_WIDTH, SCREEN_HEIGHT_WITHOUT_STATUS_BAR - kRPInputView_Up_Height) style:UITableViewStylePlain];
         _tv.dataSource = self;
         _tv.delegate = self;
         _tv.separatorStyle = UITableViewCellSeparatorStyleNone;
-        [self.view addSubview:_tv];
+        [self.contentView addSubview:_tv];
     }
     
     if (_refreshHeaderView == nil)
     {
-		_refreshHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - CGRectGetHeight(self.view.frame), CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame))];
+		_refreshHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, RPFrChatBar_Height - CGRectGetHeight(self.view.frame), CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame))];
 		_refreshHeaderView.delegate = self;
 		[_tv addSubview:_refreshHeaderView];
 	}
+    
+    if (!_frChatBar)
+    {
+        _frChatBar = [[RPFrChatBar alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, RPFrChatBar_Height)];
+        _frChatBar.delegate = self;
+        [self.contentView addSubview:_frChatBar];
+    }
     
     if (!_inputView)
     {
         _inputView = [[RPInputView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT_WITHOUT_STATUS_BAR - kRPInputView_Up_Height, SCREEN_WIDTH, kRPInputView_Up_Height + Default_KeyBoardHeight)];
         _inputView.delegate = self;
-        [self.view addSubview:_inputView];
+        [self.contentView addSubview:_inputView];
     }
     
-    [self resetChatArray];
-    [self resetTableViewFrame];
+    [self resetChatUI];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleXmppTalkingMessageNotif:) name:kNotif_XmppTalkingMessage object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUIKeyBoardWillHideNotif:) name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUIKeyBoardWillShowNotif:) name:UIKeyboardWillShowNotification object:nil];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)resetChatArray
@@ -94,7 +103,11 @@
         [_tv reloadData];
     }
 }
-
+/**
+ *  添加新的聊天内容
+ *
+ *  @param obj
+ */
 - (void)addNewChatToArray:(id)obj
 {
     @synchronized(self)
@@ -104,6 +117,70 @@
         [_tv insertRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:([_dataSource count]-1) inSection:0], nil] withRowAnimation:UITableViewRowAnimationFade];
         [_tv endUpdates];
     }
+}
+/**
+ *  重置聊天逻辑
+ */
+- (void)resetChatLogic
+{
+    switch ([RPFrChatModel sharedInstance].type) {
+        case RPFrChatModel_ChatingType_Talker:
+        {
+            if ([[RPFrChatModel sharedInstance].fatherUsers count] > 0)
+            {
+                _chatingUser = [[RPFrChatModel sharedInstance].fatherUsers objectAtIndex:0];
+            }
+        }
+            break;
+        case RPFrChatModel_ChatingType_Father:
+        {
+            if ([[RPFrChatModel sharedInstance].talkerUsers count] > 0)
+            {
+                _chatingUser = [[RPFrChatModel sharedInstance].talkerUsers objectAtIndex:0];
+            }
+        }
+            break;
+        default:
+            break;
+    }
+}
+/**
+ *  重置整个聊天的UI
+ */
+- (void)resetChatUI
+{
+    for (UIView *subView in [self.contentView subviews])
+    {
+        if ([subView isKindOfClass:[RPFrAvatarBar class]])
+        {
+            [subView removeFromSuperview];
+        }
+    }
+    [self resetChatArray];
+    NSArray *array ;
+    switch ([RPFrChatModel sharedInstance].type) {
+        case RPFrChatModel_ChatingType_Father:
+        {
+            array = [RPFrChatModel sharedInstance].talkerUsers;
+        }
+            break;
+        case RPFrChatModel_ChatingType_Talker:
+        {
+            array = [RPFrChatModel sharedInstance].fatherUsers;
+        }
+            break;
+        default:
+            break;
+    }
+    CGFloat originY = 100;
+    for (RPProfile *profile in array)
+    {
+        RPFrAvatarBar *avatarBar = [[RPFrAvatarBar alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 50, originY, 50, 44)];
+        [avatarBar resetAvatarBar:profile];
+        [self.contentView addSubview:avatarBar];
+        originY += CGRectGetHeight(avatarBar.frame) + 10;
+    }
+    [self resetTableViewFrame];
 }
 
 #pragma mark - UITableViewDelegate
@@ -146,31 +223,36 @@
     return nil;
 }
 
+/**
+ *  重置到表的初始位置
+ */
 - (void)resetTableViewFrame
 {
     _tv.frame = CGRectMake(0, 0, CGRectGetWidth(_tv.frame), _inputView.frame.origin.y);
-    [_tv scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:([_dataSource count]-1) inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    if ([_dataSource count])
+    {
+        [_tv scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:([_dataSource count]-1) inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    }
+    
     
 }
 
 #pragma mark -
 #pragma mark UIScrollViewDelegate Methods
-
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
 	
-	[_refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
+	//[_refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
     
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
 	
-	[_refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
+	//[_refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
 	
 }
 
 #pragma mark -
 #pragma mark Data Source Loading / Reloading Methods
-
 - (void)reloadTableViewDataSource{
 	_reloading = YES;
 	
@@ -178,7 +260,7 @@
 
 - (void)doneLoadingTableViewData{
 	_reloading = NO;
-	[_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:_tv];
+	//[_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:_tv];
 }
 
 #pragma mark EGORefreshTableHeaderDelegate Methods
@@ -235,7 +317,11 @@
     CGRect frame = _tv.frame;
     frame.size.height -= Default_KeyBoardHeight;
     _tv.frame = frame;
-    [_tv scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:([_dataSource count]-1) inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+    if ([_dataSource count] > 0)
+    {
+        [_tv scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:([_dataSource count]-1) inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+    }
+
 }
 
 #pragma mark -
@@ -278,6 +364,34 @@
     [[RPXmppManager sharedInstance] sendMessage:[[message proxyForJson] JSONRepresentation] toUser:_chatingUser.xmppProfile];
     [self addNewChatToArray:message];
 }
+
+#pragma mark -
+#pragma mark RPFrChatBar Delegate
+- (void)rpFrChatBarFatherBtnClick
+{
+    if ([RPFrChatModel sharedInstance].type == RPFrChatModel_ChatingType_Father)
+    {
+        //显示设置页面
+    }else
+    {
+        [RPFrChatModel sharedInstance].type = RPFrChatModel_ChatingType_Father;
+        [self resetChatLogic];
+        [self resetChatUI];
+    }
+}
+- (void)rpFrChatBarTalkerBtnClick
+{
+    if ([RPFrChatModel sharedInstance].type == RPFrChatModel_ChatingType_Talker)
+    {
+        //显示设置页面
+    }else
+    {
+        [RPFrChatModel sharedInstance].type = RPFrChatModel_ChatingType_Talker;
+        [self resetChatLogic];
+        [self resetChatUI];
+    }
+}
+
 
 - (void)maskViewTapGesture:(UITapGestureRecognizer *)gesture
 {

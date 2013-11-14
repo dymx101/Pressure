@@ -7,6 +7,7 @@
 		<typeAlias alias="SourceAccount" type="com.pressure.meta.SourceAccount" />
 		<typeAlias alias="Session" type="com.pressure.meta.Session" />
 		<typeAlias alias="FrChatGroup" type="com.pressure.meta.FrChatGroup" />
+		<typeAlias alias="FrWantChatType" type="com.pressure.meta.FrWantChatType" />
 		<typeAlias alias="Treehole" type="com.pressure.meta.Treehole" />
 	</typeAliases>
 	<mappers>
@@ -15,6 +16,7 @@
 		<mapper resource="com/pressure/mapper/xml/SourceAccountMapper.xml" />
 		<mapper resource="com/pressure/mapper/xml/SessionMapper.xml" />
 		<mapper resource="com/pressure/mapper/xml/FrChatGroupMapper.xml" />
+		<mapper resource="com/pressure/mapper/xml/FrWantChatTypeMapper.xml" />
 		<mapper resource="com/pressure/mapper/xml/TreeholeMapper.xml" />
 	</mappers>
 </configuration>

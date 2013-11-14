@@ -47,6 +47,8 @@ public class HttpReturnUtil {
 			profileObject.put("user_name", profile.getUserName());
 			profileObject.put("avatar_url", profile.getAvatorUrl());
 			profileObject.put("nick_name", profile.getNickName());
+			profileObject.put("age", profile.getAge());
+			profileObject.put("gender", profile.getGender());
 
 			JSONObject xmppObject = new JSONObject();
 			xmppObject.put("xmpp_user_name", profile.getXmppUserName());
@@ -95,6 +97,8 @@ public class HttpReturnUtil {
 			profileObject.put("user_name", profile.getUserName());
 			profileObject.put("avatar_url", profile.getAvatorUrl());
 			profileObject.put("nick_name", profile.getNickName());
+			profileObject.put("age", profile.getAge());
+			profileObject.put("gender", profile.getGender());
 			
 			JSONObject xmppObject = new JSONObject();
 			xmppObject.put("xmpp_user_name", profile.getXmppUserName());

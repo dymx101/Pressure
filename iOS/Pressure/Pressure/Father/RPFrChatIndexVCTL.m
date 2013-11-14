@@ -10,11 +10,13 @@
 #import "RPXmppManager.h"
 #import "RPProfile.h"
 #import "MMProgressHUD.h"
+#import "RPFrChatModel.h"
 #import "RPAuthModel.h"
 #import "RPServerApiDef.h"
 #import "RPFrChatVCTL.h"
 #import "RPAppModel.h"
-@interface RPFrChatIndexVCTL ()
+#import "RPFrFilterDialog.h"
+@interface RPFrChatIndexVCTL () <CustomDialogDelegate>
 {
     RPProfile *_chatUser;
 }
@@ -37,14 +39,17 @@
     
     [super viewDidLoad];
     
-    UIButton *matchBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [matchBtn addTarget:self action:@selector(matchClick:) forControlEvents:UIControlEventTouchUpInside];
-    matchBtn.frame = CGRectMake(50, 50, 100, 44);
-    matchBtn.center = self.view.center;
-    [matchBtn setTitle:@"找神父" forState:UIControlStateNormal];
-    [self.view addSubview:matchBtn];
+    UIButton *asTalkerBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [asTalkerBtn addTarget:self action:@selector(asTalkerBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    asTalkerBtn.frame = CGRectMake(50, 50, 100, 44);
+    [asTalkerBtn setTitle:@"找神父" forState:UIControlStateNormal];
+    [self.contentView addSubview:asTalkerBtn];
     
-
+    UIButton *asFatherBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [asFatherBtn addTarget:self action:@selector(asFatherBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    asFatherBtn.frame = CGRectMake(100, 100, 100, 44);
+    [asFatherBtn setTitle:@"做神父" forState:UIControlStateNormal];
+    [self.contentView addSubview:asFatherBtn];
     
 }
 
@@ -60,23 +65,32 @@
     {
         [[RPXmppManager sharedInstance] sendMessage:@"sb" toUser:_chatUser.xmppProfile];
     }
-    
 }
 
-- (void)matchClick:(id)sender
+- (void)asTalkerBtnClick:(id)sender
 {
-    [self serverCallFrMatch];
+    RPFrFilterDialog *dialog = [[RPFrFilterDialog alloc] initWithDelegate:self];
+    [dialog show];
+}
+
+- (void)asFatherBtnClick:(id)sender
+{
+    
 }
 
 #pragma mark -
 #pragma mark Server
+- (void)serverCallAsFather
+{
+    
+}
+
 - (void)serverCallFrMatch
 {
     NSMutableDictionary *mulDic = [[NSMutableDictionary alloc] init];
     RPServerRequest *serverReq =  [[RPServerOperation sharedInstance] generateDefaultServerRequest:self operationType:kServerApi_FrMatch dic:mulDic];
     [[RPServerOperation sharedInstance] asyncToServerByRequest:serverReq];
 }
-
 
 - (void)updateUI:(RPServerResponse *)serverResp
 {
@@ -86,14 +100,31 @@
         if (serverResp.code == RPServerResponseCode_Succ)
         {
             _chatUser = [[RPProfile alloc] initWithJSONDic:serverResp.obj[kMetaKey_Profile]];
-            [[RPAppModel sharedInstance].chatUserArray addObject:_chatUser];
-            [[RPAppModel sharedInstance] resetChatingUserState:_chatUser];
+            _chatUser.userType = RPProfile_UserType_Father;
+            _chatUser.isChating = YES;
+            RPFrChatModel *chatModel = [RPFrChatModel sharedInstance];
+            chatModel.type  = RPFrChatModel_ChatingType_Talker;
+            [chatModel.fatherUsers addObject:_chatUser];
+            [chatModel resetChatingUserState:_chatUser];
             RPFrChatVCTL *chatVCTL = [[RPFrChatVCTL alloc] init];
             [self.navigationController pushViewController:chatVCTL animated:YES];
         }
     }
 }
 
+
+#pragma mark -
+#pragma mark CustomDialog Delegate
+- (void)dialogDidComplete:(CustomDialog *)dialog
+{
+    [self serverCallFrMatch];
+   
+}
+
+- (void)dialogDidNotComplete:(CustomDialog *)dialog
+{
+    
+}
 
 
 

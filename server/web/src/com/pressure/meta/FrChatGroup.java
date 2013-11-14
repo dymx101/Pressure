@@ -1,6 +1,12 @@
 package com.pressure.meta;
 
-public class FrChatGroup {
+import java.io.Serializable;
+
+public class FrChatGroup implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * 组id
 	 */

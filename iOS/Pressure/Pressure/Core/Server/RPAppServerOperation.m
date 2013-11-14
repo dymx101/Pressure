@@ -33,6 +33,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(RPAppServerOperation)
     
 }
 
+- (void)asynServerCallToBeFather
+{
+    
+}
+
 
 - (void)asynLoginWithThirdPartAuth
 {

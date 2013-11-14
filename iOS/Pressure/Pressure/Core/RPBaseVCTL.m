@@ -9,6 +9,9 @@
 #import "RPBaseVCTL.h"
 #import "RPBaseBar.h"
 @interface RPBaseVCTL ()<RPBaseBarDelegate>
+{
+    RPBaseBar *_bar;
+}
 
 @end
 
@@ -32,9 +35,9 @@
     CGFloat originHeight = 0 ;
     if (!_hideHeaderBar)
     {
-        RPBaseBar *bar = [[RPBaseBar alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEADER_HEIGHT)];
-        bar.delegate = self;
-        [self.view addSubview:bar];
+        _bar = [[RPBaseBar alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEADER_HEIGHT)];
+        _bar.delegate = self;
+        [self.view addSubview:_bar];
         originHeight = SCREEN_HEADER_HEIGHT;
     }
     
@@ -48,10 +51,13 @@
     {
         _maskView = [[UIView alloc] initWithFrame:CGRectMake(0, originHeight, SCREEN_WIDTH, SCREEN_HEIGHT)];
         _maskView.backgroundColor = [UIColor clearColor];
+        _maskView.hidden = YES;
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(maskViewTapGesture:)];
         [_maskView addGestureRecognizer:tapGesture];
         [self.view addSubview:_maskView];
     }
+    [self.view bringSubviewToFront:_bar];
+
     
 }
 

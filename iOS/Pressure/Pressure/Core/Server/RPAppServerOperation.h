@@ -30,6 +30,7 @@ typedef enum AppServerOperationResponse_Type
 + (RPAppServerOperation *)sharedRPAppServerOperation;
 
 
+- (void)asynServerCallToBeFather;
 - (void)serverCallRefreshToken;
 
 - (void)asynLoginWithThirdPartAuth;

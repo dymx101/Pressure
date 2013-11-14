@@ -27,7 +27,7 @@
     self = [super initWithFrame:frame];
     if (self)
     {
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor redColor];
         
         _avatarBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _avatarBtn.frame  = CGRectMake(5, 5, Default_Btn_Width, Default_Btn_Width);

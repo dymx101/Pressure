@@ -13,6 +13,9 @@
 #define kUserName @"user_name"
 #define kNickName @"nick_name"
 #define kAvatarUrl @"avatar_url"
+#define kGender   @"gender"
+#define kAge      @"age"
+#define kUserType @"user_type"
 @implementation RPProfile
 
 
@@ -25,9 +28,32 @@
         _userName = jsonDic[kUserName];
         _nickName = jsonDic[kNickName];
         _avatarUrl = jsonDic[kAvatarUrl];
+        _age = [jsonDic[kAge] intValue];
+        _gender = [jsonDic[kGender] intValue];
+        _userType = [jsonDic[kUserType] intValue];
         _xmppProfile = [[RPXmppProfile alloc]initWithJSONDic:jsonDic[kMetaKey_XmppProfile]];
+        
     }
     return  self;
+}
+
+- (NSString *)genderStr
+{
+    switch (_gender) {
+        case RPProfile_Gender_Female:
+        {
+            return @"女";
+        }
+            break;
+        case RPProfile_Gender_Male:
+        {
+            return @"男";
+        }
+            break;
+        default:
+            break;
+    }
+    return nil;
 }
 
 

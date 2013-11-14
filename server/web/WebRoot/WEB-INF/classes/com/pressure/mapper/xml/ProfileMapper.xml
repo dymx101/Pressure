@@ -10,6 +10,8 @@
 		<result property="LastUpdateTime" column="LastUpdateTime" />
 		<result property="AvatorUrl" column="AvatorUrl" />
 		<result property="level" column="level" />
+		<result property="gender" column="gender" />
+		<result property="age" column="age" />
 		<result property="initedXmpp" column="initedXmpp" />
 		<result property="xmppUserName" column="xmppUserName" />
 		<result property="domain" column="domain" />
@@ -25,6 +27,8 @@
 		LastUpdateTime,
 		AvatorUrl,
 		level,
+		gender,
+		age,
 		initedXmpp,
 		xmppUserName,
 		domain
@@ -36,6 +40,8 @@
 		#{LastUpdateTime},
 		#{AvatorUrl},
 		#{level},
+		#{gender},
+		#{age},
 		#{initedXmpp},
 		#{xmppUserName},
 		#{domain}

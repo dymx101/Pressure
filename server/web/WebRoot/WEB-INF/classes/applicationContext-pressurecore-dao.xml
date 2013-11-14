@@ -73,6 +73,10 @@
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 		<property name="mapperInterface" value="com.pressure.mapper.FrChatGroupMapper" />
 	</bean>
+	<bean id="frWantChatTypeMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<property name="mapperInterface" value="com.pressure.mapper.FrWantChatTypeMapper" />
+	</bean>
 	<bean id="sessionMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 		<property name="mapperInterface" value="com.pressure.mapper.SessionMapper" />
@@ -81,4 +85,5 @@
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 		<property name="mapperInterface" value="com.pressure.mapper.TreeholeMapper" />
 	</bean>
+
 </beans>

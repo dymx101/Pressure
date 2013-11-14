@@ -38,6 +38,23 @@ public class ApiFrController extends AbstractBaseController {
 	private FrChatGroupService frChatGroupService;
 
 	/**
+	 * 成为神父，希望找到的倾诉者
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ModelAndView updateMatchType(HttpServletRequest request,
+			HttpServletResponse response) 
+	{
+		ModelAndView mv = new ModelAndView(ServerConstant.Api_Return_MV);
+		JSONObject returnObject = new JSONObject();
+		int returnCode = this.checkTokenValid(request, response);
+		if (returnCode == ReturnCodeConstant.TokenNotFound) {
+			return this.tokenErrorReturn(mv, returnCode);
+		}
+		return mv;
+	}
+	/**
 	 * 神父用户匹配
 	 * 
 	 * @param request

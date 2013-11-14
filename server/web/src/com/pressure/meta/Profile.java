@@ -41,9 +41,17 @@ public class Profile implements Serializable {
 	 */
 	private long LastUpdateTime;
 	/**
-	 * 
+	 * 头像url
 	 */
 	private String AvatorUrl;
+	/**
+	 * 性别
+	 */
+	private int gender;
+	/**
+	 * 年龄
+	 */
+	private int age;
 	/**
 	 * 
 	 */
@@ -182,6 +190,22 @@ public class Profile implements Serializable {
 
 	public static String genXmppUserName(long userId) {
 		return ServerConstant.OpenFire_Domain + userId;
+	}
+
+	public int getGender() {
+		return gender;
+	}
+
+	public void setGender(int gender) {
+		this.gender = gender;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
 	}
 
 	/**

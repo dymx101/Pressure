@@ -7,6 +7,8 @@ CreateTime bigint(20) NOT NULL default '0' COMMENT '创建时间',
 LastUpdateTime bigint(20) NOT NULL default '0' COMMENT '上次上线时间',
 AvatorUrl varchar(128) NOT NULL DEFAULT ' ' COMMENT '用户头像',
 level int(11) NOT NULL DEFAULT '0' COMMENT '用户等级' ,
+gender int(11) NOT NULL DEFAULT '0' COMMENT '性别' ,
+age int(11) NOT NULL DEFAULT '0' COMMENT '年龄' ,
 initedXmpp int(11) NOT NULL DEFAULT '0' COMMENT '是否初始化了xmpp用户数据' ,
 xmppUserName varchar(127) NOT NULL DEFAULT ' ' COMMENT 'xmpp用户名',
 domain varchar(63) NOT NULL DEFAULT ' ' COMMENT 'domain域',
@@ -43,7 +45,6 @@ ExpireIn bigint(20) NOT NULL DEFAULT '0' COMMENT  '失效时间，精确到毫�
 PRIMARY KEY  (`Id`)
 )   DEFAULT CHARSET=UTF8 COMMENT '用户Token表';
 
-<<<<<<< HEAD
 
 CREATE TABLE TB_FrChatGroup (
 groupId bigint(20) NOT NULL AUTO_INCREMENT  COMMENT 'id',
@@ -54,7 +55,20 @@ CreateTime bigint(20) NOT NULL DEFAULT '0' COMMENT '创建时间',
 status int(11) NOT NULL DEFAULT '0' COMMENT '状态' ,
 PRIMARY KEY  (`groupId`)
 )   DEFAULT CHARSET=UTF8 COMMENT '用户聊天组表';
-=======
+
+
+CREATE TABLE TB_Fr_WantChatType (
+userId bigint(20) NOT NULL  DEFAULT '0'  COMMENT '用户id',
+createTime bigint(20) NOT NULL DEFAULT '0' COMMENT '创建时间',
+gender int(11) NOT NULL DEFAULT '0' COMMENT '性别' ,
+age int(11) NOT NULL DEFAULT '0' COMMENT '年龄' ,
+type int(11) NOT NULL DEFAULT '0' COMMENT '0表示神父,1表示倾诉者' ,
+status int(11) NOT NULL DEFAULT '0' COMMENT '状态,0正常,1删除' ,
+PRIMARY KEY  (`userId`)
+)   DEFAULT CHARSET=UTF8 COMMENT '神父倾诉者希望的聊天对象';
+
+
+
 CREATE TABLE TB_Treehole (
 Id bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id,自增长',
 UserId bigint(20) NOT NULL DEFAULT '0' COMMENT '用户id',
@@ -67,4 +81,6 @@ LastUpdateTime bigint(20) NOT NULL DEFAULT '0' COMMENT '上次更新时间',
 status int(11) NOT NULL DEFAULT '0' COMMENT '状态',
 PRIMARY KEY (`Id`)
 )	DEFAULT CHARSET=UTF8 COMMENT '树洞表';
->>>>>>> d60e3a5de5f23cf628dc21f27f75497af47c1e9b
+
+
+

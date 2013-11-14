@@ -30,7 +30,9 @@
 					<key>className</key>
 					<string>RPNormalSettingCell</string>
 					<key>actionType</key>
-					<string>AutoGenCellType_None</string>
+					<string>AutoGenCellType_Function</string>
+					<key>actionValue</key>
+					<string>userCellClick</string>
 				</dict>
 			</array>
 		</dict>

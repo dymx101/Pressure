@@ -14,7 +14,7 @@
 #import "RPXmppProfile.h"
 #import "JSON20.h"
 #import "RPAppModel.h"
-
+#import "RPFrChatModel.h"
 static RPXmppManager *lvXmppMnagager = nil;
 @interface RPXmppManager () <RPXmppStreamDelegate>
 {
@@ -122,7 +122,7 @@ static RPXmppManager *lvXmppMnagager = nil;
     NSDictionary *messageDic = [xmppBodyString JSONValue];
     if ([[messageDic objectForKey:[RPMessage rpMessageTypeKey]] isEqualToString:RPMessage_Type])
     {
-        if (![[RPAppModel sharedInstance] dealWithFrMessage:messageDic])
+        if (![[RPFrChatModel sharedInstance] dealWithFrMessage:messageDic])
         {
             return;
         }

@@ -8,14 +8,31 @@
 
 #import "RPObject.h"
 @class RPXmppProfile;
+typedef enum _RPProfile_Gender
+{
+    RPProfile_Gender_Male ,
+    RPProfile_Gender_Female
+}RPProfile_Gender;
+typedef enum _RPProfile_UserType
+{
+    RPProfile_UserType_Talker,
+    RPProfile_UserType_Father
+}RPProfile_UserType;
 @interface RPProfile : RPObject
 
 @property (nonatomic) long long userId;
 @property (nonatomic,copy) NSString *userName;
 @property (nonatomic,copy) NSString *avatarUrl;
 @property (nonatomic,copy) NSString *nickName;
+@property (nonatomic) int age;
+@property (nonatomic) RPProfile_Gender gender;
 @property (nonatomic,retain) RPXmppProfile *xmppProfile;
+@property (nonatomic) RPProfile_UserType userType;
 
 
 @property (nonatomic) BOOL isChating;
+
+
+- (NSString *)genderStr;
+
 @end
