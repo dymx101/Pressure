@@ -13,7 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.pressure.constant.BasicObjectConstant;
 import com.pressure.constant.ReturnCodeConstant;
 import com.pressure.constant.ServerConstant;
-import com.pressure.meta.FrChatGroup;
 import com.pressure.meta.Profile;
 import com.pressure.service.FrChatGroupService;
 import com.pressure.service.OpenfireService;

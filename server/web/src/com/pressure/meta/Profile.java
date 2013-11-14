@@ -21,29 +21,29 @@ public class Profile implements Serializable {
 	 */
 	private long UserId;
 	/**
-	 * 
+	 * 用户名
 	 */
 	private String UserName;
 	/**
-	 * 
+	 * 昵称
 	 */
 	private String NickName;
 	/**
-	 * 
+	 * 树洞密码
 	 */
 	private String TreeholePassWord;
 	/**
-	 * 
+	 * 创建时间
 	 */
 	private long CreateTime;
 	/**
-	 * 
+	 * 更新时间
 	 */
 	private long LastUpdateTime;
 	/**
 	 * 头像url
 	 */
-	private String AvatorUrl;
+	private String avatorUrl;
 	/**
 	 * 性别
 	 */
@@ -53,7 +53,7 @@ public class Profile implements Serializable {
 	 */
 	private int age;
 	/**
-	 * 
+	 * 等级
 	 */
 	private int level;
 	/**
@@ -149,11 +149,11 @@ public class Profile implements Serializable {
 	}
 
 	public String getAvatorUrl() {
-		return AvatorUrl;
+		return avatorUrl;
 	}
 
 	public void setAvatorUrl(String avatorUrl) {
-		AvatorUrl = avatorUrl;
+		this.avatorUrl = avatorUrl;
 	}
 
 	public int getLevel() {

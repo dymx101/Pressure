@@ -7,20 +7,29 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 
-public class TestRefreshToken {
+/**
+ * 
+ * @ClassName: TestUpdateProfile
+ * @Description: TODO
+ * @author yunshang_734@163.com
+ * @date 2013-11-13 下午02:22:27
+ */
+public class TestUpdateProfile {
 	public static void main(String[] args) {
 
-		String strURL = "http://127.0.0.1:8080/Pressure/apiPressure.do?action=refreshToken";
+		String strURL = "http://127.0.0.1:8080/Pressure/apiPressurePub.do?action=updateProfil";
 		HttpClient httpclient = new HttpClient();
 		PostMethod post = new PostMethod(strURL);
 
 		try {
 
-			JSONObject requestObject = new JSONObject();
+			JSONObject object = new JSONObject();
+			object.put("userId", 1);
+			object.put("nickName", "哈哈");
+			object.put("avatorUrl", "www.baidu.com");
 
-			post.addRequestHeader("refreshToken",
-					"a0a6409731787823af2c20445ae8355c");
-			post.addRequestHeader("userId", "1145");
+			JSONObject requestObject = new JSONObject();
+			requestObject.put("requestData", object.toString());
 
 			RequestEntity entity = new StringRequestEntity(
 					requestObject.toString());

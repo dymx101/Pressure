@@ -149,9 +149,31 @@ public class ProfileServiceImpl implements ProfileService {
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.pressure.service.ProfileService#updateTreeholePassword(long,
+	 * java.lang.String)
+	 */
 	@Override
 	public boolean updateTreeholePassword(long userId, String treeholePassWord) {
 		if (profileMapper.updateTreeholePassWord(userId, treeholePassWord) > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.pressure.service.ProfileService#updateProfile(long,
+	 * java.lang.String, java.lang.String)
+	 */
+	@Override
+	public boolean updateProfile(long userId, String nickName, String avatorUrl) {
+		long lastUpdateTime = new Date().getTime();
+		if (profileMapper.updateProfile(userId, nickName, avatorUrl,
+				lastUpdateTime) > 0) {
 			return true;
 		}
 		return false;

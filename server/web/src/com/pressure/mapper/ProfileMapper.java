@@ -49,4 +49,18 @@ public interface ProfileMapper {
 
 	public int updateTreeholePassWord(@Param(value = "userId") long userId,
 			@Param(value = "TreeholePassWord") String treeholePassWord);
+
+	/**
+	 * 修改昵称和照片
+	 * 
+	 * @param userId
+	 * @param nickName
+	 * @param avatorUrl
+	 * @param lastUpdateTime
+	 * @return
+	 */
+	public int updateProfile(@Param(value = "UserId") long userId,
+			@Param(value = "NickName") String nickName,
+			@Param(value = "AvatorUrl") String avatorUrl,
+			@Param(value = "LastUpdateTime") long lastUpdateTime);
 }

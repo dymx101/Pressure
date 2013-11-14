@@ -6,7 +6,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
@@ -19,7 +18,7 @@ import com.pressure.constant.ServerConstant;
 import com.pressure.meta.Treehole;
 import com.pressure.service.ProfileService;
 import com.pressure.service.TreeholeService;
-import com.pressure.util.ListUtils;
+import com.pressure.util.http.HttpReturnUtil;
 import com.pressure.util.http.PostValueGetUtil;
 
 /**
@@ -56,11 +55,17 @@ public class ApiTreeholeController extends AbstractBaseController {
 		String jsonString = PostValueGetUtil.parseRequestAsString(request,
 				"utf-8");
 		JSONObject jsonObject = PostValueGetUtil.parseRequestData(jsonString);
+
 		if (jsonObject == null) {
 			return this.jsonErrorReturn(mv, jsonString);
 		}
 
-		long userId = jsonObject.getLong("userId");
+		int returnCode = this.checkTokenValid(request, response);
+		if (returnCode == ReturnCodeConstant.TokenNotFound) {
+			return this.tokenErrorReturn(mv, returnCode);
+		}
+		long userId = Long.valueOf(request.getHeader("userId"));
+
 		String newTreeholePassWord = jsonObject
 				.getString("newTreeholePassWord");
 
@@ -217,32 +222,7 @@ public class ApiTreeholeController extends AbstractBaseController {
 		List<Treehole> treeholeList = treeholeService.getTreeholeList(userId,
 				limit, offset);
 
-		JSONObject dataObject = new JSONObject();
-		JSONArray treeholeArray = new JSONArray();
-		if (!ListUtils.isEmptyList(treeholeList)) {
-			for (Treehole treehole : treeholeList) {
-				JSONObject treeholeObject = new JSONObject();
-				treeholeObject.put(Treehole.KTREEHOLE_ID, treehole.getId());
-				treeholeObject.put(Treehole.KTREEHOLE_USERID,
-						treehole.getUserId());
-				treeholeObject.put(Treehole.KTREEHOLE_PICTRUEURL,
-						treehole.getPictureUrl());
-				treeholeObject.put(Treehole.KTREEHOLE_VOICE,
-						treehole.getVoice());
-				treeholeObject.put(Treehole.KTREEHOLE_LOCATION,
-						treehole.getLocation());
-				treeholeObject.put(Treehole.KTREEHOLE_CONTENT,
-						treehole.getContent());
-				treeholeObject.put(Treehole.KTREEHOLE_CREATETIME,
-						treehole.getCreateTime());
-				treeholeObject.put(Treehole.KTREEHOLE_LASTUPDATETIME,
-						treehole.getLastUpdateTime());
-				treeholeArray.add(treeholeObject);
-			}
-		}
-		dataObject.put("treeholeList", treeholeArray.toString());
-		returnObject.put(BasicObjectConstant.kReturnObject_Data,
-				dataObject.toString());
+		HttpReturnUtil.returnDataTreehole(treeholeList, returnObject);
 		returnObject.put(BasicObjectConstant.kReturnObject_Code,
 				ReturnCodeConstant.SUCCESS);
 		mv.addObject("returnObject", returnObject.toString());
