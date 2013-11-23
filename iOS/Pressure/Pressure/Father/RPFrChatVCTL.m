@@ -12,6 +12,7 @@
 #import "RPProfile.h"
 #import "RPAppModel.h"
 #import "RPFrAvatarBar.h"
+#import "RPChat.h"
 #import "RPXmppProfile.h"
 #import "RPFrChatModel.h"
 #import "RPAuthModel.h"
@@ -28,7 +29,6 @@
     BOOL _reloading;
     NSMutableArray *_dataSource;
     RPInputView *_inputView;
-    RPProfile *_chatingUser;
     RPFrChatBar *_frChatBar;
 }
 
@@ -47,14 +47,10 @@
 
 - (void)viewDidLoad
 {
-    self.hideHeaderBar = YES;
     [super viewDidLoad];
     
     _dataSource = [[NSMutableArray alloc] init];
-    _chatingUser = [[RPFrChatModel sharedInstance] chatingUser];
-    
-    
-    
+
     if (!_tv)
     {
         _tv = [[UITableView alloc] initWithFrame:CGRectMake(0, RPFrChatBar_Height, SCREEN_WIDTH, SCREEN_HEIGHT_WITHOUT_STATUS_BAR - kRPInputView_Up_Height) style:UITableViewStylePlain];
@@ -90,6 +86,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleXmppTalkingMessageNotif:) name:kNotif_XmppTalkingMessage object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUIKeyBoardWillHideNotif:) name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUIKeyBoardWillShowNotif:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTalkerFindFatherNotif:) name:kNotif_TalkerFindFather object:nil];
 }
 
 - (void)resetChatArray
@@ -97,7 +94,8 @@
     @synchronized(self)
     {
         RPAuthModel *authModel = [RPAuthModel sharedInstance];
-        NSArray *messages = [RPMessage messageFromDB:_chatingUser.userId toUserId:authModel.profile.userId dbId:-1];
+        RPChat *nowChat = [RPFrChatModel nowChat];
+        NSArray *messages = [RPMessage messageFromDB:nowChat.profile.userId toUserId:authModel.profile.userId dbId:-1];
         [_dataSource removeAllObjects];
         [_dataSource addObjectsFromArray:messages];
         [_tv reloadData];
@@ -123,26 +121,7 @@
  */
 - (void)resetChatLogic
 {
-    switch ([RPFrChatModel sharedInstance].type) {
-        case RPFrChatModel_ChatingType_Talker:
-        {
-            if ([[RPFrChatModel sharedInstance].fatherUsers count] > 0)
-            {
-                _chatingUser = [[RPFrChatModel sharedInstance].fatherUsers objectAtIndex:0];
-            }
-        }
-            break;
-        case RPFrChatModel_ChatingType_Father:
-        {
-            if ([[RPFrChatModel sharedInstance].talkerUsers count] > 0)
-            {
-                _chatingUser = [[RPFrChatModel sharedInstance].talkerUsers objectAtIndex:0];
-            }
-        }
-            break;
-        default:
-            break;
-    }
+    
 }
 /**
  *  重置整个聊天的UI
@@ -161,22 +140,22 @@
     switch ([RPFrChatModel sharedInstance].type) {
         case RPFrChatModel_ChatingType_Father:
         {
-            array = [RPFrChatModel sharedInstance].talkerUsers;
+            array = [RPFrChatModel sharedInstance].talkerChats;
         }
             break;
         case RPFrChatModel_ChatingType_Talker:
         {
-            array = [RPFrChatModel sharedInstance].fatherUsers;
+            array = [RPFrChatModel sharedInstance].fatherChats;
         }
             break;
         default:
             break;
     }
     CGFloat originY = 100;
-    for (RPProfile *profile in array)
+    for (RPChat *chat in array)
     {
         RPFrAvatarBar *avatarBar = [[RPFrAvatarBar alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 50, originY, 50, 44)];
-        [avatarBar resetAvatarBar:profile];
+        [avatarBar resetAvatarBar:chat.profile];
         [self.contentView addSubview:avatarBar];
         originY += CGRectGetHeight(avatarBar.frame) + 10;
     }
@@ -295,14 +274,20 @@
         return;
     }
     long long userId = [[userInfo objectForKey:[RPMessage rpMessageUserIdKey]] longLongValue];
+    RPChat *chat = [RPFrChatModel nowChat];
     //如果是当前聊天用户，重画一下
-    if (_chatingUser.userId == userId)
+    if (chat.profile.userId == userId)
     {
         [self resetChatArray];
     }else
     {
         //增加计数
     }
+}
+
+- (void)handleTalkerFindFatherNotif:(NSNotification *)notif
+{
+    [self resetChatUI];
 }
 
 - (void)handleUIKeyBoardWillHideNotif:(NSNotification *)notif
@@ -354,14 +339,15 @@
     RPMessage *message = [[RPMessage alloc] init];
     RPAuthModel *authModel = [RPAuthModel sharedInstance];
     message.userId = authModel.profile.userId;
-    message.toUserId = _chatingUser.userId;
+    RPChat *chat = [RPFrChatModel nowChat];
+    message.toUserId = chat.profile.userId;
     message.content = SAFESTR(text);
     message.readed  = RPMessage_ReadState_Readed;
     message.img_url = @"";
     message.voice_url = @"";
     message.type = RPMessage_Type;
     [message saveToDB];
-    [[RPXmppManager sharedInstance] sendMessage:[[message proxyForJson] JSONRepresentation] toUser:_chatingUser.xmppProfile];
+    [[RPXmppManager sharedInstance] sendMessage:[[message proxyForJson] JSONRepresentation] toUser:chat.profile.xmppProfile];
     [self addNewChatToArray:message];
 }
 

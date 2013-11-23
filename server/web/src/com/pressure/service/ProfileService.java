@@ -36,6 +36,14 @@ public interface ProfileService {
 	public Profile getProfileByUserId(long userId);
 
 	/**
+	 * 获得profile
+	 * 
+	 * @param xmppUserName
+	 * @return
+	 */
+	public Profile getProfileByXmppUserName(String xmppUserName);
+
+	/**
 	 * 创建用户
 	 * 
 	 * @param profile
@@ -78,4 +86,5 @@ public interface ProfileService {
 	 * @return
 	 */
 	public boolean updateProfile(long userId, String nickName, String avatorUrl);
+
 }

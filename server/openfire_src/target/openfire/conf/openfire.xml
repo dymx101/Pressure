@@ -24,7 +24,7 @@
   <database> 
     <defaultProvider> 
       <driver>com.mysql.jdbc.Driver</driver>  
-      <serverURL>jdbc:mysql://127.0.01:3306/openfire?rewriteBatchedStatements=true&amp;useUnicode=true&amp;characterEncoding=utf-8</serverURL>  
+      <serverURL>jdbc:mysql://127.0.0.1:3306/openfire?rewriteBatchedStatements=true</serverURL>  
       <username>root</username>  
       <password>138233</password>  
       <testSQL>select 1</testSQL>  

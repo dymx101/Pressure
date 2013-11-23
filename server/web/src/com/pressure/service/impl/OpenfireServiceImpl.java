@@ -2,6 +2,11 @@ package com.pressure.service.impl;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -14,7 +19,9 @@ import org.springframework.stereotype.Service;
 
 import com.pressure.constant.ServerConstant;
 import com.pressure.meta.OpenfireUser;
+import com.pressure.meta.Profile;
 import com.pressure.service.OpenfireService;
+import com.pressure.util.ListUtils;
 
 @Service("openfireService")
 public class OpenfireServiceImpl implements OpenfireService {
@@ -103,9 +110,74 @@ public class OpenfireServiceImpl implements OpenfireService {
 		sb.append("$groups=" + groupName);
 		String returnStr = this.sendHttpRequest(ServerConstant.OpenFireIp
 				+ sb.toString());
-		if (returnStr.toLowerCase().contains("ok")) {
+		if (returnStr.toLowerCase().contains("ok")
+				|| returnStr.toLowerCase().contains(
+						"useralreadyexistsexception")) {
 			return true;
 		}
 		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.pressure.service.OpenfireService#getUsersOnlineStatus(java.util.List)
+	 */
+	public void getUsersOnlineStatus(List<Profile> profileList) {
+		if (ListUtils.isEmptyList(profileList)) {
+			return;
+		}
+		StringBuilder jidSb = new StringBuilder();
+		int index = 0;
+		for (Profile profile : profileList) {
+			jidSb.append(profile.getJid());
+			index++;
+			if (index != profileList.size()) {
+				jidSb.append(",");
+			}
+		}
+		StringBuilder sb = new StringBuilder();
+		sb.append("/plugins/presence/status?type=json&"
+				+ ServerConstant.OpenFire_Secure_Key + "="
+				+ ServerConstant.OpenFire_Secure_Key_Value);
+		sb.append("&jids=" + jidSb);
+		String returnStr = this.sendHttpRequest(ServerConstant.OpenFireIp
+				+ sb.toString());
+		JSONArray array = JSONArray.fromObject(returnStr);
+		for (Object obj : array) {
+			JSONObject object = JSONObject.fromObject(obj);
+			JSONObject presenceObject = object.getJSONObject("presence");
+			String jid = presenceObject.getString("jid");
+			String onlineStr = presenceObject.getString("status");
+			for (Profile profile : profileList) {
+				if (profile.getJid().equals(jid)) {
+					if (!onlineStr.equals("Unavailable")) {
+						profile.setOnline(Profile.ONLINE);
+					} else {
+						profile.setOnline(Profile.OFFLINE);
+					}
+					break;
+				}
+			}
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.pressure.service.OpenfireService#sendTalkerFindFather(java.lang.String
+	 * , java.lang.String)
+	 */
+	@Override
+	public void sendTalkerFindFather(String fromJid, String toJid) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("/plugins/eason/pressure?secure_key="
+				+ ServerConstant.OpenFire_Secure_Key_Value);
+		sb.append("&action_type=" + "talker_find_father");
+		sb.append("&from_jid=" + fromJid);
+		sb.append("&to_jid=" + toJid);
+		this.sendHttpRequest(ServerConstant.OpenFireIp + sb.toString());
 	}
 }

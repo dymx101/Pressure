@@ -15,6 +15,7 @@
 #define kAvatarUrl @"avatar_url"
 #define kGender   @"gender"
 #define kAge      @"age"
+#define kCity     @"city"
 #define kUserType @"user_type"
 @implementation RPProfile
 
@@ -28,9 +29,9 @@
         _userName = jsonDic[kUserName];
         _nickName = jsonDic[kNickName];
         _avatarUrl = jsonDic[kAvatarUrl];
+        _city = jsonDic[kCity];
         _age = [jsonDic[kAge] intValue];
         _gender = [jsonDic[kGender] intValue];
-        _userType = [jsonDic[kUserType] intValue];
         _xmppProfile = [[RPXmppProfile alloc]initWithJSONDic:jsonDic[kMetaKey_XmppProfile]];
         
     }

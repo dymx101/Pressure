@@ -25,6 +25,7 @@ import org.xmpp.packet.Presence;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Abstract class for the different ways to provide information about user presences.
@@ -43,6 +44,15 @@ abstract class PresenceInfoProvider {
      */
     public abstract void sendInfo(HttpServletRequest httpServletRequest,
             HttpServletResponse httpServletResponse, Presence presence) throws IOException;
+    /**
+     * users
+     * @param httpServletRequest
+     * @param httpServletResponse
+     * @param presences
+     * @throws IOException
+     */
+    public abstract void sendInfo(HttpServletRequest httpServletRequest,
+            HttpServletResponse httpServletResponse, List<Presence> presences) throws IOException;
 
     /**
      * Informs the sender of the http request that the user presence is not available. This may

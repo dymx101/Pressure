@@ -352,7 +352,7 @@ public final class sign_002dup_jsp extends org.apache.jasper.runtime.HttpJspBase
     _jspx_th_c_set_0.setPageContext(_jspx_page_context);
     _jspx_th_c_set_0.setParent(null);
     _jspx_th_c_set_0.setVar("submit");
-    _jspx_th_c_set_0.setValue(new String("${param.create}"));
+    _jspx_th_c_set_0.setValue((java.lang.Object) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${param.create}", java.lang.Object.class, (PageContext)_jspx_page_context, null, false));
     int _jspx_eval_c_set_0 = _jspx_th_c_set_0.doStartTag();
     if (_jspx_th_c_set_0.doEndTag() == javax.servlet.jsp.tagext.Tag.SKIP_PAGE) {
       _jspx_tagPool_c_set_var_value_nobody.reuse(_jspx_th_c_set_0);
@@ -371,7 +371,7 @@ public final class sign_002dup_jsp extends org.apache.jasper.runtime.HttpJspBase
     _jspx_th_c_set_1.setPageContext(_jspx_page_context);
     _jspx_th_c_set_1.setParent(null);
     _jspx_th_c_set_1.setVar("errors");
-    _jspx_th_c_set_1.setValue(new String("${errors}"));
+    _jspx_th_c_set_1.setValue((java.lang.Object) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${errors}", java.lang.Object.class, (PageContext)_jspx_page_context, null, false));
     int _jspx_eval_c_set_1 = _jspx_th_c_set_1.doStartTag();
     if (_jspx_th_c_set_1.doEndTag() == javax.servlet.jsp.tagext.Tag.SKIP_PAGE) {
       _jspx_tagPool_c_set_var_value_nobody.reuse(_jspx_th_c_set_1);

@@ -97,18 +97,6 @@ public class UserServicePlugin implements Plugin, PropertyEventListener {
 		// Stop listening to system property events
 		PropertyEventDispatcher.removeListener(this);
 	}
-//
-//	public Group addUsersToNewGroup(String userName, String groupName)
-//			throws GroupAlreadyExistsException {
-//		if (userName != null) {
-//			Group group = groupManager.createGroup(groupName);
-////			JID jid = server.createJID(userName, null);
-//			Log.info("addUsersToNewGroup where id = " + userName);
-//			group.getMembers().add(new JID(userName));
-//			return group;
-//		}
-//		return null;
-//	}
 
 	public void createUser(String username, String password, String name,
 			String email, String groupNames) throws UserAlreadyExistsException {

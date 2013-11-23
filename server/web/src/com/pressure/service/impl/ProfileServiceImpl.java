@@ -134,7 +134,7 @@ public class ProfileServiceImpl implements ProfileService {
 		OpenfireUser openfireUser = new OpenfireUser();
 		openfireUser.setUserName(Profile.genXmppUserName(profile.getUserId()));
 		openfireUser.setPassWord(openfireUser.getUserName()
-				+ ServerConstant.OpenFire_PassWord_Secrect_Key);
+				+ ServerConstant.OpenFire_PassWord_Secure_Key);
 		openfireUser.setName("");
 		openfireUser.setEmail("");
 		if (openfireService.createOpenfireUser(openfireUser)) {
@@ -178,4 +178,17 @@ public class ProfileServiceImpl implements ProfileService {
 		}
 		return false;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.pressure.service.ProfileService#getProfileByXmppUserName(java.lang
+	 * .String)
+	 */
+	@Override
+	public Profile getProfileByXmppUserName(String xmppUserName) {
+		return profileMapper.getProfileByXmppUserName(xmppUserName);
+	}
+
 }

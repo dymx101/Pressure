@@ -13,6 +13,8 @@
 #import "RPAuthModel.h"
 #import "RPXmppProfile.h"
 #import "JSON20.h"
+#import "RPUtilities.h"
+#import "RPAppServerOperation.h"
 #import "RPAppModel.h"
 #import "RPFrChatModel.h"
 static RPXmppManager *lvXmppMnagager = nil;
@@ -119,18 +121,30 @@ static RPXmppManager *lvXmppMnagager = nil;
 - (void)messageReceived:(RPXmppStream *)stream xmppBodyString:(NSString *)xmppBodyString
              typeString:(NSString *)typeString from:(NSString *)fromName
 {
-    NSDictionary *messageDic = [xmppBodyString JSONValue];
-    if ([[messageDic objectForKey:[RPMessage rpMessageTypeKey]] isEqualToString:RPMessage_Type])
-    {
-        if (![[RPFrChatModel sharedInstance] dealWithFrMessage:messageDic])
+    dispatch_async(dispatch_queue_create("messageReceived", NULL), ^{
+        NSDictionary *messageDic = [xmppBodyString JSONValue];
+        if ([[messageDic objectForKey:[RPMessage rpMessageTypeKey]] isEqualToString:RPMessage_Type])
         {
-            return;
+            if (![[RPFrChatModel sharedInstance] dealWithFrMessage:messageDic])
+            {
+                return;
+            }
+            NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] init];
+            long long userId = [messageDic[[RPMessage rpMessageUserIdKey]] longLongValue];
+            SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(userInfo, LONGLONG2STR(userId), [RPMessage rpMessageUserIdKey]);
+            [RPUtilities runOnMainQueueWithoutDeadlocking:^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:kNotif_XmppTalkingMessage object:nil userInfo:userInfo];
+            }];
         }
-        NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] init];
-        long long userId = [messageDic[[RPMessage rpMessageUserIdKey]] longLongValue];
-        SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(userInfo, LONGLONG2STR(userId), [RPMessage rpMessageUserIdKey]);
-        [[NSNotificationCenter defaultCenter] postNotificationName:kNotif_XmppTalkingMessage object:nil userInfo:userInfo];
-    }
+    });
+    
+}
+
+- (void)talkerFindFatherPresence:(RPXmppStream *)stream from:(NSString *)from to:(NSString *)to
+{
+    dispatch_async(dispatch_queue_create("talkerFindFatherPresence", NULL), ^{
+        [[RPAppServerOperation sharedRPAppServerOperation] serverCallGetUserProfileByJid:to];
+    });
 }
 
 

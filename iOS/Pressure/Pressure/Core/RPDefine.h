@@ -9,10 +9,10 @@
 #ifndef Pressure_RPDefine_h
 #define Pressure_RPDefine_h
 
-#define kXMPPHost                   @"192.168.1.7"
+#define kXMPPHost                   @"192.168.1.9"
 #define kSinaRegisterKey            @"246524502"
 #define kOnlineHost     @"https://21beizi.com"
-#define kDebugHost      @"http://192.168.1.7"
+#define kDebugHost      @"http://192.168.1.9"
 
 #define QiniuAccessKey  @"4nCMXPjlzgcXFlOY644w4UbuYuOVa8B2Ryjv_-IR"
 #define QiniuSecretKey  @"6rav38-nmWQ-n4LRkxYfoc9aBn8wgnm6IcrAEDY8"

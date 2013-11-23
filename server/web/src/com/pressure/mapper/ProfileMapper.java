@@ -1,5 +1,7 @@
 package com.pressure.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 import com.pressure.meta.Profile;
@@ -61,6 +63,27 @@ public interface ProfileMapper {
 	 */
 	public int updateProfile(@Param(value = "UserId") long userId,
 			@Param(value = "NickName") String nickName,
-			@Param(value = "AvatorUrl") String avatorUrl,
+			@Param(value = "avatorUrl") String avatorUrl,
 			@Param(value = "LastUpdateTime") long lastUpdateTime);
+
+	/**
+	 * 获取用户
+	 * 
+	 * @param xmppUserName
+	 * @return
+	 */
+	public Profile getProfileByXmppUserName(
+			@Param(value = "xmppUserName") String xmppUserName);
+
+	/**
+	 * 根据id获取列表
+	 * 
+	 * @param userIds
+	 * @return
+	 */
+	public List<Profile> getProfilesByUserIdsOrderTime(
+			@Param(value = "userIds") List<Long> userIds,
+			@Param(value = "beginAge") int beginAge,
+			@Param(value = "endAge") int endAge,
+			@Param(value = "gender") int gender);
 }

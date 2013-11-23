@@ -9,7 +9,7 @@
 		<result property="status" column="status" />
 	</resultMap>
 
-	<insert id="addFrChatGroup" parameterType="Account">
+	<insert id="addFrChatGroup" parameterType="FrChatGroup">
 		INSERT INTO
 		TB_FrChatGroup(
 		groupName,
@@ -27,6 +27,12 @@
 			LAST_INSERT_ID() AS VALUE
 		</selectKey>
 	</insert>
-	
-	
+
+	<!-- 查询Ridding -->
+	<select id="getFrChatGroup" resultMap="frChatGroupMap">
+		SELECT * from
+		TB_FrChatGroup where
+		user1=#{userId1} and user2 = #{userId2} and status
+		= #{status};
+	</select>
 </mapper>

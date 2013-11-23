@@ -8,7 +8,10 @@
 
 #import "RPFrChatModel.h"
 #import "RPProfile.h"
+#import "RPAuthModel.h"
 #import "RPMessage.h"
+#import "RPChat.h"
+#import "RPAppServerOperation.h"
 static RPFrChatModel *frChatModel = nil;
 @implementation RPFrChatModel
 
@@ -18,69 +21,38 @@ static RPFrChatModel *frChatModel = nil;
     if (!frChatModel)
     {
         frChatModel = [[RPFrChatModel alloc] init];
-        frChatModel.fatherUsers = [[NSMutableArray alloc] init];
-        frChatModel.talkerUsers = [[NSMutableArray alloc] init];
+        frChatModel.fatherChats = [[NSMutableArray alloc] init];
+        frChatModel.talkerChats = [[NSMutableArray alloc] init];
     }
     return frChatModel;
 }
 
-
-- (void)resetChatingUserState:(RPProfile *)chatingUser
-{
-    NSMutableArray *users = nil;
-    switch (_type) {
-        case RPFrChatModel_ChatingType_Father:
-        {
-            users = _talkerUsers;
-        }
-            break;
-        case RPFrChatModel_ChatingType_Talker:
-        {
-            users = _fatherUsers;
-            
-        }
-            break;
-        default:
-            break;
-    }
-    for (RPProfile *chatUser  in users)
-    {
-        if (chatUser.userId != chatingUser.userId)
-        {
-            chatUser.isChating = NO;
-        }
-        
-    }
-}
 
 /**
  *  返回当前正在聊天的用户
  *
  *  @return
  */
-- (RPProfile *)chatingUser
++ (RPChat *)nowChat
 {
-    switch (_type) {
+    RPFrChatModel *chatModel = [RPFrChatModel sharedInstance];
+    switch (chatModel.type) {
         case RPFrChatModel_ChatingType_Father:
         {
-            for (RPProfile *chatUser  in _talkerUsers)
+            if ([chatModel.talkerChats count] >= chatModel.talkerChatingIndex)
             {
-                if (chatUser.isChating)
-                {
-                    return chatUser;
-                }
+                return nil;
             }
+            return [chatModel.talkerChats objectAtIndex:chatModel.talkerChatingIndex];
         }
             break;
         case RPFrChatModel_ChatingType_Talker:
         {
-            for (RPProfile *chatUser  in _fatherUsers)
+            if ([chatModel.fatherChats count] >= chatModel.fatherChatingIndex)
             {
-                if (chatUser.isChating)
-                {
-                    return chatUser;
-                }
+                return nil;
             }
+            return [chatModel.fatherChats objectAtIndex:chatModel.fatherChatingIndex];
         }
             break;
         default:
@@ -96,4 +68,5 @@ static RPFrChatModel *frChatModel = nil;
     [rpMessage saveToDB];
     return YES;
 }
+
 @end

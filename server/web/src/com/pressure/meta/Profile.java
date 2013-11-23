@@ -66,12 +66,20 @@ public class Profile implements Serializable {
 	 */
 	private String domain;
 	/**
+	 * 在线状态,0不在线,1在线,不存数据库
+	 */
+	private int online;
+	/**
 	 * 初始化了openfire,0表示没有
 	 */
 	private int initedXmpp;
 
+	public static final int ONLINE = 1;
+
+	public static final int OFFLINE = 0;
+
 	public enum ProfileLevel {
-		Member {
+		User {
 			@Override
 			public int getValue() {
 				return 0;
@@ -208,12 +216,31 @@ public class Profile implements Serializable {
 		this.age = age;
 	}
 
+	public int getOnline() {
+		return online;
+	}
+
+	public void setOnline(int online) {
+		this.online = online;
+	}
+
 	/**
 	 * 获取jid
 	 * 
 	 * @return
 	 */
 	public String getJid() {
-		return this.UserName + "@" + this.domain;
+		return this.xmppUserName + "@" + this.domain;
+	}
+
+	/**
+	 * 通过jId获取xmppUserName
+	 * 
+	 * @param jId
+	 * @return
+	 */
+	public static String getXmppUserNameFromJid(String jId) {
+		int index = jId.indexOf("@" + ServerConstant.OpenFire_Domain);
+		return jId.substring(0, index);
 	}
 }

@@ -31,6 +31,8 @@
 
 - (void)myDeleteReceivedMessage:(RPXmppStream *)stream toUserName:(NSString *)toUserName fromUserName:(NSString *)fromUserName returnDic:(NSDictionary *)returnDic;
 
+- (void)talkerFindFatherPresence:(RPXmppStream *)stream from:(NSString *)from to:(NSString *)to;
+
 - (void)messageReceived:(RPXmppStream *)stream xmppBodyString:(NSString *)xmppBodyString
              typeString:(NSString *)typeString from:(NSString *)fromName;
 

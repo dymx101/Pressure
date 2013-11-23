@@ -54,6 +54,7 @@
 				<prop key="**/apiPressure.do">apiPressureController</prop>
 				<prop key="**/apiFr.do">apiFrController</prop>
 				<prop key="**/apiTreehole.do">apiTreeholeController</prop>
+				<prop key="**/apiXmpp.do">apiXmppcontroller</prop>
 			</props>
 		</property>
 	</bean>

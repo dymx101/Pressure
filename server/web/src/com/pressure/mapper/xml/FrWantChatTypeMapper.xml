@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pressure.mapper.FrWantChatTypeMapper">
-	<resultMap type="FrWantChatType" id="FrWantChatType">
+	<resultMap type="FrWantChatType" id="FrWantChatTypeMap">
 		<result property="userId" column="userId" />
 		<result property="createTime" column="createTime" />
 		<result property="gender" column="gender" />
-		<result property="age" column="age" />
+		<result property="beginAge" column="beginAge" />
+		<result property="endAge" column="endAge" />
 		<result property="type" column="type" />
+		<result property="chatType" column="chatType" />
 		<result property="status" column="status" />
 	</resultMap>
 
@@ -16,18 +18,52 @@
 		userId,
 		createTime,
 		gender,
-		age,
+		beginAge,
+		endAge,
 		type,
+		chatType,
 		status
 		)VALUES(
 		#{userId},
 		#{createTime},
 		#{gender},
-		#{age},
+		#{beginAge},
+		#{endAge},
 		#{type},
+		#{chatType},
 		#{status}
 		)
 	</insert>
-	
-	
+
+	<update id="updateFrWantChatType" flushCache="true"
+		statementType="PREPARED">
+		update TB_Fr_WantChatType set
+		gender = #{gender},
+		beginAge =
+		#{beginAge},
+		endAge = #{endAge},
+		chatType = #{chatType},
+		where
+		userId
+		= #{userId}
+		;
+	</update>
+
+	<!-- 查询 -->
+	<select id="getFrWantChatType" resultMap="FrWantChatTypeMap">
+		SELECT * from
+		TB_Fr_WantChatType where
+		userId=#{userId} and type = #{type};
+	</select>
+
+	<select id="getFrWantChatTypesByType" resultMap="FrWantChatTypeMap">
+		SELECT * from
+		TB_Fr_WantChatType where type = #{type}
+		<if test="chatType >=0 ">
+		and chatType = #{chatType}
+		</if>
+		 
+		;
+	</select>
+
 </mapper>

@@ -25,8 +25,8 @@
 #define kElement_MatchType     @"match_type"
 
 #define kElement_XmlnsDefault     @"jabber:client"
-#define kElement_PresenceType_Unavaliable @"unavailable"
-#define kElement_PresenceType_Aavaliable @"available"
+#define kElement_PresenceType_Unavaliable @"Unavailable"
+#define kElement_PresenceType_Avaliable @"Available"
 #define kElement_PresenceType_FreeToChat @"chat"
 #define kElement_PresenceType_Subscribe @"subscribe"
 #define kElement_PresenceType_Subscribed @"subscribed"
@@ -74,7 +74,9 @@ static RPXmppStream *rpXmppStream = nil;
 {
     //发送在线状态
     XMPPPresence *presence = [XMPPPresence presence];
-    
+    NSXMLElement *status = [NSXMLElement elementWithName:@"status"];
+    [status setStringValue:kElement_PresenceType_Avaliable];
+    [presence addChild:status];
     [_xmppStream sendElement:presence];
 }
 
@@ -90,7 +92,10 @@ static RPXmppStream *rpXmppStream = nil;
 - (void)sendofflineStatus {
     
     //发送下线状态
-    XMPPPresence *presence = [XMPPPresence presenceWithType:kElement_PresenceType_Unavaliable];
+    XMPPPresence *presence = [XMPPPresence presence];
+    NSXMLElement *status = [NSXMLElement elementWithName:@"status"];
+    [status setStringValue:kElement_PresenceType_Unavaliable];
+    [presence addChild:status];
     [_xmppStream sendElement:presence];
 }
 
@@ -289,12 +294,20 @@ static RPXmppStream *rpXmppStream = nil;
 - (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence {
     
     //取得好友状态
-    NSString *presenceType = [presence type]; //online/offline
+    NSString *presenceType = [presence type];
     //当前用户
     NSString *toUserName = [[sender myJID] user];
     //在线用户
     NSString *fromUserName = [[presence from] user];
     
+    if ([[presence status] isEqualToString:@"talker_find_father"])
+    {
+        if ([self.delegate respondsToSelector:@selector(talkerFindFatherPresence:from:to:)])
+        {
+            [self.delegate talkerFindFatherPresence:self from:fromUserName to:toUserName];
+        }
+        return;
+    }
     
 }
 

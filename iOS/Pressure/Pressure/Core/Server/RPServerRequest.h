@@ -20,6 +20,12 @@
 #define kRPServerRequest_Expire_In              @"expires_in"
 #define kRPServerRequest_Uid                    @"uid"
 #define kRPServerRequest_Type                   @"type"
+#define kRPServerRequest_AgeRange               @"ageRange"
+#define kRPServerRequest_Gender                 @"gender"
+#define kRPServerRequest_ChatType               @"chatType"
+#define kRPServerRequest_City                   @"city"
+#define kRPServerRequest_Jid                    @"jid"
+#define kRPServerRequest_XmppUserName           @"xmppUserName"
 
 @protocol RPServerRequestDelegate <NSObject>
 

@@ -17,7 +17,16 @@ public class ServerConstant {
 	/**
 	 * 秘钥
 	 */
-	public static final String OpenFire_PassWord_Secrect_Key = "pressure";
+	public static final String OpenFire_PassWord_Secure_Key = "pressure";
+
+	/**
+	 * openfire与服务器之前传数据的密钥值
+	 */
+	public static final String OpenFire_Secure_Key_Value = "EASON_KEY_KEY_KEY_KEY";
+	/**
+	 * 密钥key
+	 */
+	public static final String OpenFire_Secure_Key = "secure_key";
 	/**
 	 * api返回的ftl
 	 */

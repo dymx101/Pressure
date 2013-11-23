@@ -12,6 +12,12 @@
 #import "RPServerApiDef.h"
 #import "RPThirdModel.h"
 #import "RPProfile.h"
+#import "RPXmppProfile.h"
+#import "RPFrChatModel.h"
+#import "RPChatType.h"
+#import "RPChat.h"
+#import "BlockAlertView.h"
+#import "RPUtilities.h"
 @implementation RPAppServerOperation
 
 
@@ -38,6 +44,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(RPAppServerOperation)
     
 }
 
+- (void)asynServerCallChatType
+{
+    NSMutableDictionary *mulDic = [[NSMutableDictionary alloc] init];
+    RPServerRequest *serverReq =  [[RPServerOperation sharedInstance] generateDefaultServerRequest:self operationType:kServerApi_GetChatTypeList dic:mulDic];
+    [[RPServerOperation sharedInstance] asyncToServerByRequest:serverReq];
+}
+
 
 - (void)asynLoginWithThirdPartAuth
 {
@@ -52,6 +65,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(RPAppServerOperation)
     
     RPServerRequest *serverReq =  [[RPServerOperation sharedInstance] generateDefaultServerRequest:self operationType:kServerApi_ThirdPartLogin dic:mulDic];
     [[RPServerOperation sharedInstance] asyncToServerByRequest:serverReq];
+}
+
+- (void)serverCallGetUserProfileByJid:(NSString *)xmppUsername
+{
+    NSMutableDictionary *mulDic = [[NSMutableDictionary alloc] init];
+    SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(mulDic, SAFESTR(xmppUsername), kRPServerRequest_XmppUserName);
+    RPServerRequest *serverReq =  [[RPServerOperation sharedInstance] generateDefaultServerRequest:self operationType:kServerApi_GetUserProfileByJid dic:mulDic];
+    [[RPServerOperation sharedInstance] syncToServerByRequest:serverReq];
 }
 
 
@@ -69,6 +90,41 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(RPAppServerOperation)
             [authModel setLoginSuccValue:serverResp.obj];
             [authModel saveData];
             [[NSNotificationCenter defaultCenter] postNotificationName:kNotif_ThirdPartLoginSucc object:nil];
+        }
+    }
+    
+    if ([serverResp.operationType isEqualToString:kServerApi_GetChatTypeList])
+    {
+        if (serverResp.code == RPServerResponseCode_Succ)
+        {
+            NSMutableArray *chatTypes = [[NSMutableArray alloc] init];
+            for (NSDictionary *dic in serverResp.obj[kMetaKey_ChatTypeList])
+            {
+                RPChatType *chatType = [[RPChatType alloc] initWithJSONDic:dic];
+                [chatTypes addObject:chatType];
+            }
+            [[NSNotificationCenter defaultCenter] postNotificationName:kNotif_GetChatTypesSucc object:nil userInfo:[NSDictionary dictionaryWithObject:chatTypes forKey:kNotif_GetChatTypesSucc_UserInfo]];
+        }
+    }
+    
+    if ([serverResp.operationType isEqualToString:kServerApi_GetUserProfileByJid])
+    {
+        if (serverResp.code == RPServerResponseCode_Succ)
+        {
+            RPChat *returnChat = [[RPChat alloc] initWithJSONDic:serverResp.obj[kMetaKey_Chat]];
+            RPFrChatModel *chatModel = [RPFrChatModel sharedInstance];
+            [chatModel.talkerChats addObject:returnChat];
+            [RPUtilities runOnMainQueueWithoutDeadlocking:^{
+                BlockAlertView *alertView = [[BlockAlertView alloc] initWithTitle:@"有人找到你啦" message:@"有人找到你啦"];
+                [alertView addButtonWithTitle:@"好的" block:^{
+                   [[NSNotificationCenter defaultCenter] postNotificationName:kNotif_TalkerFindFather object:nil];
+                }];
+                [alertView setCancelButtonWithTitle:@"取消" block:^{
+                    
+                }];
+                [alertView show];
+            }];
+            
         }
     }
   

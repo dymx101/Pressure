@@ -17,5 +17,16 @@
 #define kNotif_SinaWeiBoAuthSucc    @"kNotif_SinaWeiBoAuthSucc"
 #define kNotif_ThirdPartLoginSucc   @"kNotif_ThirdPartLoginSucc"
 #define kNotif_LoginSucc            @"kNotif_LoginSucc"
+#define kNotif_GetChatTypesSucc     @"kNotif_GetChatTypesSucc"
+#define kNotif_TalkerFindFather     @"kNotif_TalkerFindFather"
 
+
+
+
+
+
+
+
+
+#define kNotif_GetChatTypesSucc_UserInfo     @"kNotif_GetChatTypesSucc_UserInfo"
 #endif

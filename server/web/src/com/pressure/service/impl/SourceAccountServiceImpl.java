@@ -53,7 +53,7 @@ public class SourceAccountServiceImpl implements SourceAccountService {
 		profile.setAvatorUrl("未添加");
 		profile.setXmppUserName("");
 		profile.setDomain(ServerConstant.OpenFire_Domain);
-		profile.setLevel(Profile.ProfileLevel.Member.getValue());
+		profile.setLevel(Profile.ProfileLevel.User.getValue());
 
 		if (profileService.addProfile(profile)) {
 			String accessUserName = "未命名";

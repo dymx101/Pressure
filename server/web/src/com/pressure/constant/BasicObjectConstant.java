@@ -12,8 +12,10 @@ public class BasicObjectConstant {
 	public static final String kReturnObject_Code = "code";
 
 	public static final String kReturnObject_Session = "session";
+	public static final String kReturnObject_Chat = "chat";
 	public static final String kReturnObject_Profile = "profile";
 	public static final String kReturnObject_XmppProfile = "xmpp_profile";
-	public static final String kReturnObject_XmppGroup = "xmpp_group";
-	public static final String kReturnObject_Treehole = "treehole";
+	
+	public static final String kReturnObject_Treehole = "tree_hole";
+	public static final String kReturnObject_ChatType_List = "chat_type_list";
 }

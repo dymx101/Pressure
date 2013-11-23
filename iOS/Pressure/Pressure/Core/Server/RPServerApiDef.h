@@ -16,6 +16,9 @@
 #define kServerApi_RefreshToken     @"refreshToken"
 #define kServerApi_ThirdPartLogin   @"thirdPartLogin"
 #define kServerApi_FrMatch          @"frMatch"
+#define kServerApi_GetChatTypeList  @"getChatTypeList"
+#define kServerApi_UpdateMatchType  @"updateMatchType"
+#define kServerApi_GetUserProfileByJid  @"getUserProfileByJid"
 
 
 

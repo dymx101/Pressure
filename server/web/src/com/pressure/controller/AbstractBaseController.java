@@ -56,6 +56,20 @@ public abstract class AbstractBaseController extends MultiActionController {
 	}
 
 	/**
+	 * 返回错误
+	 * 
+	 * @param mv
+	 * @param errorCode
+	 * @return
+	 */
+	public ModelAndView errorWithErrorCode(ModelAndView mv, int errorCode) {
+		JSONObject returnObject = new JSONObject();
+		returnObject.put(BasicObjectConstant.kReturnObject_Code, errorCode);
+		mv.addObject("returnObject", returnObject.toString());
+		return mv;
+	}
+
+	/**
 	 * token认证失败
 	 * 
 	 * @param mv

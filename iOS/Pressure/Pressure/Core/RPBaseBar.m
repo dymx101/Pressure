@@ -23,6 +23,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         
+        self.backgroundColor = Default_LowLow_Gray;
+        
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/2-50, RPBaseBar_Height/2 - 10, 100, 20)];
         _titleLabel.backgroundColor = [UIColor clearColor];
         _titleLabel.textColor = [UIColor blackColor];
@@ -30,7 +32,9 @@
         [self addSubview:_titleLabel];
         
         _leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_leftBtn setTitle:@"返回" forState:UIControlStateNormal];
+        [_leftBtn setImage:[UIImage imageNamed:@"btn_highlight_back_webview.png"] forState:UIControlStateNormal];
+        [_leftBtn setImage:[UIImage imageNamed:@"btn_highlight_back_webview.png"] forState:UIControlStateHighlighted];
+        _leftBtn.frame = CGRectMake(10, (RPBaseBar_Height - 36)/2, 36, 36);
         [_leftBtn addTarget:self action:@selector(leftBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_leftBtn];
         

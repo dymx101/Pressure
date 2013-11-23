@@ -7,6 +7,7 @@ import net.sf.json.JSONObject;
 
 import com.pressure.constant.BasicObjectConstant;
 import com.pressure.constant.ServerConstant;
+import com.pressure.meta.ChatType;
 import com.pressure.meta.FrChatGroup;
 import com.pressure.meta.Profile;
 import com.pressure.meta.Session;
@@ -58,7 +59,7 @@ public class HttpReturnUtil {
 			JSONObject xmppObject = new JSONObject();
 			xmppObject.put("xmpp_user_name", profile.getXmppUserName());
 			xmppObject.put("secret_key",
-					ServerConstant.OpenFire_PassWord_Secrect_Key);
+					ServerConstant.OpenFire_PassWord_Secure_Key);
 			xmppObject.put("domain", profile.getDomain());
 			profileObject.put(BasicObjectConstant.kReturnObject_XmppProfile,
 					xmppObject);
@@ -96,6 +97,11 @@ public class HttpReturnUtil {
 	public static void returnDataFrMatch(Profile profile,
 			JSONObject returnObject, FrChatGroup chatGroup) {
 		JSONObject dataObject = new JSONObject();
+		JSONObject chatObj = new JSONObject();
+		if (chatGroup != null) {
+			chatObj.put("chat_id", chatGroup.getGroupId());
+			dataObject.put(BasicObjectConstant.kReturnObject_Chat, chatObj);
+		}
 		if (profile != null) {
 			JSONObject profileObject = new JSONObject();
 			profileObject.put("user_id", profile.getUserId());
@@ -104,24 +110,19 @@ public class HttpReturnUtil {
 			profileObject.put("nick_name", profile.getNickName());
 			profileObject.put("age", profile.getAge());
 			profileObject.put("gender", profile.getGender());
-			
+
 			JSONObject xmppObject = new JSONObject();
 			xmppObject.put("xmpp_user_name", profile.getXmppUserName());
 			xmppObject.put("secret_key",
-					ServerConstant.OpenFire_PassWord_Secrect_Key);
+					ServerConstant.OpenFire_PassWord_Secure_Key);
 			xmppObject.put("domain", profile.getDomain());
 			profileObject.put(BasicObjectConstant.kReturnObject_XmppProfile,
 					xmppObject);
-			dataObject.put(BasicObjectConstant.kReturnObject_Profile,
+			chatObj.put(BasicObjectConstant.kReturnObject_Profile,
 					profileObject);
 		}
-		if (chatGroup != null) {
-			JSONObject groupObj = new JSONObject();
-			groupObj.put("group_id", chatGroup.getGroupId());
-			groupObj.put("group_name", chatGroup.getGroupName());
-			dataObject.put(BasicObjectConstant.kReturnObject_XmppGroup,
-					groupObj);
-		}
+		dataObject.put(BasicObjectConstant.kReturnObject_Chat,
+				chatObj);
 		HttpReturnUtil.returnDataObject(dataObject, returnObject);
 	}
 
@@ -160,4 +161,25 @@ public class HttpReturnUtil {
 		dataObject.put(BasicObjectConstant.kReturnObject_Treehole, dataObject);
 		HttpReturnUtil.returnDataObject(dataObject, returnObject);
 	}
+
+	/**
+	 * 
+	 * @param chatTypeList
+	 * @param returnObject
+	 */
+	public static void returnChatTypeList(List<ChatType> chatTypeList,
+			JSONObject returnObject) {
+		JSONObject dataObject = new JSONObject();
+		JSONArray chatTypeArray = new JSONArray();
+		for (ChatType chatType : chatTypeList) {
+			JSONObject chatTypeObject = new JSONObject();
+			chatTypeObject.put(ChatType.kChatType_Id, chatType.getId());
+			chatTypeObject.put(ChatType.kChatType_Name, chatType.getName());
+			chatTypeArray.add(chatTypeObject);
+		}
+		dataObject.put(BasicObjectConstant.kReturnObject_ChatType_List,
+				chatTypeArray.toString());
+		HttpReturnUtil.returnDataObject(dataObject, returnObject);
+	}
+
 }

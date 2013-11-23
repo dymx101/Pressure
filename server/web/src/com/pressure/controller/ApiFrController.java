@@ -13,10 +13,13 @@ import org.springframework.web.servlet.ModelAndView;
 import com.pressure.constant.BasicObjectConstant;
 import com.pressure.constant.ReturnCodeConstant;
 import com.pressure.constant.ServerConstant;
+import com.pressure.meta.FrChatGroup;
+import com.pressure.meta.FrWantChatType;
 import com.pressure.meta.Profile;
 import com.pressure.service.FrChatGroupService;
 import com.pressure.service.OpenfireService;
 import com.pressure.util.http.HttpReturnUtil;
+import com.pressure.util.http.PostValueGetUtil;
 
 /**
  * 神父功能
@@ -37,24 +40,53 @@ public class ApiFrController extends AbstractBaseController {
 	private FrChatGroupService frChatGroupService;
 
 	/**
-	 * 成为神父，希望找到的倾诉者
+	 * 神父，希望找到的倾诉者
+	 * 
 	 * @param request
 	 * @param response
 	 * @return
 	 */
 	public ModelAndView updateMatchType(HttpServletRequest request,
-			HttpServletResponse response) 
-	{
+			HttpServletResponse response) {
 		ModelAndView mv = new ModelAndView(ServerConstant.Api_Return_MV);
 		JSONObject returnObject = new JSONObject();
 		int returnCode = this.checkTokenValid(request, response);
 		if (returnCode == ReturnCodeConstant.TokenNotFound) {
 			return this.tokenErrorReturn(mv, returnCode);
 		}
+		String jsonString = PostValueGetUtil.parseRequestAsString(request,
+				"utf-8");
+		JSONObject jsonObject = PostValueGetUtil.parseRequestData(jsonString);
+
+		if (jsonObject == null) {
+			return this.jsonErrorReturn(mv, jsonString);
+		}
+		long userId = Long.valueOf(request.getHeader("userId"));
+		String ageRange = jsonObject.getString("ageRange");
+		int gender = jsonObject.getInt("gender");
+		int chatType = jsonObject.getInt("chatType");
+		int type = jsonObject.getInt("type");
+		int beginAge = -1;
+		int endAge = -1;
+		if (ageRange.equals("17~24")) {
+			beginAge = 17;
+			endAge = 24;
+		}
+		FrWantChatType wantChatType = frChatGroupService.addFrWantChatType(
+				userId, beginAge, endAge, gender, type, chatType);
+		if (wantChatType != null) {
+			returnObject.put(BasicObjectConstant.kReturnObject_Code,
+					ReturnCodeConstant.SUCCESS);
+		} else {
+			returnObject.put(BasicObjectConstant.kReturnObject_Code,
+					ReturnCodeConstant.FAILED);
+		}
+		mv.addObject("returnObject", returnObject.toString());
 		return mv;
 	}
+
 	/**
-	 * 神父用户匹配
+	 * 找神父
 	 * 
 	 * @param request
 	 * @param response
@@ -69,33 +101,78 @@ public class ApiFrController extends AbstractBaseController {
 		if (returnCode == ReturnCodeConstant.TokenNotFound) {
 			return this.tokenErrorReturn(mv, returnCode);
 		}
-		long userId = Long.valueOf(request.getHeader("userId"));
-		Profile profile;
-		Profile toProfile;
-		if (userId == 2) {
-			profile = profileService.getProfileByUserId(2);
-			toProfile = profileService.getProfileByUserId(3);
-			boolean succ1 = openfireService.addRoster(profile.getUserName(),
-					toProfile.getJid(), "", 3, "");
-		} else {
-			profile = profileService.getProfileByUserId(3);
-			toProfile = profileService.getProfileByUserId(2);
-			boolean succ1 = openfireService.addRoster(profile.getUserName(),
-					toProfile.getJid(), "", 3, "");
+		String jsonString = PostValueGetUtil.parseRequestAsString(request,
+				"utf-8");
+		JSONObject jsonObject = PostValueGetUtil.parseRequestData(jsonString);
+		if (jsonObject == null) {
+			return this.jsonErrorReturn(mv, jsonString);
 		}
+		long userId = Long.valueOf(request.getHeader("userId"));
+		String ageRange = jsonObject.getString("ageRange");
+		int gender = jsonObject.getInt("gender");
+		long chatType = jsonObject.getInt("chatType");
 
-		// FrChatGroup frChatGroup = frChatGroupService.addFrChatGroupService(
-		// profile, toProfile);
-		// if (frChatGroup != null) {
-		// boolean succ1 = openfireService.addRoster(profile.getUserName(),
-		// toProfile.getJid(), "", 3, frChatGroup.getGroupName());
-		// boolean succ2 = openfireService.addRoster(toProfile.getUserName(),
-		// profile.getJid(), "", 3, frChatGroup.getGroupName());
-		// if (!succ1 || !succ2) {
-		// logger.info("why not succ");
-		// }
-		// }
-		HttpReturnUtil.returnDataFrMatch(toProfile, returnObject, null);
+		int beginAge = -1;
+		int endAge = -1;
+		if (ageRange.equals("17~24")) {
+			beginAge = 17;
+			endAge = 24;
+		}
+		Profile fatherProfile = frChatGroupService.tryToFindFather(userId,
+				beginAge, endAge, gender, chatType);
+		Profile userProfile = profileService.getProfileByUserId(userId);
+		if (fatherProfile == null) {
+
+		}
+		boolean succ = openfireService.addRoster(userProfile.getXmppUserName(),
+				fatherProfile.getJid(), "", 3, "");
+		if (!succ) {
+			return this.errorWithErrorCode(mv,
+					ReturnCodeConstant.XmppServerError);
+		}
+		openfireService.sendTalkerFindFather(userProfile.getJid(),
+				fatherProfile.getJid());
+		FrChatGroup chatGroup = frChatGroupService.addFrChatGroupService(
+				userProfile, fatherProfile);
+		HttpReturnUtil
+				.returnDataFrMatch(fatherProfile, returnObject, chatGroup);
+		returnObject.put(BasicObjectConstant.kReturnObject_Code,
+				ReturnCodeConstant.SUCCESS);
+		mv.addObject("returnObject", returnObject.toString());
+		return mv;
+	}
+
+	/**
+	 * 获取用户信息
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ModelAndView getUserProfileByJid(HttpServletRequest request,
+			HttpServletResponse response) {
+		ModelAndView mv = new ModelAndView(ServerConstant.Api_Return_MV);
+
+		JSONObject returnObject = new JSONObject();
+		int returnCode = this.checkTokenValid(request, response);
+		if (returnCode == ReturnCodeConstant.TokenNotFound) {
+			return this.tokenErrorReturn(mv, returnCode);
+		}
+		String jsonString = PostValueGetUtil.parseRequestAsString(request,
+				"utf-8");
+		JSONObject jsonObject = PostValueGetUtil.parseRequestData(jsonString);
+
+		if (jsonObject == null) {
+			return this.jsonErrorReturn(mv, jsonString);
+		}
+		String xmppUserName = jsonObject.getString("xmppUserName");
+		long userId = Long.valueOf(request.getHeader("userId"));
+		Profile jIDprofile = profileService.getProfileByXmppUserName(xmppUserName);
+		if (jIDprofile == null) {
+			return this.errorWithErrorCode(mv, ReturnCodeConstant.UserNoFound);
+		}
+		FrChatGroup chatGroup = frChatGroupService.getFrChatGroup(jIDprofile.getUserId(), userId);
+		HttpReturnUtil.returnDataFrMatch(jIDprofile, returnObject,chatGroup);
 		returnObject.put(BasicObjectConstant.kReturnObject_Code,
 				ReturnCodeConstant.SUCCESS);
 		mv.addObject("returnObject", returnObject.toString());

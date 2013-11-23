@@ -8,7 +8,7 @@
 		<result property="TreeholePassWord" column="TreeholePassWord" />
 		<result property="CreateTime" column="CreateTime" />
 		<result property="LastUpdateTime" column="LastUpdateTime" />
-		<result property="AvatorUrl" column="AvatorUrl" />
+		<result property="avatorUrl" column="avatorUrl" />
 		<result property="level" column="level" />
 		<result property="gender" column="gender" />
 		<result property="age" column="age" />
@@ -25,7 +25,7 @@
 		TreeholePassWord,
 		CreateTime,
 		LastUpdateTime,
-		AvatorUrl,
+		avatorUrl,
 		level,
 		gender,
 		age,
@@ -38,7 +38,7 @@
 		#{TreeholePassWord},
 		#{CreateTime},
 		#{LastUpdateTime},
-		#{AvatorUrl},
+		#{avatorUrl},
 		#{level},
 		#{gender},
 		#{age},
@@ -84,13 +84,34 @@
 		#{userId};
 	</update>
 
+
 	<update id="updateProfile" flushCache="true" statementType="PREPARED">
 		update TB_Profile set
 		NickName = #{NickName},
-		AvatorUrl = #{AvatorUrl},
+		avatorUrl = #{avatorUrl},
 		LastUpdateTime = #{LastUpdateTime}
 		where userId
 		= #{userId}
 		;
 	</update>
+
+	<select id="getProfilesByUserIdsOrderTime" resultType="Profile"
+		parameterType="list">
+		SELECT * from TB_Profile where
+		userId in
+		<foreach item="item" collection="userIds" index="index" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		and age > #{beginAge} and #{endAge} > age and gender = #{gender}
+		order
+		by lastUpdateTime desc
+		;
+	</select>
+
+	<select id="getProfileByXmppUserName" resultType="Profile"
+		parameterType="list">
+		SELECT * from TB_Profile where xmppUserName =
+		#{xmppUserName};
+	</select>
 </mapper>

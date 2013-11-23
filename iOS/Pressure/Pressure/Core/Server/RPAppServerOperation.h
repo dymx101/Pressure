@@ -32,6 +32,7 @@ typedef enum AppServerOperationResponse_Type
 
 - (void)asynServerCallToBeFather;
 - (void)serverCallRefreshToken;
-
+- (void)asynServerCallChatType;
+- (void)serverCallGetUserProfileByJid:(NSString *)xmppUsername;
 - (void)asynLoginWithThirdPartAuth;
 @end

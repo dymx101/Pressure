@@ -35,5 +35,9 @@ public class ReturnCodeConstant {
 	 * token失效
 	 */
 	public static final int TokenIsInvalid = -101;
+	/**
+	 * xmpp服务器错误
+	 */
+	public static final int XmppServerError = -201;
 
 }

@@ -11,14 +11,17 @@
 #import "RPProfile.h"
 #import "MMProgressHUD.h"
 #import "RPFrChatModel.h"
+#import "RPSearchType.h"
+#import "RPChat.h"
 #import "RPAuthModel.h"
 #import "RPServerApiDef.h"
+#import "RPChatType.h"
 #import "RPFrChatVCTL.h"
 #import "RPAppModel.h"
 #import "RPFrFilterDialog.h"
 @interface RPFrChatIndexVCTL () <CustomDialogDelegate>
 {
-    RPProfile *_chatUser;
+
 }
 
 @end
@@ -61,33 +64,41 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if (_chatUser)
-    {
-        [[RPXmppManager sharedInstance] sendMessage:@"sb" toUser:_chatUser.xmppProfile];
-    }
 }
 
 - (void)asTalkerBtnClick:(id)sender
 {
-    RPFrFilterDialog *dialog = [[RPFrFilterDialog alloc] initWithDelegate:self];
+    RPFrFilterDialog *dialog = [[RPFrFilterDialog alloc] initWithDelegate:self type:RPFrFilterDialog_Type_Find_Father];
     [dialog show];
 }
 
 - (void)asFatherBtnClick:(id)sender
 {
-    
+    [self serverCallAsFather];
 }
 
 #pragma mark -
 #pragma mark Server
 - (void)serverCallAsFather
 {
-    
+    NSMutableDictionary *mulDic = [[NSMutableDictionary alloc] init];
+    RPAuthModel *authModel = [RPAuthModel sharedInstance];
+    RPProfile *profile = authModel.profile;
+    SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(mulDic, @"17~24", kRPServerRequest_AgeRange);
+    SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(mulDic, NUMI(profile.gender), kRPServerRequest_Gender);
+    SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(mulDic, LONGLONG2NUM(1), kRPServerRequest_ChatType);
+    SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(mulDic, NUMI(0), kRPServerRequest_Type);
+    RPServerRequest *serverReq =  [[RPServerOperation sharedInstance] generateDefaultServerRequest:self operationType:kServerApi_UpdateMatchType dic:mulDic];
+    [[RPServerOperation sharedInstance] asyncToServerByRequest:serverReq];
 }
 
-- (void)serverCallFrMatch
+- (void)serverCallFrMatch:(RPSearchType *)searchType
 {
     NSMutableDictionary *mulDic = [[NSMutableDictionary alloc] init];
+    SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(mulDic, SAFESTR(searchType.ageRange), kRPServerRequest_AgeRange);
+    SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(mulDic, NUMI(searchType.gender), kRPServerRequest_Gender);
+    SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(mulDic, LONGLONG2NUM(searchType.chatType.dbId), kRPServerRequest_ChatType);
+    SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(mulDic, SAFESTR(searchType.city), kRPServerRequest_City);
     RPServerRequest *serverReq =  [[RPServerOperation sharedInstance] generateDefaultServerRequest:self operationType:kServerApi_FrMatch dic:mulDic];
     [[RPServerOperation sharedInstance] asyncToServerByRequest:serverReq];
 }
@@ -99,34 +110,39 @@
     {
         if (serverResp.code == RPServerResponseCode_Succ)
         {
-            _chatUser = [[RPProfile alloc] initWithJSONDic:serverResp.obj[kMetaKey_Profile]];
-            _chatUser.userType = RPProfile_UserType_Father;
-            _chatUser.isChating = YES;
+            RPChat *chat = [[RPChat alloc] initWithJSONDic:serverResp.obj[kMetaKey_Chat]];
+            chat.userType = RPChat_UserType_Father;
+            
             RPFrChatModel *chatModel = [RPFrChatModel sharedInstance];
             chatModel.type  = RPFrChatModel_ChatingType_Talker;
-            [chatModel.fatherUsers addObject:_chatUser];
-            [chatModel resetChatingUserState:_chatUser];
+            [chatModel.fatherChats insertObject:chat atIndex:0];
+            chatModel.fatherChatingIndex = 0;
+            
             RPFrChatVCTL *chatVCTL = [[RPFrChatVCTL alloc] init];
             [self.navigationController pushViewController:chatVCTL animated:YES];
         }
     }
+    if ([serverResp.operationType isEqualToString:kServerApi_UpdateMatchType])
+    {
+        if (serverResp.code == RPServerResponseCode_Succ)
+        {
+            
+        }
+    }
 }
-
 
 #pragma mark -
 #pragma mark CustomDialog Delegate
 - (void)dialogDidComplete:(CustomDialog *)dialog
 {
-    [self serverCallFrMatch];
-   
+    RPSearchType *searchType = ((RPFrFilterDialog *)dialog).searchType;
+    [self serverCallFrMatch:searchType];
 }
 
 - (void)dialogDidNotComplete:(CustomDialog *)dialog
 {
     
 }
-
-
 
 
 @end

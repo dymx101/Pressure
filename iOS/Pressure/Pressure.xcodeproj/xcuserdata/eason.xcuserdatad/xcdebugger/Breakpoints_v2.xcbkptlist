@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pressure/Core/Xmpp/RPXmppManager.m"
-            timestampString = "405746058.678852"
+            timestampString = "406870683.323465"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
             landmarkName = "-doConnect:xmppPassWord:"
             landmarkType = "5">
          </BreakpointContent>
@@ -212,11 +212,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pressure/Father/RPFrChatVCTL.m"
-            timestampString = "406136101.799464"
+            timestampString = "406870290.592237"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "115"
-            endingLineNumber = "115"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
             landmarkName = "-addNewChatToArray:"
             landmarkType = "5">
             <Locations>
@@ -271,29 +271,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Pressure/Father/RPFrChatVCTL.m"
-            timestampString = "406137140.310274"
+            filePath = "Pressure/Core/Server/RPAppServerOperation.m"
+            timestampString = "406870814.489672"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "351"
-            endingLineNumber = "351"
-            landmarkName = "-rpFrChatBarFatherBtnClick"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Pressure/Father/RPFrChatVCTL.m"
-            timestampString = "406137143.314356"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "362"
-            endingLineNumber = "362"
-            landmarkName = "-rpFrChatBarTalkerBtnClick"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
+            landmarkName = "-serverCallGetUserProfileByJid:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

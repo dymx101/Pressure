@@ -10,9 +10,11 @@
 #define Pressure_RPMetaKeyDef_h
 
 #define kMetaKey_Profile @"profile"
+#define kMetaKey_Chat @"chat"
 #define kMetaKey_Session @"session"
 #define kMetaKey_XmppProfile @"xmpp_profile"
 #define kMetaKey_XmppGroup  @"xmpp_group"
+#define kMetaKey_ChatTypeList  @"chat_type_list"
 
 
 

@@ -13,26 +13,29 @@ typedef enum _RPFrChatModel_ChatingType
     RPFrChatModel_ChatingType_Father
 }RPFrChatModel_ChatingType;
 @class RPProfile;
+@class RPChat;
 @interface RPFrChatModel : RPObject
 
 
 @property (nonatomic) RPFrChatModel_ChatingType type;
 //当前用户的倾诉用户
-@property (nonatomic,retain) NSMutableArray *talkerUsers;
+@property (nonatomic,retain) NSMutableArray *talkerChats;
 //当前用户的神父用户
-@property (nonatomic,retain) NSMutableArray *fatherUsers;
+@property (nonatomic,retain) NSMutableArray *fatherChats;
 
 
+@property (nonatomic) int talkerChatingIndex;
+@property (nonatomic) int fatherChatingIndex;
 
 + (RPFrChatModel *)sharedInstance ;
 
-- (void)resetChatingUserState:(RPProfile *)chatingUser;
 /**
  *  当前正在聊天的用户
  *
  *  @return
  */
-- (RPProfile *)chatingUser;
++ (RPChat *)nowChat;
 
-- (BOOL)dealWithFrMessage:(NSDictionary *)messageDic;;
+- (BOOL)dealWithFrMessage:(NSDictionary *)messageDic;
+
 @end

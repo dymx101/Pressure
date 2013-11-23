@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <plugin>
-    <class>com.jivesoftware.openfire.plugin.PressurePlugin</class>
-    <name>倾诉</name>
-    <description>倾诉app</description>
+    <class>org.jivesoftware.openfire.plugin.PressurePlugin</class>
+    <name>pressure</name>
+    <description>pressure app</description>
     <author>easonzheng</author>
     <version>1.0.0</version>
     <date>11/05/2013</date>
     <minServerVersion>3.0.0</minServerVersion>
 
- 
 </plugin>

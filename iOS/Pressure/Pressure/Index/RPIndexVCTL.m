@@ -14,6 +14,7 @@
 #import "RPUserProfileView.h"
 #import "RPProfile.h"
 #import "RPXmppManager.h"
+#import "RPFrChatVCTL.h"
 @interface RPIndexVCTL ()
 
 @end
@@ -55,6 +56,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleXmppLoginSuccNotif:) name:kNotif_XmppLoginSuccess object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleXmppLoginFailedNotif:) name:kNotif_XmppLoginFailed object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTalkerFindFatherNotif:) name:kNotif_TalkerFindFather object:nil];
 }
 
 
@@ -124,6 +126,12 @@
 - (void)handleXmppLoginFailedNotif:(NSNotification *)notif
 {
     MLOG(@"登陆失败");
+}
+
+- (void)handleTalkerFindFatherNotif:(NSNotification *)notif
+{
+    RPFrChatVCTL *chatVCTL = [[RPFrChatVCTL alloc] init];
+    [self.navigationController pushViewController:chatVCTL animated:YES];
 }
 
 
