@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pressure.mapper.PictureMapper">
+	<resultMap type="Picture" id="pictureMap">
+		<id property="id" column="id" />
+		<result property="pictureKey" column="pictureKey" />
+		<result property="fileSize" column="fileSize" />
+		<result property="width" column="width" />
+		<result property="height" column="height" />
+	</resultMap>
+
+	<insert id="addPicture" parameterType="Picture">
+		INSERT INTO
+		TB_Picture(
+		pictureKey,
+		fileSize,
+		width,
+		height
+		)VALUES(
+		#{pictureKey},
+		#{fileSize},
+		#{width},
+		#{height}
+		)
+		<selectKey keyProperty="id" resultType="long">
+			SELECT
+			LAST_INSERT_ID() AS VALUE
+		</selectKey>
+	</insert>
+
+
+	<!-- 查询 -->
+	<select id="getPictureById" resultMap="pictureMap">
+		SELECT * from
+		TB_Picture
+		where id = #{id} ;
+	</select>
+
+
+	<select id="getPicturesByIds" resultType="Picture"
+		parameterType="list">
+		SELECT * from TB_Picture where
+		id in
+		<foreach item="item" collection="ids" index="index" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		;
+	</select>
+</mapper>
