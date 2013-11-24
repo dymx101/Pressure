@@ -26,6 +26,12 @@
 #define kRPServerRequest_City                   @"city"
 #define kRPServerRequest_Jid                    @"jid"
 #define kRPServerRequest_XmppUserName           @"xmppUserName"
+#define kRPServerRequest_Limit                  @"limit"
+#define kRPServerRequest_BeginTime              @"beginTime"
+#define kRPServerRequest_Forum_Text             @"text"
+#define kRPServerRequest_Forum_Text             @"text"
+#define kRPServerRequest_Forum_Text             @"text"
+#define kRPServerRequest_Forum_Text             @"text"
 
 @protocol RPServerRequestDelegate <NSObject>
 

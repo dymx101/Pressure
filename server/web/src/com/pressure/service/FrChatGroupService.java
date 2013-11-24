@@ -3,6 +3,7 @@ package com.pressure.service;
 import java.util.List;
 
 import com.pressure.meta.ChatType;
+import com.pressure.meta.Forum;
 import com.pressure.meta.FrChatGroup;
 import com.pressure.meta.FrWantChatType;
 import com.pressure.meta.Profile;
@@ -16,7 +17,8 @@ public interface FrChatGroupService {
 	 * @param user2
 	 * @return
 	 */
-	public FrChatGroup addFrChatGroupService(Profile user1, Profile user2);
+	public FrChatGroup addFrChatGroupService(Profile user1, Profile user2,
+			int user1Type);
 
 	/**
 	 * 获取chatgroup
@@ -54,4 +56,13 @@ public interface FrChatGroupService {
 	 * @return
 	 */
 	public List<ChatType> getAllChatTypes();
+
+	/**
+	 * 匹配聊天者
+	 * 
+	 * @param userId
+	 * @param forumId
+	 * @return
+	 */
+	public FrChatGroup matchTalkerFromForum(long userId, Forum forum);
 }

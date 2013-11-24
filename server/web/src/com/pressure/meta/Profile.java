@@ -107,6 +107,17 @@ public class Profile implements Serializable {
 			return null;
 		}
 	}
+	
+	
+	public static final String kUserId = "user_id";
+	public static final String kUserName = "user_name";
+	public static final String kXmppUserName = "xmpp_user_name";
+	public static final String kSecretKey = "secret_key";
+	public static final String kDomain = "domain";
+	public static final String kAvatarUrl = "avatar_url";
+	public static final String kNickName = "nick_name";
+	public static final String kAge = "age";
+	public static final String kGender = "gender";
 
 	public long getUserId() {
 		return UserId;

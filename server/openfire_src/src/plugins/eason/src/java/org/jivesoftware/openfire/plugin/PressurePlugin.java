@@ -8,8 +8,6 @@ import org.jivesoftware.openfire.XMPPServer;
 import org.jivesoftware.openfire.container.Plugin;
 import org.jivesoftware.openfire.container.PluginManager;
 import org.jivesoftware.openfire.interceptor.InterceptorManager;
-import org.jivesoftware.smack.packet.Presence.Type;
-import org.json.XML;
 import org.xmpp.packet.Presence;
 
 
@@ -45,15 +43,14 @@ public class PressurePlugin implements Plugin {
 	 * @param fromJid
 	 * @param toJid
 	 */
-	public void talkerFindFather(String fromJid, String toJid) {
+	public void sendFindOther(String fromJid, String toJid,String actionType) {
 		if (fromJid.equals(toJid)) {
 			return;
 		}
-		
 		Presence presence = new Presence();
 		presence.setFrom(fromJid);
 		presence.setTo(toJid);
-		presence.setStatus("talker_find_father");
+		presence.setStatus(actionType);
 		presenceRouter.route(presence);
 	}
 

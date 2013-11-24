@@ -49,7 +49,7 @@ static UIFont *buttonFont = nil;
         {
             CGSize size = [title sizeWithFont:titleFont
                             constrainedToSize:CGSizeMake(frame.size.width-kActionSheetBorder*2, 1000)
-                                lineBreakMode:UILineBreakModeWordWrap];
+                                lineBreakMode:NSLineBreakByWordWrapping];
             
             UILabel *labelView = [[UILabel alloc] initWithFrame:CGRectMake(kActionSheetBorder, _height, frame.size.width-kActionSheetBorder*2, size.height)];
             labelView.font = titleFont;

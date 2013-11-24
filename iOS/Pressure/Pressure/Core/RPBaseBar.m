@@ -39,6 +39,7 @@
         [self addSubview:_leftBtn];
         
         _rightbtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _rightbtn.frame = CGRectMake(SCREEN_WIDTH - 36 - 10, (RPBaseBar_Height - 36)/2, 0, 0);
         [_rightbtn addTarget:self action:@selector(rightBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_rightbtn];
         
@@ -51,20 +52,26 @@
     _titleLabel.text = title;
 }
 
+- (void)setRightBtnWithText:(NSString *)text
+{
+    [_rightbtn setTitle:text forState:UIControlStateNormal];
+    [_rightbtn setTitle:text forState:UIControlStateHighlighted];
+    [_rightbtn sizeToFit];
+}
 
 - (void)leftBtnClick:(id)sender
 {
-    if ([self.delegate respondsToSelector:@selector(leftButtonClick)])
+    if ([self.delegate respondsToSelector:@selector(leftButtonClick:)])
     {
-        [self.delegate leftButtonClick];
+        [self.delegate leftButtonClick:self];
     }
 }
 
 - (void)rightBtnClick:(id)sender
 {
-    if ([self.delegate respondsToSelector:@selector(rightButtonClick)])
+    if ([self.delegate respondsToSelector:@selector(rightButtonClick:)])
     {
-        [self.delegate rightButtonClick];
+        [self.delegate rightButtonClick:self];
     }
 }
 

@@ -2,7 +2,6 @@ package com.pressure.service.impl;
 
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.json.JSONArray;
@@ -176,6 +175,25 @@ public class OpenfireServiceImpl implements OpenfireService {
 		sb.append("/plugins/eason/pressure?secure_key="
 				+ ServerConstant.OpenFire_Secure_Key_Value);
 		sb.append("&action_type=" + "talker_find_father");
+		sb.append("&from_jid=" + fromJid);
+		sb.append("&to_jid=" + toJid);
+
+		this.sendHttpRequest(ServerConstant.OpenFireIp + sb.toString());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.pressure.service.OpenfireService#sendFatherFindTalker(java.lang.String
+	 * , java.lang.String)
+	 */
+	@Override
+	public void sendFatherFindTalker(String fromJid, String toJid) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("/plugins/eason/pressure?secure_key="
+				+ ServerConstant.OpenFire_Secure_Key_Value);
+		sb.append("&action_type=" + "father_find_talker");
 		sb.append("&from_jid=" + fromJid);
 		sb.append("&to_jid=" + toJid);
 		this.sendHttpRequest(ServerConstant.OpenFireIp + sb.toString());

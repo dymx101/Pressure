@@ -26,12 +26,7 @@
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
-
-typedef enum{
-	EGOOPullRefreshPulling = 0,
-	EGOOPullRefreshNormal,
-	EGOOPullRefreshLoading,	
-} EGOPullRefreshState;
+#import "UP_EGORefreshTableHeaderView.h"
 
 @protocol EGORefreshTableHeaderDelegate;
 @interface EGORefreshTableHeaderView : UIView {
@@ -51,16 +46,22 @@ typedef enum{
 
 - (void)refreshLastUpdatedDate;
 - (void)egoRefreshScrollViewDidScroll:(UIScrollView *)scrollView;
-- (void)egoRefreshScrollViewDidEndDragging:(UIScrollView *)scrollView;
-- (void)egoRefreshScrollViewDataSourceDidFinishedLoading:(UIScrollView *)scrollView;
-
-//扩展:下拉显示加载
-- (void)initLoading:(UIScrollView *)scrollView;
+- (void)egoRefreshScrollViewDidEndDragging:(UIScrollView *)scrollView changeInset:(BOOL)changeInset;
+- (void)egoRefreshScrollViewDataSourceDidFinishedLoading:(UIScrollView *)scrollView changeInset:(BOOL)changeInset;
 
 @end
+
 @protocol EGORefreshTableHeaderDelegate
-- (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view;
-- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view;
+
+- (void)down_egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view;
+- (BOOL)down_egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view;
+
 @optional
-- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view;
+- (NSDate*)down_egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view;
+@end
+
+
+@interface EGORefreshTableHeaderView (Private)
+
+- (void)setState:(EGOPullRefreshState)aState;
 @end

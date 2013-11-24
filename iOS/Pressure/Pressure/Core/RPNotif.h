@@ -19,6 +19,7 @@
 #define kNotif_LoginSucc            @"kNotif_LoginSucc"
 #define kNotif_GetChatTypesSucc     @"kNotif_GetChatTypesSucc"
 #define kNotif_TalkerFindFather     @"kNotif_TalkerFindFather"
+#define kNotif_FatherFindTalker     @"kNotif_FatherFindTalker"
 
 
 

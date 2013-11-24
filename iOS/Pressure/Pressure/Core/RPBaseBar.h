@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #define RPBaseBar_Height 49
-
+@class RPBaseBar;
 @protocol RPBaseBarDelegate <NSObject>
 
-- (void)leftButtonClick;
-- (void)rightButtonClick;
+- (void)leftButtonClick:(RPBaseBar *)bar;
+- (void)rightButtonClick:(RPBaseBar *)bar;
 
 @end
 
@@ -21,4 +21,5 @@
 @property (nonatomic,assign) id<RPBaseBarDelegate> delegate;
 
 - (void)setTitle:(NSString *)title;
+- (void)setRightBtnWithText:(NSString *)text;
 @end

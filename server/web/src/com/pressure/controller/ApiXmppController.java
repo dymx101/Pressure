@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 
 import com.pressure.service.ProfileService;
 
-@Controller("apiXmppcontroller")
+@Controller("apiXmppController")
 public class ApiXmppController extends AbstractBaseController {
 
 	@Resource

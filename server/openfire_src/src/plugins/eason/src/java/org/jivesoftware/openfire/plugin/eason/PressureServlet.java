@@ -40,8 +40,9 @@ public class PressureServlet extends HttpServlet {
 		if (secureKey == null || !secureKey.equals("EASON_KEY_KEY_KEY_KEY")) {
 			return;
 		}
-		if (actionType.equals("talker_find_father")) {
-			plugin.talkerFindFather(fromJid, toJid);
+		if (actionType.equals("talker_find_father")
+				|| actionType.equals("father_find_talker")) {
+			plugin.sendFindOther(fromJid, toJid, actionType);
 		}
 	}
 

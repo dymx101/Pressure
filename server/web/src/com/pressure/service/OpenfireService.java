@@ -43,4 +43,11 @@ public interface OpenfireService {
 	 */
 	public void sendTalkerFindFather(String fromJid, String toJid);
 
+	/**
+	 * father找到talker的时候，给talker发一个消息
+	 * 
+	 * @param fromJid
+	 * @param toJid
+	 */
+	public void sendFatherFindTalker(String fromJid, String toJid);
 }

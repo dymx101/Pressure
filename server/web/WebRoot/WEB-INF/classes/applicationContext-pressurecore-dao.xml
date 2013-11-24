@@ -89,5 +89,17 @@
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 		<property name="mapperInterface" value="com.pressure.mapper.ChatTypeMapper" />
 	</bean>
+	<bean id="forumMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<property name="mapperInterface" value="com.pressure.mapper.ForumMapper" />
+	</bean>
+	<bean id="audioMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<property name="mapperInterface" value="com.pressure.mapper.AudioMapper" />
+	</bean>
+	<bean id="pictureMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<property name="mapperInterface" value="com.pressure.mapper.PictureMapper" />
+	</bean>
 
 </beans>

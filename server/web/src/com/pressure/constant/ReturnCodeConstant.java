@@ -39,5 +39,13 @@ public class ReturnCodeConstant {
 	 * xmpp服务器错误
 	 */
 	public static final int XmppServerError = -201;
+	/**
+	 * 论坛帖子找不到
+	 */
+	public static final int ForumNotFound = -301;
+	/**
+	 * 找到的人是自己
+	 */
+	public static final int MatchUserIsMe = -401;
 
 }

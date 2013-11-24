@@ -15,6 +15,7 @@
 #import "RPChat.h"
 #import "RPAuthModel.h"
 #import "RPServerApiDef.h"
+#import "RPBaseVCTL+Server.h"
 #import "RPChatType.h"
 #import "RPFrChatVCTL.h"
 #import "RPAppModel.h"
@@ -88,8 +89,7 @@
     SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(mulDic, NUMI(profile.gender), kRPServerRequest_Gender);
     SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(mulDic, LONGLONG2NUM(1), kRPServerRequest_ChatType);
     SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(mulDic, NUMI(0), kRPServerRequest_Type);
-    RPServerRequest *serverReq =  [[RPServerOperation sharedInstance] generateDefaultServerRequest:self operationType:kServerApi_UpdateMatchType dic:mulDic];
-    [[RPServerOperation sharedInstance] asyncToServerByRequest:serverReq];
+    [self serverCall:kServerApi_UpdateMatchType data:mulDic];
 }
 
 - (void)serverCallFrMatch:(RPSearchType *)searchType
@@ -99,8 +99,7 @@
     SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(mulDic, NUMI(searchType.gender), kRPServerRequest_Gender);
     SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(mulDic, LONGLONG2NUM(searchType.chatType.dbId), kRPServerRequest_ChatType);
     SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(mulDic, SAFESTR(searchType.city), kRPServerRequest_City);
-    RPServerRequest *serverReq =  [[RPServerOperation sharedInstance] generateDefaultServerRequest:self operationType:kServerApi_FrMatch dic:mulDic];
-    [[RPServerOperation sharedInstance] asyncToServerByRequest:serverReq];
+    [self serverCall:kServerApi_FrMatch data:mulDic];
 }
 
 - (void)updateUI:(RPServerResponse *)serverResp

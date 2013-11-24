@@ -10,6 +10,9 @@
 		<typeAlias alias="FrWantChatType" type="com.pressure.meta.FrWantChatType" />
 		<typeAlias alias="ChatType" type="com.pressure.meta.ChatType" />
 		<typeAlias alias="Treehole" type="com.pressure.meta.Treehole" />
+		<typeAlias alias="Forum" type="com.pressure.meta.Forum" />
+		<typeAlias alias="Picture" type="com.pressure.meta.Picture" />
+		<typeAlias alias="Audio" type="com.pressure.meta.Audio" />
 	</typeAliases>
 	<mappers>
 		<mapper resource="com/pressure/mapper/xml/ProfileMapper.xml" />
@@ -20,5 +23,8 @@
 		<mapper resource="com/pressure/mapper/xml/FrWantChatTypeMapper.xml" />
 		<mapper resource="com/pressure/mapper/xml/ChatTypeMapper.xml" />
 		<mapper resource="com/pressure/mapper/xml/TreeholeMapper.xml" />
+		<mapper resource="com/pressure/mapper/xml/ForumMapper.xml" />
+		<mapper resource="com/pressure/mapper/xml/PictureMapper.xml" />
+		<mapper resource="com/pressure/mapper/xml/AudioMapper.xml" />
 	</mappers>
 </configuration>

@@ -14,6 +14,7 @@
 #import "RPUserProfileView.h"
 #import "RPProfile.h"
 #import "RPXmppManager.h"
+#import "RPForumVCTL.h"
 #import "RPFrChatVCTL.h"
 @interface RPIndexVCTL ()
 
@@ -47,6 +48,14 @@
     
     [settingBtn setTitle:@"设置" forState:UIControlStateNormal];
     [self.contentView addSubview:settingBtn];
+    
+    
+    UIButton *forumBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [forumBtn addTarget:self action:@selector(forumClick:) forControlEvents:UIControlEventTouchUpInside];
+    forumBtn.frame = CGRectMake(150, 150, 100, 44);
+    
+    [forumBtn setTitle:@"论坛" forState:UIControlStateNormal];
+    [self.contentView addSubview:forumBtn];
     
     RPAuthModel *authModel = [RPAuthModel sharedInstance];
     if (!authModel.connectedOpenFireSucc)
@@ -95,6 +104,12 @@
 - (void)holeClick:(id)sender
 {
     
+}
+
+- (void)forumClick:(id)sender
+{
+    RPForumVCTL *forumVCTL = [[RPForumVCTL alloc] init];
+    [self.navigationController pushViewController:forumVCTL animated:YES];
 }
 
 - (void)frClick:(id)sender

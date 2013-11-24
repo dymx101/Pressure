@@ -20,6 +20,8 @@
 #define kServerApi_UpdateMatchType  @"updateMatchType"
 #define kServerApi_GetUserProfileByJid  @"getUserProfileByJid"
 
-
+//论坛
+#define kServerApi_Add_To_Forum          @"addForum"
+#define kServerApi_Get_Forum_List        @"getForumList"
 
 #endif

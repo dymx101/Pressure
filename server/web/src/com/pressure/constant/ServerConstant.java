@@ -32,4 +32,6 @@ public class ServerConstant {
 	 */
 	public static final String Api_Return_MV = "return";
 
+	public static final String QINiu_Host = "";
+
 }

@@ -307,6 +307,12 @@ static RPXmppStream *rpXmppStream = nil;
             [self.delegate talkerFindFatherPresence:self from:fromUserName to:toUserName];
         }
         return;
+    }else if ([[presence status] isEqualToString:@"father_find_talker"])
+    {
+        if ([self.delegate respondsToSelector:@selector(FatherFindTalkerPresence:from:to:)])
+        {
+            [self.delegate FatherFindTalkerPresence:self from:fromUserName to:toUserName];
+        }
     }
     
 }

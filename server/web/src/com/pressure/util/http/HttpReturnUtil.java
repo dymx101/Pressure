@@ -7,8 +7,11 @@ import net.sf.json.JSONObject;
 
 import com.pressure.constant.BasicObjectConstant;
 import com.pressure.constant.ServerConstant;
+import com.pressure.meta.Audio;
 import com.pressure.meta.ChatType;
+import com.pressure.meta.Forum;
 import com.pressure.meta.FrChatGroup;
+import com.pressure.meta.Picture;
 import com.pressure.meta.Profile;
 import com.pressure.meta.Session;
 import com.pressure.meta.Treehole;
@@ -49,18 +52,18 @@ public class HttpReturnUtil {
 		}
 		if (profile != null) {
 			JSONObject profileObject = new JSONObject();
-			profileObject.put("user_id", profile.getUserId());
-			profileObject.put("user_name", profile.getUserName());
-			profileObject.put("avatar_url", profile.getAvatorUrl());
-			profileObject.put("nick_name", profile.getNickName());
-			profileObject.put("age", profile.getAge());
-			profileObject.put("gender", profile.getGender());
+			profileObject.put(Profile.kUserId, profile.getUserId());
+			profileObject.put(Profile.kUserName, profile.getUserName());
+			profileObject.put(Profile.kAvatarUrl, profile.getAvatorUrl());
+			profileObject.put(Profile.kNickName, profile.getNickName());
+			profileObject.put(Profile.kAge, profile.getAge());
+			profileObject.put(Profile.kGender, profile.getGender());
 
 			JSONObject xmppObject = new JSONObject();
-			xmppObject.put("xmpp_user_name", profile.getXmppUserName());
-			xmppObject.put("secret_key",
+			xmppObject.put(Profile.kXmppUserName, profile.getXmppUserName());
+			xmppObject.put(Profile.kSecretKey,
 					ServerConstant.OpenFire_PassWord_Secure_Key);
-			xmppObject.put("domain", profile.getDomain());
+			xmppObject.put(Profile.kDomain, profile.getDomain());
 			profileObject.put(BasicObjectConstant.kReturnObject_XmppProfile,
 					xmppObject);
 			dataObject.put(BasicObjectConstant.kReturnObject_Profile,
@@ -94,35 +97,40 @@ public class HttpReturnUtil {
 	 * 
 	 * @param returnObject
 	 */
-	public static void returnDataFrMatch(Profile profile,
+	public static void returnDataFrMatch(Profile toProfile,
 			JSONObject returnObject, FrChatGroup chatGroup) {
 		JSONObject dataObject = new JSONObject();
 		JSONObject chatObj = new JSONObject();
 		if (chatGroup != null) {
 			chatObj.put("chat_id", chatGroup.getGroupId());
+			if (toProfile.getUserId() == chatGroup.getUser1()) {
+				chatObj.put("user_type", FrChatGroup.Talker); // 说明这个profile是一个talker
+			} else {
+				chatObj.put("user_type", FrChatGroup.Father);// 说明这个profile是一个father
+			}
+
 			dataObject.put(BasicObjectConstant.kReturnObject_Chat, chatObj);
 		}
-		if (profile != null) {
+		if (toProfile != null) {
 			JSONObject profileObject = new JSONObject();
-			profileObject.put("user_id", profile.getUserId());
-			profileObject.put("user_name", profile.getUserName());
-			profileObject.put("avatar_url", profile.getAvatorUrl());
-			profileObject.put("nick_name", profile.getNickName());
-			profileObject.put("age", profile.getAge());
-			profileObject.put("gender", profile.getGender());
+			profileObject.put(Profile.kUserId, toProfile.getUserId());
+			profileObject.put(Profile.kUserName, toProfile.getUserName());
+			profileObject.put(Profile.kAvatarUrl, toProfile.getAvatorUrl());
+			profileObject.put(Profile.kNickName, toProfile.getNickName());
+			profileObject.put(Profile.kAge, toProfile.getAge());
+			profileObject.put(Profile.kGender, toProfile.getGender());
 
 			JSONObject xmppObject = new JSONObject();
-			xmppObject.put("xmpp_user_name", profile.getXmppUserName());
-			xmppObject.put("secret_key",
+			xmppObject.put(Profile.kXmppUserName, toProfile.getXmppUserName());
+			xmppObject.put(Profile.kSecretKey,
 					ServerConstant.OpenFire_PassWord_Secure_Key);
-			xmppObject.put("domain", profile.getDomain());
+			xmppObject.put(Profile.kDomain, toProfile.getDomain());
 			profileObject.put(BasicObjectConstant.kReturnObject_XmppProfile,
 					xmppObject);
 			chatObj.put(BasicObjectConstant.kReturnObject_Profile,
 					profileObject);
 		}
-		dataObject.put(BasicObjectConstant.kReturnObject_Chat,
-				chatObj);
+		dataObject.put(BasicObjectConstant.kReturnObject_Chat, chatObj);
 		HttpReturnUtil.returnDataObject(dataObject, returnObject);
 	}
 
@@ -157,7 +165,7 @@ public class HttpReturnUtil {
 				treeholeArray.add(treeholeObject);
 			}
 		}
-		dataObject.put("treeholeList", treeholeArray.toString());
+		dataObject.put("treeholeList", treeholeArray);
 		dataObject.put(BasicObjectConstant.kReturnObject_Treehole, dataObject);
 		HttpReturnUtil.returnDataObject(dataObject, returnObject);
 	}
@@ -178,8 +186,73 @@ public class HttpReturnUtil {
 			chatTypeArray.add(chatTypeObject);
 		}
 		dataObject.put(BasicObjectConstant.kReturnObject_ChatType_List,
-				chatTypeArray.toString());
+				chatTypeArray);
 		HttpReturnUtil.returnDataObject(dataObject, returnObject);
 	}
 
+	/**
+	 * 论坛列表
+	 * 
+	 * @param forumList
+	 * @param returnObject
+	 */
+	public static void returnForumList(List<Forum> forumList,
+			JSONObject returnObject) {
+		JSONObject dataObject = new JSONObject();
+		JSONArray forumArray = new JSONArray();
+		if (ListUtils.isEmptyList(forumList)) {
+			dataObject.put(BasicObjectConstant.kReturnObject_Forum_List,
+					forumArray);
+			HttpReturnUtil.returnDataObject(dataObject, returnObject);
+			return;
+		}
+		for (Forum forum : forumList) {
+			JSONObject forumObject = new JSONObject();
+			forumObject.put(Forum.kForum_Id, forum.getId());
+			forumObject.put(Forum.kText, forum.getText());
+			forumObject.put(Forum.kCreateTime, forum.getCreateTime());
+			forumObject.put(Forum.kUpdateTime, forum.getUpdateTime());
+			forumObject.put(Forum.kChatType, forum.getChatType());
+
+			Profile profile = forum.getProfile();
+			if (profile != null) {
+				JSONObject profileObject = new JSONObject();
+				profileObject.put(Profile.kUserId, profile.getUserId());
+				profileObject.put(Profile.kNickName, profile.getNickName());
+
+				JSONObject xmppObject = new JSONObject();
+				xmppObject
+						.put(Profile.kXmppUserName, profile.getXmppUserName());
+				xmppObject.put(Profile.kDomain, profile.getDomain());
+				profileObject.put(
+						BasicObjectConstant.kReturnObject_XmppProfile,
+						xmppObject);
+				forumObject.put(BasicObjectConstant.kReturnObject_Profile,
+						profileObject);
+			}
+			Picture picture = forum.getPicture();
+			if (picture != null) {
+				JSONObject pictureObject = new JSONObject();
+				pictureObject.put(Picture.kPictureUrl, picture.getPictureUrl());
+				pictureObject.put(Picture.kFileSize, picture.getFileSize());
+				pictureObject.put(Picture.kWidth, picture.getWidth());
+				pictureObject.put(Picture.kHeight, picture.getHeight());
+				forumObject.put(BasicObjectConstant.kReturnObject_Picture,
+						pictureObject);
+			}
+			Audio audio = forum.getAudio();
+			if (audio != null) {
+				JSONObject audioObject = new JSONObject();
+				audioObject.put(Audio.kAudioUrl, audio.getAudioUrl());
+				audioObject.put(Audio.kAudioSec, audio.getAudioSec());
+				audioObject.put(Audio.kFileSize, audio.getFileSize());
+				forumObject.put(BasicObjectConstant.kReturnObject_Audio,
+						audioObject);
+			}
+			forumArray.add(forumObject);
+		}
+		dataObject
+				.put(BasicObjectConstant.kReturnObject_Forum_List, forumArray);
+		HttpReturnUtil.returnDataObject(dataObject, returnObject);
+	}
 }

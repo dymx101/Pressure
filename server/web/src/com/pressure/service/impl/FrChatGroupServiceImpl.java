@@ -9,10 +9,12 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.pressure.mapper.ChatTypeMapper;
+import com.pressure.mapper.ForumMapper;
 import com.pressure.mapper.FrChatGroupMapper;
 import com.pressure.mapper.FrWantChatTypeMapper;
 import com.pressure.mapper.ProfileMapper;
 import com.pressure.meta.ChatType;
+import com.pressure.meta.Forum;
 import com.pressure.meta.FrChatGroup;
 import com.pressure.meta.FrWantChatType;
 import com.pressure.meta.Profile;
@@ -38,6 +40,9 @@ public class FrChatGroupServiceImpl implements FrChatGroupService {
 	@Resource
 	private ChatTypeMapper chatTypeMapper;
 
+	@Resource
+	private ForumMapper forumMapper;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -46,7 +51,8 @@ public class FrChatGroupServiceImpl implements FrChatGroupService {
 	 * .meta.Profile, com.pressure.meta.Profile)
 	 */
 	@Override
-	public FrChatGroup addFrChatGroupService(Profile user1, Profile user2) {
+	public FrChatGroup addFrChatGroupService(Profile user1, Profile user2,
+			int user1Type) {
 		FrChatGroup frChatGroup = new FrChatGroup();
 		frChatGroup.setUser1(user1.getUserId());
 		frChatGroup.setUser2(user2.getUserId());
@@ -244,5 +250,33 @@ public class FrChatGroupServiceImpl implements FrChatGroupService {
 	public FrChatGroup getFrChatGroup(long userId1, long userId2) {
 
 		return frChatGroupMapper.getFrChatGroup(userId1, userId2, 0);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.pressure.service.FrChatGroupService#matchTalkerFromForum(long,
+	 * long)
+	 */
+	@Override
+	public FrChatGroup matchTalkerFromForum(long userId, Forum forum) {
+		Profile myProfile = profileMapper.getProfileByUserId(userId);
+		Profile profile = profileMapper.getProfileByUserId(forum.getUserId());
+		if (profile.getUserId() == userId) {
+			return null;
+		}
+		boolean succ = openfireService.addRoster(profile.getXmppUserName(),
+				myProfile.getJid(), "", 3, "");
+		if (!succ) {
+			return null;
+		}
+		openfireService.sendFatherFindTalker(myProfile.getJid(),
+				profile.getJid());
+		FrChatGroup chatGroup = this.addFrChatGroupService(myProfile, profile,
+				FrChatGroup.FatherTalker);
+		if (chatGroup != null) {
+			return chatGroup;
+		}
+		return null;
 	}
 }

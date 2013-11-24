@@ -25,15 +25,10 @@
 //
 
 #import "EGORefreshTableHeaderView.h"
-
-
-#define TEXT_COLOR	 [UIColor colorWithRed:87.0/255.0 green:108.0/255.0 blue:137.0/255.0 alpha:1.0]
+#import "NSDate+TomAddition.h"
+#define TEXT_COLOR	[UIColor colorWithRed:87.0/255.0 green:108.0/255.0 blue:137.0/255.0 alpha:1.0]
 #define FLIP_ANIMATION_DURATION 0.18f
 
-
-@interface EGORefreshTableHeaderView (Private)
-- (void)setState:(EGOPullRefreshState)aState;
-@end
 
 @implementation EGORefreshTableHeaderView
 
@@ -44,15 +39,15 @@
     if (self = [super initWithFrame:frame]) {
 		
 		self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-		self.backgroundColor = [UIColor whiteColor];
-        //[UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:237.0/255.0 alpha:1.0];
-
+		//self.backgroundColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:237.0/255.0 alpha:1.0];
+		self.backgroundColor = [UIColor clearColor];
+		
 		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, frame.size.height - 30.0f, self.frame.size.width, 20.0f)];
 		label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 		label.font = [UIFont systemFontOfSize:12.0f];
 		label.textColor = TEXT_COLOR;
-		//label.shadowColor = [UIColor colorWithWhite:0.9f alpha:1.0f];
-		//label.shadowOffset = CGSizeMake(0.0f, 1.0f);
+		label.shadowColor = [UIColor colorWithWhite:0.9f alpha:1.0f];
+		label.shadowOffset = CGSizeMake(0.0f, 1.0f);
 		label.backgroundColor = [UIColor clearColor];
 		label.textAlignment = UITextAlignmentCenter;
 		[self addSubview:label];
@@ -63,8 +58,8 @@
 		label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 		label.font = [UIFont boldSystemFontOfSize:13.0f];
 		label.textColor = TEXT_COLOR;
-		//label.shadowColor = [UIColor colorWithWhite:0.9f alpha:1.0f];
-		//label.shadowOffset = CGSizeMake(0.0f, 1.0f);
+		label.shadowColor = [UIColor colorWithWhite:0.9f alpha:1.0f];
+		label.shadowOffset = CGSizeMake(0.0f, 1.0f);
 		label.backgroundColor = [UIColor clearColor];
 		label.textAlignment = UITextAlignmentCenter;
 		[self addSubview:label];
@@ -74,7 +69,7 @@
 		CALayer *layer = [CALayer layer];
 		layer.frame = CGRectMake(25.0f, frame.size.height - 65.0f, 30.0f, 55.0f);
 		layer.contentsGravity = kCAGravityResizeAspect;
-		layer.contents = (id)[UIImage imageNamed:@"tableview_pulltorefresh_arrow.png"].CGImage;
+		layer.contents = (id)[UIImage imageNamed:@"blueArrow.png"].CGImage;
 		
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 40000
 		if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) {
@@ -93,6 +88,7 @@
 		
 		
 		[self setState:EGOOPullRefreshNormal];
+		
     }
 	
     return self;
@@ -105,18 +101,15 @@
 
 - (void)refreshLastUpdatedDate {
 	
-	if ([_delegate respondsToSelector:@selector(egoRefreshTableHeaderDataSourceLastUpdated:)]) {
+	if ([_delegate respondsToSelector:@selector(down_egoRefreshTableHeaderDataSourceLastUpdated:)]) {
 		
-		NSDate *date = [_delegate egoRefreshTableHeaderDataSourceLastUpdated:self];
+		NSDate *date = [_delegate down_egoRefreshTableHeaderDataSourceLastUpdated:self];
 		
-		NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-		[formatter setAMSymbol:@"AM"];
-		[formatter setPMSymbol:@"PM"];
-		[formatter setDateFormat:@"MM/dd/yyyy HH:mm"];
-		_lastUpdatedLabel.text = [NSString stringWithFormat:@"上次刷新: %@", [formatter stringFromDate:date]];
+		_lastUpdatedLabel.text = [NSString stringWithFormat:@"最后更新于: %@", [date pd_description]];
+		
 		[[NSUserDefaults standardUserDefaults] setObject:_lastUpdatedLabel.text forKey:@"EGORefreshTableView_LastRefresh"];
 		[[NSUserDefaults standardUserDefaults] synchronize];
-		[formatter release];
+
 		
 	} else {
 		
@@ -131,7 +124,7 @@
 	switch (aState) {
 		case EGOOPullRefreshPulling:
 			
-			_statusLabel.text = NSLocalizedString(@"松开即可刷新...", @"Release to refresh status");
+			_statusLabel.text = NSLocalizedString(@"放开手指后刷新...", @"Release to refresh status");
 			[CATransaction begin];
 			[CATransaction setAnimationDuration:FLIP_ANIMATION_DURATION];
 			_arrowImage.transform = CATransform3DMakeRotation((M_PI / 180.0) * 180.0f, 0.0f, 0.0f, 1.0f);
@@ -147,7 +140,7 @@
 				[CATransaction commit];
 			}
 			
-			_statusLabel.text = NSLocalizedString(@"下拉可以刷新...", @"Pull down to refresh status");
+			_statusLabel.text = NSLocalizedString(@"继续下拉后刷新...", @"Pull down to refresh status");
 			[_activityView stopAnimating];
 			[CATransaction begin];
 			[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions]; 
@@ -160,7 +153,7 @@
 			break;
 		case EGOOPullRefreshLoading:
 			
-			_statusLabel.text = NSLocalizedString(@"载入中...", @"Loading Status");
+			_statusLabel.text = NSLocalizedString(@"刷新中...", @"Loading Status");
 			[_activityView startAnimating];
 			[CATransaction begin];
 			[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions]; 
@@ -190,8 +183,8 @@
 	} else if (scrollView.isDragging) {
 		
 		BOOL _loading = NO;
-		if ([_delegate respondsToSelector:@selector(egoRefreshTableHeaderDataSourceIsLoading:)]) {
-			_loading = [_delegate egoRefreshTableHeaderDataSourceIsLoading:self];
+		if ([_delegate respondsToSelector:@selector(down_egoRefreshTableHeaderDataSourceIsLoading:)]) {
+			_loading = [_delegate down_egoRefreshTableHeaderDataSourceIsLoading:self];
 		}
 		
 		if (_state == EGOOPullRefreshPulling && scrollView.contentOffset.y > -65.0f && scrollView.contentOffset.y < 0.0f && !_loading) {
@@ -208,48 +201,44 @@
 	
 }
 
-- (void)egoRefreshScrollViewDidEndDragging:(UIScrollView *)scrollView {
+- (void)egoRefreshScrollViewDidEndDragging:(UIScrollView *)scrollView changeInset:(BOOL)changeInset{
 	
 	BOOL _loading = NO;
-	if ([_delegate respondsToSelector:@selector(egoRefreshTableHeaderDataSourceIsLoading:)]) {
-		_loading = [_delegate egoRefreshTableHeaderDataSourceIsLoading:self];
+	if ([_delegate respondsToSelector:@selector(down_egoRefreshTableHeaderDataSourceIsLoading:)]) {
+		_loading = [_delegate down_egoRefreshTableHeaderDataSourceIsLoading:self];
 	}
 	
 	if (scrollView.contentOffset.y <= - 65.0f && !_loading) {
 		
-		if ([_delegate respondsToSelector:@selector(egoRefreshTableHeaderDidTriggerRefresh:)]) {
-			[_delegate egoRefreshTableHeaderDidTriggerRefresh:self];
+		if ([_delegate respondsToSelector:@selector(down_egoRefreshTableHeaderDidTriggerRefresh:)]) {
+			[_delegate down_egoRefreshTableHeaderDidTriggerRefresh:self];
 		}
 		
 		[self setState:EGOOPullRefreshLoading];
-		[UIView beginAnimations:nil context:NULL];
-		[UIView setAnimationDuration:0.2];
-		scrollView.contentInset = UIEdgeInsetsMake(60.0f, 0.0f, 0.0f, 0.0f);
-		[UIView commitAnimations];
-		
-	}
+        
+        if (changeInset) {
+            
+            [UIView beginAnimations:nil context:NULL];
+            [UIView setAnimationDuration:0.2];
+            scrollView.contentInset = UIEdgeInsetsMake(60.0f, 0.0f, 0.0f, 0.0f);
+            [UIView commitAnimations];
+        }
+    }
 	
 }
 
-- (void)egoRefreshScrollViewDataSourceDidFinishedLoading:(UIScrollView *)scrollView {	
-	
-	[UIView beginAnimations:nil context:NULL];
-	[UIView setAnimationDuration:.3];
-	[scrollView setContentInset:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
-	[UIView commitAnimations];
-	
+- (void)egoRefreshScrollViewDataSourceDidFinishedLoading:(UIScrollView *)scrollView changeInset:(BOOL)changeInset{
+  
+  if (changeInset) {
+    
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:.3];
+    [scrollView setContentInset:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
+    [UIView commitAnimations];    
+  }
+
 	[self setState:EGOOPullRefreshNormal];
-
-}
-
-//扩展:下拉显示加载
-- (void)initLoading:(UIScrollView *)scrollView {
-//    [UIView beginAnimations:nil context:nil];
-//    [UIView setAnimationDuration:0.3];
-    scrollView.contentInset = UIEdgeInsetsMake(60.0f, 0.0f, 0.0f, 0.0f);
-    scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, -60);
-    [self setState:EGOOPullRefreshLoading];
-//    [UIView commitAnimations];
+    
 }
 
 
@@ -257,7 +246,8 @@
 #pragma mark Dealloc
 
 - (void)dealloc {
-	_delegate = nil;
+	
+	_delegate=nil;
 	_activityView = nil;
 	_statusLabel = nil;
 	_arrowImage = nil;

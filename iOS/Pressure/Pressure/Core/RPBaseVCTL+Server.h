@@ -10,4 +10,6 @@
 
 @interface RPBaseVCTL (Server)
 
+- (void)serverCall:(NSString *)operationType data:(NSDictionary *)dic;
+- (void)asynServerCall:(NSString *)operationType data:(NSDictionary *)dic;
 @end

@@ -10,7 +10,7 @@
 #import "RPBaseBar.h"
 @interface RPBaseVCTL ()<RPBaseBarDelegate>
 {
-    RPBaseBar *_bar;
+    
 }
 
 @end
@@ -95,12 +95,12 @@
 
 #pragma mark -
 #pragma mark RPBaseBar
-- (void)leftButtonClick
+- (void)leftButtonClick:(RPBaseBar *)bar
 {
     [self backToPrefix];
 }
 
-- (void)rightButtonClick
+- (void)rightButtonClick:(RPBaseBar *)bar
 {
     
 }

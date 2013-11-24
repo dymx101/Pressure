@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "RPChat.h"
 
 /**
  用于处理返回后的ui显示
@@ -21,7 +21,7 @@ typedef enum AppServerOperationResponse_Type
     //继续往下走，不过后续不需要做隐藏hud操作
     AppServerOperationResponse_Type_ShowError
 }AppServerOperationResponse_Type;
-
+@class RPForum;
 @interface RPAppServerOperation : NSObject
 
 @property (nonatomic) BOOL refreshingToken;
@@ -33,6 +33,7 @@ typedef enum AppServerOperationResponse_Type
 - (void)asynServerCallToBeFather;
 - (void)serverCallRefreshToken;
 - (void)asynServerCallChatType;
-- (void)serverCallGetUserProfileByJid:(NSString *)xmppUsername;
+- (void)serverCallGetUserProfileByJid:(NSString *)xmppUsername type:(RPChat_UserType)type;
 - (void)asynLoginWithThirdPartAuth;
+
 @end

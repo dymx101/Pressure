@@ -9,6 +9,7 @@
 #import "RPChat.h"
 #import "RPProfile.h"
 #define kChatId @"chat_id"
+#define kUserType @"user_type"
 @implementation RPChat
 
 - (id)initWithJSONDic:(NSDictionary *)jsonDic
@@ -18,6 +19,7 @@
     {
         _profile = [[RPProfile alloc] initWithJSONDic:jsonDic[kMetaKey_Profile]];
         _chat_id = [[jsonDic objectForKey:kChatId] longLongValue];
+        _userType = [[jsonDic objectForKey:kUserType] intValue];
     }
     return self;
 }

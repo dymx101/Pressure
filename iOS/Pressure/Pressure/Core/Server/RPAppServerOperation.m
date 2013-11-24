@@ -16,6 +16,8 @@
 #import "RPFrChatModel.h"
 #import "RPChatType.h"
 #import "RPChat.h"
+#import "RPForum.h"
+#import "RPChat.h"
 #import "BlockAlertView.h"
 #import "RPUtilities.h"
 @implementation RPAppServerOperation
@@ -67,14 +69,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(RPAppServerOperation)
     [[RPServerOperation sharedInstance] asyncToServerByRequest:serverReq];
 }
 
-- (void)serverCallGetUserProfileByJid:(NSString *)xmppUsername
+- (void)serverCallGetUserProfileByJid:(NSString *)xmppUsername type:(RPChat_UserType)type
 {
     NSMutableDictionary *mulDic = [[NSMutableDictionary alloc] init];
     SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(mulDic, SAFESTR(xmppUsername), kRPServerRequest_XmppUserName);
+    SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(mulDic, NUMI(type), kRPServerRequest_Type);
     RPServerRequest *serverReq =  [[RPServerOperation sharedInstance] generateDefaultServerRequest:self operationType:kServerApi_GetUserProfileByJid dic:mulDic];
     [[RPServerOperation sharedInstance] syncToServerByRequest:serverReq];
 }
-
 
 
 #pragma mark -
@@ -113,18 +115,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(RPAppServerOperation)
         {
             RPChat *returnChat = [[RPChat alloc] initWithJSONDic:serverResp.obj[kMetaKey_Chat]];
             RPFrChatModel *chatModel = [RPFrChatModel sharedInstance];
-            [chatModel.talkerChats addObject:returnChat];
-            [RPUtilities runOnMainQueueWithoutDeadlocking:^{
-                BlockAlertView *alertView = [[BlockAlertView alloc] initWithTitle:@"有人找到你啦" message:@"有人找到你啦"];
-                [alertView addButtonWithTitle:@"好的" block:^{
-                   [[NSNotificationCenter defaultCenter] postNotificationName:kNotif_TalkerFindFather object:nil];
-                }];
-                [alertView setCancelButtonWithTitle:@"取消" block:^{
-                    
-                }];
-                [alertView show];
-            }];
-            
+            if (returnChat.userType == RPChat_UserType_Talker)
+            {
+                [chatModel.talkerChats addObject:returnChat];
+            }else if (returnChat.userType == RPChat_UserType_Father)
+            {
+                [chatModel.fatherChats addObject:returnChat];
+            }
         }
     }
   

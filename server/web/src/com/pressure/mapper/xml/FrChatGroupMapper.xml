@@ -7,6 +7,8 @@
 		<result property="user1" column="user1" />
 		<result property="user2" column="user2" />
 		<result property="status" column="status" />
+		<result property="type" column="type" />
+
 	</resultMap>
 
 	<insert id="addFrChatGroup" parameterType="FrChatGroup">
@@ -15,12 +17,14 @@
 		groupName,
 		user1,
 		user2,
-		status
+		status,
+		type
 		)VALUES(
 		#{groupName},
 		#{user1},
 		#{user2},
-		#{status}
+		#{status},
+		#{type}
 		)
 		<selectKey keyProperty="groupId" resultType="long">
 			SELECT
@@ -33,6 +37,6 @@
 		SELECT * from
 		TB_FrChatGroup where
 		user1=#{userId1} and user2 = #{userId2} and status
-		= #{status};
+		= #{status} and type = 0;
 	</select>
 </mapper>
