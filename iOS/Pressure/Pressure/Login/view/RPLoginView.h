@@ -7,15 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "RPUtilities.h"
+@class RPLoginView;
 @protocol RPLoginViewDelegate <NSObject>
 
-
+- (void)rpLoginViewLogin:(NSString*)userName passWord:(NSString *)passWord;
 
 @end
-
 @interface RPLoginView : UIView
 
-
+@property (nonatomic,copy) VoidBlockType registerBlock;
 @property (nonatomic,assign) id<RPLoginViewDelegate> delegate;
+
 @end

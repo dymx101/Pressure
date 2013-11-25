@@ -345,6 +345,7 @@
 		9BA681FD182FD2F20019F82F /* RPFeedHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BA681FC182FD2F20019F82F /* RPFeedHeaderView.m */; };
 		9BA68200182FD68D0019F82F /* RPBaseBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BA681FF182FD68D0019F82F /* RPBaseBar.m */; };
 		9BBEE8331827E1E000555695 /* RPBaseVCTL+Server.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BBEE8321827E1E000555695 /* RPBaseVCTL+Server.m */; };
+		9BD2C02618439FF0009D5DAB /* GradientButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD2C02518439FF0009D5DAB /* GradientButton.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9BDEA6F3183125D6004442E7 /* RPUserProfileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDEA6F2183125D6004442E7 /* RPUserProfileView.m */; };
 		9BF3AF2B1841E05B007DA637 /* RPLoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BF3AF2A1841E05B007DA637 /* RPLoginView.m */; };
 		9BF3AF2E1841E066007DA637 /* RPRegisterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BF3AF2D1841E066007DA637 /* RPRegisterView.m */; };
@@ -987,6 +988,8 @@
 		9BA681FF182FD68D0019F82F /* RPBaseBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPBaseBar.m; sourceTree = "<group>"; };
 		9BBEE8311827E1E000555695 /* RPBaseVCTL+Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RPBaseVCTL+Server.h"; sourceTree = "<group>"; };
 		9BBEE8321827E1E000555695 /* RPBaseVCTL+Server.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RPBaseVCTL+Server.m"; sourceTree = "<group>"; };
+		9BD2C02418439FF0009D5DAB /* GradientButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradientButton.h; sourceTree = "<group>"; };
+		9BD2C02518439FF0009D5DAB /* GradientButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GradientButton.m; sourceTree = "<group>"; };
 		9BDEA6F1183125D6004442E7 /* RPUserProfileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPUserProfileView.h; sourceTree = "<group>"; };
 		9BDEA6F2183125D6004442E7 /* RPUserProfileView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPUserProfileView.m; sourceTree = "<group>"; };
 		9BF3AF291841E05B007DA637 /* RPLoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPLoginView.h; sourceTree = "<group>"; };
@@ -1117,6 +1120,7 @@
 		3803BA49181D09AF00256559 /* ThirdPart */ = {
 			isa = PBXGroup;
 			children = (
+				9BD2C02318439FF0009D5DAB /* GradientButton */,
 				9B6BF0BB1840876B0049766D /* EGO */,
 				9B127C4718387D73003A1742 /* SVSegmentedControl */,
 				9B11343C1833D7D7009CE9FA /* BlockAlertSheet */,
@@ -2591,6 +2595,15 @@
 			path = view;
 			sourceTree = "<group>";
 		};
+		9BD2C02318439FF0009D5DAB /* GradientButton */ = {
+			isa = PBXGroup;
+			children = (
+				9BD2C02418439FF0009D5DAB /* GradientButton.h */,
+				9BD2C02518439FF0009D5DAB /* GradientButton.m */,
+			);
+			path = GradientButton;
+			sourceTree = "<group>";
+		};
 		9BDEA6F01831256B004442E7 /* view */ = {
 			isa = PBXGroup;
 			children = (
@@ -2888,6 +2901,7 @@
 				9B127C4C18387D73003A1742 /* SVSegmentedControl.m in Sources */,
 				9B6BF0B518407A650049766D /* RPForumVCTL.m in Sources */,
 				3803BC3A181D09B000256559 /* XMPPRoomMessageCoreDataStorageObject.m in Sources */,
+				9BD2C02618439FF0009D5DAB /* GradientButton.m in Sources */,
 				9BA681BC182FC5070019F82F /* SDWebImageDecoder.m in Sources */,
 				3803BC00181D09B000256559 /* SBJSON.m in Sources */,
 				9BA68183182FB77F0019F82F /* QiniuPutExtra.m in Sources */,

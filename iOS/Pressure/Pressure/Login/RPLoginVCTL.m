@@ -13,7 +13,7 @@
 #import "RPLoginView.h"
 #import "RPProfileView.h"
 #import "RPRegisterView.h"
-@interface RPLoginVCTL () <RPLoginViewDelegate,RPProfileViewDelegate,RPRegisterViewDelegate>
+@interface RPLoginVCTL () <RPLoginViewDelegate,RPRegisterViewDelegate,RPProfileViewDelegate>
 {
     UIScrollView *_scrollView;
 }
@@ -46,16 +46,28 @@
         [self.view addSubview:_scrollView];
     }
     
+    __block UIScrollView *weakScrollView = _scrollView;
     RPRegisterView *registerView = [[RPRegisterView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT_WITHOUT_STATUS_BAR)];
-    registerView.delegate = self;
+    [registerView setCancelBlock:^{
+        [UIView animateWithDuration:1 animations:^{
+            weakScrollView.contentOffset = CGPointMake(0, SCREEN_HEIGHT_WITHOUT_STATUS_BAR);
+        }];
+    }];
     [_scrollView addSubview:registerView];
     
     RPLoginView *loginView = [[RPLoginView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT_WITHOUT_STATUS_BAR, SCREEN_WIDTH, SCREEN_HEIGHT_WITHOUT_STATUS_BAR)];
     loginView.delegate = self;
+    
+    [loginView setRegisterBlock:^{
+        [UIView animateWithDuration:1 animations:^{
+            weakScrollView.contentOffset = CGPointMake(0, 0);
+        }];
+    }];
     [_scrollView addSubview:loginView];
     
     RPProfileView *profileView = [[RPProfileView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT_WITHOUT_STATUS_BAR*2, SCREEN_WIDTH, SCREEN_HEIGHT_WITHOUT_STATUS_BAR)];
     profileView.delegate = self;
+    
     [_scrollView addSubview:profileView];
     
     
@@ -83,6 +95,21 @@
 - (void)handleThirdPartLoginSuccNotif:(NSNotification *)notif
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:kNotif_LoginSucc object:nil];
+}
+
+
+#pragma mark -
+#pragma mark RPLoginView Delegate
+- (void)rpLoginViewLogin:(NSString*)userName passWord:(NSString *)passWord
+{
+    
+}
+
+#pragma mark -
+#pragma mark RPRegisterView Delegate
+- (void)rpRegisterViewRegister:(NSString *)userName pass:(NSString *)pass
+{
+    
 }
 
 @end

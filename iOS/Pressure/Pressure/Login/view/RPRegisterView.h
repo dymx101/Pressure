@@ -7,14 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RPUtilities.h"
 
 @protocol RPRegisterViewDelegate <NSObject>
 
-
+- (void)rpRegisterViewRegister:(NSString *)userName pass:(NSString *)pass;
 
 @end
 @interface RPRegisterView : UIView
 
 
+
 @property (nonatomic,assign) id<RPRegisterViewDelegate> delegate;
+@property (nonatomic,copy) VoidBlockType cancelBlock;
 @end
