@@ -66,6 +66,22 @@ public class Profile implements Serializable {
 	 */
 	private String domain;
 	/**
+	 * 神父数量
+	 */
+	private int maxFatherCount;
+	/**
+	 * 聊天者数量
+	 */
+	private int maxTalkerCount;
+	/**
+	 * 当前神父数量
+	 */
+	private int nowFatherCount;
+	/**
+	 * 当前talker数量
+	 */
+	private int nowTalkerCount;
+	/**
 	 * 在线状态,0不在线,1在线,不存数据库
 	 */
 	private int online;
@@ -107,8 +123,7 @@ public class Profile implements Serializable {
 			return null;
 		}
 	}
-	
-	
+
 	public static final String kUserId = "user_id";
 	public static final String kUserName = "user_name";
 	public static final String kXmppUserName = "xmpp_user_name";
@@ -233,6 +248,38 @@ public class Profile implements Serializable {
 
 	public void setOnline(int online) {
 		this.online = online;
+	}
+
+	public int getMaxFatherCount() {
+		return maxFatherCount;
+	}
+
+	public void setMaxFatherCount(int maxFatherCount) {
+		this.maxFatherCount = maxFatherCount;
+	}
+
+	public int getMaxTalkerCount() {
+		return maxTalkerCount;
+	}
+
+	public void setMaxTalkerCount(int maxTalkerCount) {
+		this.maxTalkerCount = maxTalkerCount;
+	}
+
+	public int getNowFatherCount() {
+		return nowFatherCount;
+	}
+
+	public void setNowFatherCount(int nowFatherCount) {
+		this.nowFatherCount = nowFatherCount;
+	}
+
+	public int getNowTalkerCount() {
+		return nowTalkerCount;
+	}
+
+	public void setNowTalkerCount(int nowTalkerCount) {
+		this.nowTalkerCount = nowTalkerCount;
 	}
 
 	/**

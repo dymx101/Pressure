@@ -3,6 +3,7 @@ package com.pressure.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -20,6 +21,7 @@ import com.pressure.meta.FrWantChatType;
 import com.pressure.meta.Profile;
 import com.pressure.service.FrChatGroupService;
 import com.pressure.service.OpenfireService;
+import com.pressure.util.HashMapMaker;
 import com.pressure.util.ListUtils;
 
 @Service("frChatGroupService")
@@ -107,16 +109,18 @@ public class FrChatGroupServiceImpl implements FrChatGroupService {
 	@Override
 	public Profile tryToFindFather(long userId, int beginAge, int endAge,
 			int gender, long chatType) {
-		// Profile userProfile = profileMapper.getProfileByUserId(userId);
+		// 完全匹配
 		Profile profile = this.totallyMatch(userId, beginAge, endAge, gender,
 				chatType);
 		if (profile != null) {
 			return profile;
 		}
+		// 一级匹配,保证性别，聊天类型匹配并且在线
 		profile = this.firstMatch(userId, gender, chatType);
 		if (profile != null) {
 			return profile;
 		}
+		// 二级匹配,保证性别
 		profile = this.secondMatch(userId, gender);
 		if (profile != null) {
 			return profile;
@@ -148,7 +152,7 @@ public class FrChatGroupServiceImpl implements FrChatGroupService {
 	}
 
 	/**
-	 * 二级匹配,保证性别
+	 * 二级匹配,保证性别，在线不在线都可以
 	 * 
 	 * @param gender
 	 * @return
@@ -163,6 +167,7 @@ public class FrChatGroupServiceImpl implements FrChatGroupService {
 			if (!ListUtils.isEmptyList(profileList)) {
 				return this.userFromProfiles(userId, profileList);
 			} else {
+				// 如果用户不在线
 				profileList = this.usersByChatType(typeList, Profile.OFFLINE,
 						0, Integer.MAX_VALUE, -1);
 				return this.userFromProfiles(userId, profileList);
@@ -226,14 +231,25 @@ public class FrChatGroupServiceImpl implements FrChatGroupService {
 	 * @return
 	 */
 	private Profile userFromProfiles(long userId, List<Profile> profileList) {
+		List<FrChatGroup> chatGroups = frChatGroupMapper
+				.getFrChatGroupsByUserIdIsTalker(userId);
+		Map<Long, FrChatGroup> chatGroupMap = HashMapMaker.listToMap(
+				chatGroups, "getUser1", FrChatGroup.class);
 		for (Profile profile : profileList) {
 			if (userId == profile.getUserId()) {
+				continue;
+			}
+			if (profile.getNowTalkerCount() >= profile.getMaxTalkerCount()) {
+				continue;
+			}
+			// 判断这个用户的神父列表中是否已经存在用户
+			FrChatGroup chatGroup = chatGroupMap.get(profile.getUserId());
+			if (chatGroup != null) {
 				continue;
 			}
 			return profile;
 		}
 		return null;
-		// 还要将正在聊天的用户排除在外
 	}
 
 	@Override

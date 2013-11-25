@@ -12,7 +12,10 @@ age int(11) NOT NULL DEFAULT '0' COMMENT '年龄' ,
 initedXmpp int(11) NOT NULL DEFAULT '0' COMMENT '是否初始化了xmpp用户数据' ,
 xmppUserName varchar(127) NOT NULL DEFAULT ' ' COMMENT 'xmpp用户名',
 domain varchar(63) NOT NULL DEFAULT ' ' COMMENT 'domain域',
-online int(11) NOT NULL DEFAULT '0' COMMENT '在线状态' ,
+maxFatherCount int(11) NOT NULL DEFAULT '0' COMMENT '他的神父数量' ,
+maxTalkerCount int(11) NOT NULL DEFAULT '0' COMMENT '他的Talker数量' ,
+nowFatherCount int(11) NOT NULL DEFAULT '0' COMMENT '当前神父数量' ,
+nowTalkerCount int(11) NOT NULL DEFAULT '0' COMMENT '当前神父数量' ,
 PRIMARY KEY  (`UserId`)
 )   DEFAULT CHARSET=UTF8 COMMENT '用户信息表';
 

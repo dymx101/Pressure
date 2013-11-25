@@ -54,6 +54,8 @@ public class SourceAccountServiceImpl implements SourceAccountService {
 		profile.setXmppUserName("");
 		profile.setDomain(ServerConstant.OpenFire_Domain);
 		profile.setLevel(Profile.ProfileLevel.User.getValue());
+		profile.setMaxFatherCount(3);
+		profile.setMaxTalkerCount(3);
 
 		if (profileService.addProfile(profile)) {
 			String accessUserName = "未命名";

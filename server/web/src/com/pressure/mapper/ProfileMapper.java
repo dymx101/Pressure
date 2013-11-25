@@ -3,6 +3,7 @@ package com.pressure.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.bouncycastle.jce.provider.JCEBlockCipher.DESCBC;
 
 import com.pressure.meta.Profile;
 
@@ -86,4 +87,44 @@ public interface ProfileMapper {
 			@Param(value = "beginAge") int beginAge,
 			@Param(value = "endAge") int endAge,
 			@Param(value = "gender") int gender);
+
+	/**
+	 * 增加用户神父数量
+	 * 
+	 * @param userId
+	 * @param count
+	 * @return
+	 */
+	public int incUserFatherCount(@Param(value = "userId") long userId,
+			@Param(value = "count") int count);
+
+	/**
+	 * 增加用户talker数量
+	 * 
+	 * @param userId
+	 * @param count
+	 * @return
+	 */
+	public int incUserTalkerCount(@Param(value = "userId") long userId,
+			@Param(value = "count") int count);
+
+	/**
+	 * 减少用户神父数量
+	 * 
+	 * @param userId
+	 * @param count
+	 * @return
+	 */
+	public int descUserFatherCount(@Param(value = "userId") long userId,
+			@Param(value = "count") int count);
+
+	/**
+	 * 减少用户talker数量
+	 * 
+	 * @param userId
+	 * @param count
+	 * @return
+	 */
+	public int descUserTalkerCount(@Param(value = "userId") long userId,
+			@Param(value = "count") int count);
 }

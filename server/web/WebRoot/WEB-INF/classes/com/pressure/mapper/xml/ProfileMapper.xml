@@ -15,6 +15,10 @@
 		<result property="initedXmpp" column="initedXmpp" />
 		<result property="xmppUserName" column="xmppUserName" />
 		<result property="domain" column="domain" />
+		<result property="maxFatherCount" column="maxFatherCount" />
+		<result property="maxTalkerCount" column="maxTalkerCount" />
+		<result property="nowFatherCount" column="nowFatherCount" />
+		<result property="nowTalkerCount" column="nowTalkerCount" />
 	</resultMap>
 
 	<insert id="addProfile" parameterType="Profile">
@@ -31,7 +35,11 @@
 		age,
 		initedXmpp,
 		xmppUserName,
-		domain
+		domain,
+		maxFatherCount,
+		maxTalkerCount,
+		nowFatherCount,
+		nowTalkerCount
 		)VALUES(
 		#{UserName},
 		#{NickName},
@@ -44,7 +52,11 @@
 		#{age},
 		#{initedXmpp},
 		#{xmppUserName},
-		#{domain}
+		#{domain},
+		#{maxFatherCount},
+		#{maxTalkerCount},
+		#{nowFatherCount},
+		#{nowTalkerCount}
 		)
 		<selectKey keyProperty="UserId" resultType="long">
 			SELECT
@@ -114,4 +126,37 @@
 		SELECT * from TB_Profile where xmppUserName =
 		#{xmppUserName};
 	</select>
+	
+	<update id="incUserFatherCount" flushCache="true" statementType="PREPARED">
+		update TB_Profile set
+		nowFatherCount = nowFatherCount + #{count}
+		where userId
+		= #{userId}
+		;
+	</update>
+	
+	<update id="incUserTalkerCount" flushCache="true" statementType="PREPARED">
+		update TB_Profile set
+		nowTalkerCount = nowTalkerCount + #{count}
+		where userId
+		= #{userId}
+		;
+	</update>
+	
+	<update id="descUserFatherCount" flushCache="true" statementType="PREPARED">
+		update TB_Profile set
+		nowFatherCount = nowFatherCount - #{count}
+		where userId
+		= #{userId}
+		;
+	</update>
+	
+	<update id="descUserTalkerCount" flushCache="true" statementType="PREPARED">
+		update TB_Profile set
+		nowTalkerCount = nowTalkerCount - #{count}
+		where userId
+		= #{userId}
+		;
+	</update>
+	
 </mapper>

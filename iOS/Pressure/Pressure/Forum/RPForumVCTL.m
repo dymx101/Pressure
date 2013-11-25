@@ -102,7 +102,7 @@
     {
         if (serverResp.code == RPServerResponseCode_Succ)
         {
-            if (_isLoadOld)
+            if (!_isLoadOld)
             {
                 [_dataSource removeAllObjects];
                 _isTheEnd = NO;
@@ -120,6 +120,11 @@
             if ([array count] < Limit)
             {
                 _isTheEnd = YES;
+            }
+            if(_isLoadOld){
+                [self doneLoadingTableViewData];
+            }else{
+                [self doneDOWNLoadingTableViewData];
             }
             [_tv reloadData];
         }
@@ -153,7 +158,7 @@
     }
     
     RPForum *forum = [_dataSource objectAtIndex:indexPath.row];
-    [forumCell resetCell:forum];
+    [forumCell resetCell:forum index:indexPath.row];
     return forumCell;
 }
 

@@ -32,11 +32,26 @@
 		</selectKey>
 	</insert>
 
-	<!-- 查询Ridding -->
+
 	<select id="getFrChatGroup" resultMap="frChatGroupMap">
 		SELECT * from
 		TB_FrChatGroup where
 		user1=#{userId1} and user2 = #{userId2} and status
 		= #{status} and type = 0;
+	</select>
+
+	<select id="getFrChatGroupsByUserIdIsFather" resultMap="frChatGroupMap">
+		SELECT *
+		from
+		TB_FrChatGroup where
+		user1=#{userId} and status = 0 and type = 0;
+	</select>
+
+
+	<select id="getFrChatGroupsByUserIdIsTalker" resultMap="frChatGroupMap">
+		SELECT *
+		from
+		TB_FrChatGroup where
+		user2 = #{userId} and status = 0 and type = 0;
 	</select>
 </mapper>

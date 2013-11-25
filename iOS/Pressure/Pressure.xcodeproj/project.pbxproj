@@ -346,6 +346,10 @@
 		9BA68200182FD68D0019F82F /* RPBaseBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BA681FF182FD68D0019F82F /* RPBaseBar.m */; };
 		9BBEE8331827E1E000555695 /* RPBaseVCTL+Server.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BBEE8321827E1E000555695 /* RPBaseVCTL+Server.m */; };
 		9BDEA6F3183125D6004442E7 /* RPUserProfileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDEA6F2183125D6004442E7 /* RPUserProfileView.m */; };
+		9BF3AF2B1841E05B007DA637 /* RPLoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BF3AF2A1841E05B007DA637 /* RPLoginView.m */; };
+		9BF3AF2E1841E066007DA637 /* RPRegisterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BF3AF2D1841E066007DA637 /* RPRegisterView.m */; };
+		9BF3AF311841E071007DA637 /* RPProfileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BF3AF301841E071007DA637 /* RPProfileView.m */; };
+		9BF3AF341841E3BB007DA637 /* icon_weibo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BF3AF331841E3BB007DA637 /* icon_weibo@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -985,6 +989,13 @@
 		9BBEE8321827E1E000555695 /* RPBaseVCTL+Server.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RPBaseVCTL+Server.m"; sourceTree = "<group>"; };
 		9BDEA6F1183125D6004442E7 /* RPUserProfileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPUserProfileView.h; sourceTree = "<group>"; };
 		9BDEA6F2183125D6004442E7 /* RPUserProfileView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPUserProfileView.m; sourceTree = "<group>"; };
+		9BF3AF291841E05B007DA637 /* RPLoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPLoginView.h; sourceTree = "<group>"; };
+		9BF3AF2A1841E05B007DA637 /* RPLoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPLoginView.m; sourceTree = "<group>"; };
+		9BF3AF2C1841E066007DA637 /* RPRegisterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPRegisterView.h; sourceTree = "<group>"; };
+		9BF3AF2D1841E066007DA637 /* RPRegisterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPRegisterView.m; sourceTree = "<group>"; };
+		9BF3AF2F1841E071007DA637 /* RPProfileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPProfileView.h; sourceTree = "<group>"; };
+		9BF3AF301841E071007DA637 /* RPProfileView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPProfileView.m; sourceTree = "<group>"; };
+		9BF3AF331841E3BB007DA637 /* icon_weibo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_weibo@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2087,6 +2098,8 @@
 		38F0F743181EA88300361BC9 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				9BF3AF321841E3AA007DA637 /* image */,
+				9BF3AF281841E04F007DA637 /* view */,
 				38F0F744181EA89700361BC9 /* RPLoginVCTL.h */,
 				38F0F745181EA89700361BC9 /* RPLoginVCTL.m */,
 			);
@@ -2601,6 +2614,27 @@
 			path = Forum;
 			sourceTree = "<group>";
 		};
+		9BF3AF281841E04F007DA637 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				9BF3AF291841E05B007DA637 /* RPLoginView.h */,
+				9BF3AF2A1841E05B007DA637 /* RPLoginView.m */,
+				9BF3AF2C1841E066007DA637 /* RPRegisterView.h */,
+				9BF3AF2D1841E066007DA637 /* RPRegisterView.m */,
+				9BF3AF2F1841E071007DA637 /* RPProfileView.h */,
+				9BF3AF301841E071007DA637 /* RPProfileView.m */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		9BF3AF321841E3AA007DA637 /* image */ = {
+			isa = PBXGroup;
+			children = (
+				9BF3AF331841E3BB007DA637 /* icon_weibo@2x.png */,
+			);
+			path = image;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2705,6 +2739,7 @@
 				9B6BF0D11840876B0049766D /* whiteArrow@2x.png in Resources */,
 				9BA6818D182FB7CE0019F82F /* README.md in Resources */,
 				9B08240518350D2F008E8347 /* tck_nan@2x.png in Resources */,
+				9BF3AF341841E3BB007DA637 /* icon_weibo@2x.png in Resources */,
 				9B1134841833D8BC009CE9FA /* button_red@2x.png in Resources */,
 				9BA68196182FBF570019F82F /* Default@2x.png in Resources */,
 				9B11347D1833D8BC009CE9FA /* alert-window.png in Resources */,
@@ -2818,6 +2853,7 @@
 				3803BC43181D09B000256559 /* XMPPMessage+XEP0045.m in Sources */,
 				9B0824031834C223008E8347 /* RPFrFilterDialog.m in Sources */,
 				3803BC37181D09B000256559 /* XMPPPrivacy.m in Sources */,
+				9BF3AF311841E071007DA637 /* RPProfileView.m in Sources */,
 				3803BC6D181D09B000256559 /* XMPPMessageDeliveryReceipts.m in Sources */,
 				9BA681E8182FCAED0019F82F /* AutoGenCellHeader.m in Sources */,
 				9BA681BD182FC5070019F82F /* SDWebImageDownloader.m in Sources */,
@@ -2915,6 +2951,7 @@
 				3803BCA9181D12B000256559 /* RPFrChatIndexVCTL.m in Sources */,
 				3803BBEB181D09B000256559 /* NSString+MD5Addition.m in Sources */,
 				9BA681BA182FC5070019F82F /* SDImageCache.m in Sources */,
+				9BF3AF2E1841E066007DA637 /* RPRegisterView.m in Sources */,
 				38E9CE50182004CE0038B33A /* RPAppServerOperation.m in Sources */,
 				3803BC41181D09B000256559 /* XMPPRoomMessageMemoryStorageObject.m in Sources */,
 				3803BBFE181D09B000256559 /* NSObject+SBJSON.m in Sources */,
@@ -2982,6 +3019,7 @@
 				3803BC74181D09B000256559 /* XMPPAttentionModule.m in Sources */,
 				3803BC77181D09B000256559 /* XMPPMessage+XEP_0308.m in Sources */,
 				9BA68190182FBE2E0019F82F /* RPPlusView.m in Sources */,
+				9BF3AF2B1841E05B007DA637 /* RPLoginView.m in Sources */,
 				9BA681C3182FC5070019F82F /* UIImage+MultiFormat.m in Sources */,
 				3803BCA5181D124500256559 /* RPIndexVCTL.m in Sources */,
 				9BA0974C182BDB06006B4FA3 /* RPXmppGroup.m in Sources */,
