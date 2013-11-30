@@ -26,7 +26,10 @@ public class ReturnCodeConstant {
 	 * api的参数找不到
 	 */
 	public static final int ParamNotFound = -11;
-
+	/**
+	 * 用户已注册
+	 */
+	public static final int UserRegisted = -12;
 	/**
 	 * token找不到
 	 */
@@ -47,5 +50,13 @@ public class ReturnCodeConstant {
 	 * 找到的人是自己
 	 */
 	public static final int MatchUserIsMe = -401;
+	/**
+	 * 神父没有找到
+	 */
+	public static final int FatherUserNotFound = -402;
+	/**
+	 * 没有聊天组
+	 */
+	public static final int NoChatingGroup = -500;
 
 }

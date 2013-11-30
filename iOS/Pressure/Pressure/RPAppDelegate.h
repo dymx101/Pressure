@@ -14,4 +14,6 @@
 
 @property (nonatomic,retain) MLNavigationController *nav;
 
+
+- (void)enableXmppTimer;
 @end

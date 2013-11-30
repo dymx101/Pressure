@@ -16,9 +16,11 @@
 #import "RPXmppProfile.h"
 #import "RPFrChatModel.h"
 #import "RPAuthModel.h"
+#import "MLNavigationController.h"
 #import "RPFrChatTextCell.h"
 #import "RPXmppManager.h"
 #import "JSON20.h"
+#import "RPAppDelegate.h"
 #import "RPMessage.h"
 #import "RPInputView.h"
 #import "RPFrChatBar.h"
@@ -287,6 +289,11 @@
 
 - (void)handleTalkerFindFatherNotif:(NSNotification *)notif
 {
+    RPAppDelegate *delegate = (RPAppDelegate *)[UIApplication sharedApplication].delegate;
+    if ([delegate.nav topViewController] != self)
+    {
+        return;
+    }
     [self resetChatUI];
 }
 

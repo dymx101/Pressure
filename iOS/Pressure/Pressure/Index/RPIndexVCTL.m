@@ -11,11 +11,13 @@
 #import "RPAutoGenSettingVCTL.h"
 #import "AutoGen.h"
 #import "RPAuthModel.h"
-#import "RPUserProfileView.h"
 #import "RPProfile.h"
 #import "RPXmppManager.h"
 #import "RPForumVCTL.h"
 #import "RPFrChatVCTL.h"
+
+#import "MLNavigationController.h"
+#import "RPAppDelegate.h"
 @interface RPIndexVCTL ()
 
 @end
@@ -72,28 +74,9 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self checkToShowUserView];
 }
 
 
-/**
- *  判断是否在用户第一次登陆时显示用户信息页面
- */
-- (void)checkToShowUserView
-{
-    RPAuthModel *authModel = [RPAuthModel sharedInstance];
-    RPProfile *profile = authModel.profile;
-    NSString *key = [NSString stringWithFormat:@"%@_%lld",kUserDefault_FirstLogin,profile.userId];
-    NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
-    if (![userDef boolForKey:key])
-    {
-        [userDef setBool:YES forKey:key];
-        RPUserProfileView *profileView = [[RPUserProfileView alloc] initWithFrame:self.view.bounds];
-        [self.contentView addSubview:profileView];
-        [userDef synchronize];
-    }
-    
-}
 
 - (void)didReceiveMemoryWarning
 {
@@ -145,6 +128,11 @@
 
 - (void)handleTalkerFindFatherNotif:(NSNotification *)notif
 {
+    RPAppDelegate *delegate = (RPAppDelegate *)[UIApplication sharedApplication].delegate;
+    if ([[delegate.nav topViewController] isKindOfClass:[RPFrChatVCTL class]])
+    {
+        return;
+    }
     RPFrChatVCTL *chatVCTL = [[RPFrChatVCTL alloc] init];
     [self.navigationController pushViewController:chatVCTL animated:YES];
 }

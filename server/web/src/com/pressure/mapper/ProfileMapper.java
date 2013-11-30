@@ -62,10 +62,7 @@ public interface ProfileMapper {
 	 * @param lastUpdateTime
 	 * @return
 	 */
-	public int updateProfile(@Param(value = "UserId") long userId,
-			@Param(value = "NickName") String nickName,
-			@Param(value = "avatorUrl") String avatorUrl,
-			@Param(value = "LastUpdateTime") long lastUpdateTime);
+	public int updateProfile(Profile profile);
 
 	/**
 	 * 获取用户

@@ -39,35 +39,21 @@ public class SourceAccountServiceImpl implements SourceAccountService {
 			if (profile != null && profile.getInitedXmpp() == 0) {
 				profileService.createOpenfireUser(profile);
 			}
-			return sourceAccount.getUserId();
+			return profile.getUserId();
 		}
 
-		long nowTime = new Date().getTime();
-
-		Profile profile = new Profile();
-		profile.setUserName("未命名");
-		profile.setNickName("未命名");
-		profile.setTreeholePassWord("");
-		profile.setCreateTime(nowTime);
-		profile.setLastUpdateTime(nowTime);
-		profile.setAvatorUrl("未添加");
-		profile.setXmppUserName("");
-		profile.setDomain(ServerConstant.OpenFire_Domain);
-		profile.setLevel(Profile.ProfileLevel.User.getValue());
-		profile.setMaxFatherCount(3);
-		profile.setMaxTalkerCount(3);
-
-		if (profileService.addProfile(profile)) {
-			String accessUserName = "未命名";
-			SourceAccount sourceAccount2 = new SourceAccount();
-			sourceAccount2.setUserId(profile.getUserId());
-			sourceAccount2.setAccessUserId(accessUserId);
-			sourceAccount2.setAccessUserName(accessUserName);
-			sourceAccount2.setAccessToken(accessToken);
-			sourceAccount2.setExpiresIn(expiresIn);
-			sourceAccount2.setSourceType(sourceType);
-			if (sourceAccountMapper.addSourceAccount(sourceAccount2) > 0)
+		Profile profile = profileService.createProfile(null);
+		if (profile != null) {
+			sourceAccount = new SourceAccount();
+			sourceAccount.setUserId(profile.getUserId());
+			sourceAccount.setAccessUserId(accessUserId);
+			sourceAccount.setAccessUserName("");
+			sourceAccount.setAccessToken(accessToken);
+			sourceAccount.setExpiresIn(expiresIn);
+			sourceAccount.setSourceType(sourceType);
+			if (sourceAccountMapper.addSourceAccount(sourceAccount) > 0) {
 				return profile.getUserId();
+			}
 		}
 		return -1;
 	}

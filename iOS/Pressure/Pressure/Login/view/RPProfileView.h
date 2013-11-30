@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+@class RPProfile;
 
 @protocol RPProfileViewDelegate <NSObject>
 
-
+- (void)rpProfileViewDidSelect:(RPProfile *)profile;
 
 @end
 @interface RPProfileView : UIView

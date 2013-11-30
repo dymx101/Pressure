@@ -2,24 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pressure.mapper.AccountMapper">
 	<resultMap type="Account" id="accountMap">
-		<id property="UserId" column="UserId" />
-		<result property="UserName" column="UserName" />
-		<result property="PassWord" column="PassWord" />
-		<result property="CreateTime" column="CreateTime" />
+		<id property="userId" column="userId" />
+		<result property="userName" column="userName" />
+		<result property="passWord" column="passWord" />
+		<result property="createTime" column="createTime" />
 	</resultMap>
 
 	<insert id="addAccount" parameterType="Account">
 		INSERT INTO
 		TB_Account(
-		UserId,
-		UserName,
-		PassWord,
-		CreateTime
+		userId,
+		userName,
+		passWord,
+		createTime
 		)VALUES(
-		#{UserId},
-		#{UserName},
-		#{Password},
-		#{CreateTime}
+		#{userId},
+		#{userName},
+		#{passWord},
+		#{createTime}
 		)
 	</insert>
+
+	<select id="getAccountByUserName" resultMap="accountMap">
+		SELECT * from
+		TB_Account where
+		userName = #{userName};
+	</select>
+
 </mapper>

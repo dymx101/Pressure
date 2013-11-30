@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @ClassName: SourceAccount
  * @Description: TODO
  * @author yunshang_734@163.com
- * @date 2013-10-29 ����09:48:44
+ * @date 2013-10-29 09:48:44
  */
 public class SourceAccount implements Serializable {
 	/**
@@ -19,31 +19,31 @@ public class SourceAccount implements Serializable {
 	 */
 	private long Id;
 	/**
-	 * �û�Id
+	 * userId
 	 */
 	private long UserId;
 	/**
-	 * ��Դ�û�Id
+	 * 
 	 */
 	private long AccessUserId;
 	/**
-	 * ��Դ�û���
+	 * 
 	 */
 	private String AccessUserName;
 	/**
-	 * �û���ӦToken
+	 * 
 	 */
 	private String AccessToken;
 	/**
-	 * Tokenʱ��
+	 * 
 	 */
 	private String ExpiresIn;
 	/**
-	 * �ⲿ��Դ����
+	 * 
 	 */
 	private int SourceType;
 	/**
-	 * ����ʱ��
+	 * 
 	 */
 	private long CreateTime;
 

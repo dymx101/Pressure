@@ -171,8 +171,10 @@ public class ApiFrController extends AbstractBaseController {
 				beginAge, endAge, gender, chatType);
 		Profile userProfile = profileService.getProfileByUserId(userId);
 		if (fatherProfile == null) {
-
+			return this.errorWithErrorCode(mv,
+					ReturnCodeConstant.FatherUserNotFound);
 		}
+		// 只要添加好友成功，就认为成功了
 		boolean succ = openfireService.addRoster(userProfile.getXmppUserName(),
 				fatherProfile.getJid(), "", 3, "");
 		if (!succ) {
@@ -215,7 +217,10 @@ public class ApiFrController extends AbstractBaseController {
 			return this.jsonErrorReturn(mv, jsonString);
 		}
 		String xmppUserName = jsonObject.getString("xmppUserName");
-		int type = jsonObject.getInt("type");
+		int type = -1;
+		if (jsonObject.get("type") != null) {
+			type = jsonObject.getInt("type");
+		}
 		long userId = Long.valueOf(request.getHeader("userId"));
 		Profile jidprofile = profileService
 				.getProfileByXmppUserName(xmppUserName);
@@ -230,6 +235,18 @@ public class ApiFrController extends AbstractBaseController {
 		} else if (type == FrChatGroup.Father) {
 			chatGroup = frChatGroupService.getFrChatGroup(
 					jidprofile.getUserId(), userId);
+		} else {
+			chatGroup = frChatGroupService.getFrChatGroup(userId,
+					jidprofile.getUserId());
+			if (chatGroup == null) {
+				chatGroup = frChatGroupService.getFrChatGroup(
+						jidprofile.getUserId(), userId);
+			}
+			// 如果聊天组为空,返回错误
+			if (chatGroup == null) {
+				return this.errorWithErrorCode(mv,
+						ReturnCodeConstant.NoChatingGroup);
+			}
 		}
 		HttpReturnUtil.returnDataFrMatch(jidprofile, returnObject, chatGroup);
 		returnObject.put(BasicObjectConstant.kReturnObject_Code,

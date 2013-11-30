@@ -14,7 +14,9 @@
 #import "RPFrChatModel.h"
 #import "RPAuthModel.h"
 #import "RPXmppProfile.h"
+#import "RPAppDelegate.h"
 #import "JSON20.h"
+#import "RPXmppProfile.h"
 #import "RPUtilities.h"
 #import "RPAppServerOperation.h"
 #import "RPAppModel.h"
@@ -50,8 +52,26 @@ static RPXmppManager *lvXmppMnagager = nil;
     return self;
 }
 
+- (void)sendPing
+{
+    RPAuthModel *authModel = [RPAuthModel sharedInstance];
+    if (![authModel logined])
+    {
+        return;
+    }
+    [_stream sendPingFromUser:authModel.profile.xmppProfile.xmppUserName];
+}
+
 - (void)doConnect:(NSString *)xmppUserName xmppPassWord:(NSString *)xmppPassword
 {
+    RPAuthModel *authModel = [RPAuthModel sharedInstance];
+    if (![authModel logined])
+    {
+        authModel.userXmppOnline = NO;
+        return;
+    }
+    RPAppDelegate *delegate = (RPAppDelegate *)[UIApplication sharedApplication].delegate;
+    [delegate enableXmppTimer];
     [_stream doConnect:xmppUserName password:xmppPassword];
 }
 
@@ -90,6 +110,8 @@ static RPXmppManager *lvXmppMnagager = nil;
 {
     if (success)
     {
+        RPAuthModel *authModel = [RPAuthModel sharedInstance];
+        authModel.userXmppOnline = YES;
         [[NSNotificationCenter defaultCenter] postNotificationName:kNotif_XmppConnectSuccess object:nil];
     }
 }
@@ -120,13 +142,23 @@ static RPXmppManager *lvXmppMnagager = nil;
     
 }
 
+- (void)didReceivedIQ
+{
+    [RPAuthModel sharedInstance].userXmppOnline = YES;
+}
+
 - (void)messageReceived:(RPXmppStream *)stream xmppBodyString:(NSString *)xmppBodyString
-             typeString:(NSString *)typeString from:(NSString *)fromName
+             typeString:(NSString *)typeString fromJid:(NSString *)fromJid
 {
     dispatch_async(dispatch_queue_create("messageReceived", NULL), ^{
         NSDictionary *messageDic = [xmppBodyString JSONValue];
+        //如果是神父与倾诉者之间聊天
         if ([[messageDic objectForKey:[RPMessage rpMessageTypeKey]] isEqualToString:RPMessage_Type])
         {
+            if (![[RPFrChatModel sharedInstance] checkUserFromMessage:messageDic jid:fromJid])
+            {
+                return;
+            }
             if (![[RPFrChatModel sharedInstance] dealWithFrMessage:messageDic])
             {
                 return;
@@ -146,24 +178,24 @@ static RPXmppManager *lvXmppMnagager = nil;
 {
     dispatch_async(dispatch_queue_create("talkerFindFatherPresence", NULL), ^{
         [[RPAppServerOperation sharedRPAppServerOperation] serverCallGetUserProfileByJid:to type:RPChat_UserType_Father];
-        RPFrChatModel *chatModel = [RPFrChatModel sharedInstance];
-        for (RPChat *chat in chatModel.fatherChats)
-        {
-            if ([chat.profile.xmppProfile.xmppUserName isEqualToString:to])
-            {
-                [RPUtilities runOnMainQueueWithoutDeadlocking:^{
-                    BlockAlertView *alertView = [[BlockAlertView alloc] initWithTitle:@"有人找到你啦" message:@"有人找到你啦"];
-                    [alertView addButtonWithTitle:@"好的" block:^{
-                        [[NSNotificationCenter defaultCenter] postNotificationName:kNotif_TalkerFindFather object:nil];
-                    }];
-                    [alertView setCancelButtonWithTitle:@"取消" block:^{
-                        
-                    }];
-                    [alertView show];
-                }];
-                break;
-            }
-        }
+//        RPFrChatModel *chatModel = [RPFrChatModel sharedInstance];
+//        for (RPChat *chat in chatModel.talkerChats)
+//        {
+//            if ([chat.profile.xmppProfile.xmppUserName isEqualToString:to])
+//            {
+//                [RPUtilities runOnMainQueueWithoutDeadlocking:^{
+//                    BlockAlertView *alertView = [[BlockAlertView alloc] initWithTitle:@"有人找到你啦" message:@"有人找到你啦"];
+//                    [alertView addButtonWithTitle:@"马上聊" block:^{
+//                        [[NSNotificationCenter defaultCenter] postNotificationName:kNotif_TalkerFindFather object:nil];
+//                    }];
+//                    [alertView setCancelButtonWithTitle:@"取消" block:^{
+//                        
+//                    }];
+//                    [alertView show];
+//                }];
+//                break;
+//            }
+//        }
     });
 }
 
@@ -172,7 +204,7 @@ static RPXmppManager *lvXmppMnagager = nil;
     dispatch_async(dispatch_queue_create("FatherFindTalkerPresence", NULL), ^{
         [[RPAppServerOperation sharedRPAppServerOperation] serverCallGetUserProfileByJid:to type:RPChat_UserType_Talker];
         RPFrChatModel *chatModel = [RPFrChatModel sharedInstance];
-        for (RPChat *chat in chatModel.talkerChats)
+        for (RPChat *chat in chatModel.fatherChats)
         {
             if ([chat.profile.xmppProfile.xmppUserName isEqualToString:to])
             {

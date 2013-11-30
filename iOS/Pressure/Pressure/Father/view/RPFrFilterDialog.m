@@ -124,8 +124,10 @@
 {
     if (_gotChatTypes)
     {
-        _searchType.chatType = [_chatTypes objectAtIndex:0];
-        
+        if ([_chatTypes count] >0)
+        {
+            _searchType.chatType = [_chatTypes objectAtIndex:0];
+        }
     }
 }
 

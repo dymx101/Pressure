@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @ClassName: Account
  * @Description: TODO
  * @author yunshang_734@163.com
- * @date 2013-10-29 下午06:04:37
+ * @date 2013-10-29
  */
 public class Account implements Serializable {
 	/**
@@ -15,51 +15,52 @@ public class Account implements Serializable {
 	 */
 	private static final long serialVersionUID = 2L;
 	/**
-	 * 用户ID
+	 * 
 	 */
-	private long UserId;
+	private long userId;
 	/**
-	 * 用户名
+	 * 
 	 */
-	private String UserName;
+	private String userName;
 	/**
-	 * 密码
+	 * 
 	 */
-	private String PassWord;
+	private String passWord;
 	/**
-	 * 创建时间
+	 * 
 	 */
-	private long CreateTime;
+	private long createTime;
 
 	public long getUserId() {
-		return UserId;
+		return userId;
 	}
 
 	public void setUserId(long userId) {
-		UserId = userId;
+		this.userId = userId;
 	}
 
 	public String getUserName() {
-		return UserName;
+		return userName;
 	}
 
 	public void setUserName(String userName) {
-		UserName = userName;
+		this.userName = userName;
 	}
 
 	public String getPassWord() {
-		return PassWord;
+		return passWord;
 	}
 
 	public void setPassWord(String passWord) {
-		PassWord = passWord;
+		this.passWord = passWord;
 	}
 
 	public long getCreateTime() {
-		return CreateTime;
+		return createTime;
 	}
 
 	public void setCreateTime(long createTime) {
-		CreateTime = createTime;
+		this.createTime = createTime;
 	}
+
 }

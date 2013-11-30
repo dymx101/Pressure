@@ -1,11 +1,12 @@
 CREATE TABLE TB_Profile (
-UserId bigint(20) NOT NULL  AUTO_INCREMENT  COMMENT '用户id',
-UserName varchar(64) NOT NULL DEFAULT '' COMMENT '用户名',
-NickName varchar(64) NOT NULL DEFAULT '' COMMENT '昵称',
-TreeholePassWord varchar(64) NOT NULL DEFAULT '' COMMENT '树洞密码',
-CreateTime bigint(20) NOT NULL default '0' COMMENT '创建时间',
-LastUpdateTime bigint(20) NOT NULL default '0' COMMENT '上次上线时间',
-AvatorUrl varchar(128) NOT NULL DEFAULT ' ' COMMENT '用户头像',
+userId bigint(20) NOT NULL  AUTO_INCREMENT  COMMENT '用户id',
+userName varchar(64) NOT NULL DEFAULT '' COMMENT '用户名',
+nickName varchar(64) NOT NULL DEFAULT '' COMMENT '昵称',
+treeholePassWord varchar(64) NOT NULL DEFAULT '' COMMENT '树洞密码',
+createTime bigint(20) NOT NULL default '0' COMMENT '创建时间',
+lastUpdateTime bigint(20) NOT NULL default '0' COMMENT '上次上线时间',
+avatorUrl varchar(128) NOT NULL DEFAULT ' ' COMMENT '用户头像',
+city varchar(127) NOT NULL DEFAULT ' ' COMMENT '城市',
 level int(11) NOT NULL DEFAULT '0' COMMENT '用户等级' ,
 gender int(11) NOT NULL DEFAULT '0' COMMENT '性别' ,
 age int(11) NOT NULL DEFAULT '0' COMMENT '年龄' ,
@@ -32,10 +33,10 @@ PRIMARY KEY  (`Id`)
 )   DEFAULT CHARSET=UTF8 COMMENT '外部资源账户表';
 
 CREATE TABLE TB_Account (
-UserId bigint(20) NOT NULL  DEFAULT '0' COMMENT '用户id,自增长',
-UserName varchar(64) NOT NULL DEFAULT '' COMMENT '用户名',
-PassWord varchar(64) NOT NULL DEFAULT '' COMMENT '密码',
-CreateTime bigint(20) NOT NULL default '0' COMMENT '创建时间',
+userId bigint(20) NOT NULL  DEFAULT '0' COMMENT '用户id,自增长',
+userName varchar(64) NOT NULL DEFAULT '' COMMENT '用户名',
+passWord varchar(64) NOT NULL DEFAULT '' COMMENT '密码',
+createTime bigint(20) NOT NULL default '0' COMMENT '创建时间',
 PRIMARY KEY  (`UserId`)
 )   DEFAULT CHARSET=UTF8 COMMENT '用户帐户表';
 

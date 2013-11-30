@@ -10,8 +10,9 @@
 @class RPXmppProfile;
 typedef enum _RPProfile_Gender
 {
-    RPProfile_Gender_Male ,
-    RPProfile_Gender_Female
+    RPProfile_Gender_NoInit = -1,
+    RPProfile_Gender_Male =0,
+    RPProfile_Gender_Female = 1
 }RPProfile_Gender;
 
 @interface RPProfile : RPObject

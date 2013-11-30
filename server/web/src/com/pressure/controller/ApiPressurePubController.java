@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.pressure.constant.BasicObjectConstant;
 import com.pressure.constant.ReturnCodeConstant;
 import com.pressure.constant.ServerConstant;
+import com.pressure.exception.UserRegisteredException;
 import com.pressure.meta.Profile;
 import com.pressure.meta.Session;
 import com.pressure.service.SourceAccountService;
@@ -32,6 +33,86 @@ public class ApiPressurePubController extends AbstractBaseController {
 
 	@Resource
 	private SourceAccountService sourceAccountService;
+
+	/**
+	 * 注册用户
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ModelAndView registerUser(HttpServletRequest request,
+			HttpServletResponse response) {
+		ModelAndView mv = new ModelAndView(ServerConstant.Api_Return_MV);
+
+		String jsonString = PostValueGetUtil.parseRequestAsString(request,
+				"utf-8");
+		JSONObject jsonObject = PostValueGetUtil.parseRequestData(jsonString);
+		JSONObject returnObject = new JSONObject();
+		if (jsonObject == null) {
+			return this.jsonErrorReturn(mv, jsonString);
+		}
+		String userName = jsonObject.getString("userName");
+		String passWord = jsonObject.getString("passWord");
+
+		long userId = -1;
+		try {
+			userId = profileService.registerUser(userName, passWord);
+		} catch (UserRegisteredException e) {
+			e.printStackTrace();
+			return this.errorWithErrorCode(mv, ReturnCodeConstant.UserRegisted);
+		}
+		if (userId > 0) {
+			Session session = profileService.createSessionByUserId(userId);
+			Profile profile = profileService.getProfileByUserId(userId);
+			HttpReturnUtil.returnDataThirdPartLogin(session, profile,
+					returnObject);
+			returnObject.put(BasicObjectConstant.kReturnObject_Code,
+					ReturnCodeConstant.SUCCESS);
+			mv.addObject("returnObject", returnObject.toString());
+			return mv;
+		} else {
+			return this.errorWithErrorCode(mv, ReturnCodeConstant.FAILED);
+		}
+	}
+
+	/**
+	 * 登录操作
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ModelAndView login(HttpServletRequest request,
+			HttpServletResponse response) {
+		ModelAndView mv = new ModelAndView(ServerConstant.Api_Return_MV);
+
+		String jsonString = PostValueGetUtil.parseRequestAsString(request,
+				"utf-8");
+		JSONObject jsonObject = PostValueGetUtil.parseRequestData(jsonString);
+		JSONObject returnObject = new JSONObject();
+		if (jsonObject == null) {
+			return this.jsonErrorReturn(mv, jsonString);
+		}
+
+		String userName = jsonObject.getString("userName");
+		String passWord = jsonObject.getString("passWord");
+
+		Profile profile = profileService.getProfileByUserNamePassWord(userName,
+				passWord);
+		Session session = profileService.createSessionByUserId(profile
+				.getUserId());
+		if (profile != null && session != null) {
+			HttpReturnUtil.returnDataThirdPartLogin(session, profile,
+					returnObject);
+			returnObject.put(BasicObjectConstant.kReturnObject_Code,
+					ReturnCodeConstant.SUCCESS);
+			mv.addObject("returnObject", returnObject.toString());
+			return mv;
+		} else {
+			return this.errorWithErrorCode(mv, ReturnCodeConstant.FAILED);
+		}
+	}
 
 	/**
 	 * 第三方登录操作
@@ -76,51 +157,5 @@ public class ApiPressurePubController extends AbstractBaseController {
 		return mv;
 	}
 
-	/**
-	 * 修改昵称和照片
-	 * 
-	 * @param request
-	 * @param response
-	 * @return
-	 */
-	public ModelAndView updateProfile(HttpServletRequest request,
-			HttpServletResponse response) {
-		ModelAndView mv = new ModelAndView(ServerConstant.Api_Return_MV);
-		JSONObject returnObject = new JSONObject();
-
-		String jsonString = PostValueGetUtil.parseRequestAsString(request,
-				"utf-8");
-		JSONObject jsonObject = PostValueGetUtil.parseRequestData(jsonString);
-
-		if (jsonObject == null) {
-			return this.jsonErrorReturn(mv, jsonString);
-		}
-
-		int returnCode = this.checkTokenValid(request, response);
-		if (returnCode == ReturnCodeConstant.TokenNotFound) {
-			return this.tokenErrorReturn(mv, returnCode);
-		}
-		long userId = Long.valueOf(request.getHeader("userId"));
-		String nickName = jsonObject.getString("nickName");
-		String avatorUrl = jsonObject.getString("avatorUrl");
-
-		if (nickName == null || avatorUrl == null) {
-			returnObject.put(BasicObjectConstant.kReturnObject_Code,
-					ReturnCodeConstant.FAILED);
-			mv.addObject("returnObject", returnObject.toString());
-			return mv;
-		}
-
-		if (profileService.updateProfile(userId, nickName, avatorUrl)) {
-			returnObject.put(BasicObjectConstant.kReturnObject_Code,
-					ReturnCodeConstant.SUCCESS);
-			mv.addObject("returnObject", returnObject.toString());
-			return mv;
-		}
-
-		returnObject.put(BasicObjectConstant.kReturnObject_Code,
-				ReturnCodeConstant.FAILED);
-		mv.addObject("returnObject", returnObject.toString());
-		return mv;
-	}
+	
 }

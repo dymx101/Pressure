@@ -36,7 +36,7 @@
 - (void)FatherFindTalkerPresence:(RPXmppStream *)stream from:(NSString *)from to:(NSString *)to;
 
 - (void)messageReceived:(RPXmppStream *)stream xmppBodyString:(NSString *)xmppBodyString
-             typeString:(NSString *)typeString from:(NSString *)fromName;
+             typeString:(NSString *)typeString fromJid:(NSString *)fromJid;
 
 - (void)messageReceivedComposing:(RPXmppStream *)stream from:(NSString *)fromName;
 
@@ -51,7 +51,7 @@
 - (void)presenceError:(RPXmppStream *)stream errorCode:(int)errorCode userInfo:(NSDictionary *)userInfo;
 - (void)iqError:(RPXmppStream *)stream errorCode:(int)errorCode userInfo:(NSDictionary *)userInfo;
 - (void)messageError:(RPXmppStream *)stream errorCode:(int)errorCode userInfo:(NSDictionary *)userInfo;
-
+- (void)didReceivedIQ;
 @end
 
 @interface RPXmppStream : NSObject

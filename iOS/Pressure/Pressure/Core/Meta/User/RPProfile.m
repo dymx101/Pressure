@@ -20,6 +20,16 @@
 @implementation RPProfile
 
 
+- (id)init
+{
+    self = [super init];
+    if (self)
+    {
+        _xmppProfile = [[RPXmppProfile alloc] init];
+    }
+    return self;
+}
+
 - (id)initWithJSONDic:(NSDictionary *)jsonDic
 {
     self = [super initWithJSONDic:jsonDic];

@@ -1,5 +1,6 @@
 package com.pressure.service;
 
+import com.pressure.exception.UserRegisteredException;
 import com.pressure.meta.Profile;
 import com.pressure.meta.Session;
 
@@ -11,6 +12,33 @@ import com.pressure.meta.Session;
  * @date 2013-10-30 12:50:47
  */
 public interface ProfileService {
+	/**
+	 * 注册用户
+	 * 
+	 * @param userName
+	 * @param passWord
+	 * @return
+	 */
+	public long registerUser(String userName, String passWord)
+			throws UserRegisteredException;
+
+	/**
+	 * 获取用户信息
+	 * 
+	 * @param userName
+	 * @param passWord
+	 * @return
+	 */
+	public Profile getProfileByUserNamePassWord(String userName, String passWord);
+
+	/**
+	 * 新建用户
+	 * 
+	 * @param userName
+	 * @return
+	 */
+	public Profile createProfile(String userName);
+
 	/**
 	 * 获取session
 	 * 
@@ -85,6 +113,7 @@ public interface ProfileService {
 	 * @param avatorUrl
 	 * @return
 	 */
-	public boolean updateProfile(long userId, String nickName, String avatorUrl);
+	public boolean updateProfile(long userId, String nickName,
+			String avatorUrl, int gender, String city, int age);
 
 }

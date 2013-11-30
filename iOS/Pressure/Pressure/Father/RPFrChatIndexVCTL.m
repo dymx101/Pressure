@@ -20,6 +20,7 @@
 #import "RPFrChatVCTL.h"
 #import "RPAppModel.h"
 #import "RPFrFilterDialog.h"
+#import "BlockAlertView.h"
 @interface RPFrChatIndexVCTL () <CustomDialogDelegate>
 {
 
@@ -119,6 +120,16 @@
             
             RPFrChatVCTL *chatVCTL = [[RPFrChatVCTL alloc] init];
             [self.navigationController pushViewController:chatVCTL animated:YES];
+        }else if (serverResp.code == RPServerResponseCode_FatherUserNotFound)
+        {
+            BlockAlertView *alertView = [[BlockAlertView alloc] initWithTitle:nil message:@"神父不在噢~"];
+            [alertView setCancelButtonWithTitle:@"取消" block:nil];
+            [alertView show];
+        }else
+        {
+            BlockAlertView *alertView = [[BlockAlertView alloc] initWithTitle:nil message:@"服务器错误"];
+            [alertView setCancelButtonWithTitle:@"取消" block:nil];
+            [alertView show];
         }
     }
     if ([serverResp.operationType isEqualToString:kServerApi_UpdateMatchType])

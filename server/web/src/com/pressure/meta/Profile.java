@@ -19,27 +19,27 @@ public class Profile implements Serializable {
 	/**
 	 * ID
 	 */
-	private long UserId;
+	private long userId;
 	/**
 	 * 用户名
 	 */
-	private String UserName;
+	private String userName;
 	/**
 	 * 昵称
 	 */
-	private String NickName;
+	private String nickName;
 	/**
 	 * 树洞密码
 	 */
-	private String TreeholePassWord;
+	private String treeholePassWord;
 	/**
 	 * 创建时间
 	 */
-	private long CreateTime;
+	private long createTime;
 	/**
 	 * 更新时间
 	 */
-	private long LastUpdateTime;
+	private long lastUpdateTime;
 	/**
 	 * 头像url
 	 */
@@ -90,6 +90,8 @@ public class Profile implements Serializable {
 	 */
 	private int initedXmpp;
 
+	private String city;
+
 	public static final int ONLINE = 1;
 
 	public static final int OFFLINE = 0;
@@ -135,51 +137,51 @@ public class Profile implements Serializable {
 	public static final String kGender = "gender";
 
 	public long getUserId() {
-		return UserId;
+		return userId;
 	}
 
 	public void setUserId(long userId) {
-		UserId = userId;
+		this.userId = userId;
 	}
 
 	public String getUserName() {
-		return UserName;
+		return userName;
 	}
 
 	public void setUserName(String userName) {
-		UserName = userName;
+		this.userName = userName;
 	}
 
 	public String getNickName() {
-		return NickName;
+		return nickName;
 	}
 
 	public void setNickName(String nickName) {
-		NickName = nickName;
+		this.nickName = nickName;
 	}
 
 	public String getTreeholePassWord() {
-		return TreeholePassWord;
+		return treeholePassWord;
 	}
 
 	public void setTreeholePassWord(String treeholePassWord) {
-		TreeholePassWord = treeholePassWord;
+		this.treeholePassWord = treeholePassWord;
 	}
 
 	public long getCreateTime() {
-		return CreateTime;
+		return createTime;
 	}
 
 	public void setCreateTime(long createTime) {
-		CreateTime = createTime;
+		this.createTime = createTime;
 	}
 
 	public long getLastUpdateTime() {
-		return LastUpdateTime;
+		return lastUpdateTime;
 	}
 
 	public void setLastUpdateTime(long lastUpdateTime) {
-		LastUpdateTime = lastUpdateTime;
+		this.lastUpdateTime = lastUpdateTime;
 	}
 
 	public String getAvatorUrl() {
@@ -280,6 +282,14 @@ public class Profile implements Serializable {
 
 	public void setNowTalkerCount(int nowTalkerCount) {
 		this.nowTalkerCount = nowTalkerCount;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 	/**

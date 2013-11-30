@@ -76,7 +76,7 @@
         loginBtn.layer.cornerRadius = 5.0;
         [self addSubview:loginBtn];
         
-        GradientButton *registerBtn = [[GradientButton alloc] initWithFrame:CGRectMake(CGRectGetMinX(_userNameField.frame), CGRectGetMaxY(loginBtn.frame) + 10, CGRectGetWidth(_userNameField.frame), CGRectGetHeight(_userNameField.frame))];
+        GradientButton *registerBtn = [[GradientButton alloc] initWithFrame:CGRectMake(CGRectGetMinX(_userNameField.frame),10, CGRectGetWidth(_userNameField.frame), CGRectGetHeight(_userNameField.frame))];
         [registerBtn setTitle:@"注册" forState:UIControlStateNormal];
         [registerBtn setTitle:@"注册" forState:UIControlStateHighlighted];
         [registerBtn addTarget:self action:@selector(registerBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -101,6 +101,8 @@
 
 - (void)loginBtnClick:(id)sender
 {
+    [_userNameField resignFirstResponder];
+    [_passWordField resignFirstResponder];
     if ([self.delegate respondsToSelector:@selector(rpLoginViewLogin:passWord:)])
     {
         [self.delegate rpLoginViewLogin:_userNameField.text passWord:_passWordField.text];

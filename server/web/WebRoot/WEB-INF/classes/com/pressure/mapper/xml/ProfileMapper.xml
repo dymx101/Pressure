@@ -2,12 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pressure.mapper.ProfileMapper">
 	<resultMap type="Profile" id="profileMap">
-		<id property="UserId" column="UserId" />
-		<result property="UserName" column="UserName" />
-		<result property="NickName" column="NickName" />
-		<result property="TreeholePassWord" column="TreeholePassWord" />
-		<result property="CreateTime" column="CreateTime" />
-		<result property="LastUpdateTime" column="LastUpdateTime" />
+		<id property="userId" column="userId" />
+		<result property="userName" column="userName" />
+		<result property="nickName" column="nickName" />
+		<result property="treeholePassWord" column="treeholePassWord" />
+		<result property="createTime" column="createTime" />
+		<result property="lastUpdateTime" column="lastUpdateTime" />
 		<result property="avatorUrl" column="avatorUrl" />
 		<result property="level" column="level" />
 		<result property="gender" column="gender" />
@@ -24,11 +24,11 @@
 	<insert id="addProfile" parameterType="Profile">
 		INSERT INTO
 		TB_Profile(
-		UserName,
-		NickName,
-		TreeholePassWord,
-		CreateTime,
-		LastUpdateTime,
+		userName,
+		nickName,
+		treeholePassWord,
+		createTime,
+		lastUpdateTime,
 		avatorUrl,
 		level,
 		gender,
@@ -41,11 +41,11 @@
 		nowFatherCount,
 		nowTalkerCount
 		)VALUES(
-		#{UserName},
-		#{NickName},
-		#{TreeholePassWord},
-		#{CreateTime},
-		#{LastUpdateTime},
+		#{userName},
+		#{nickName},
+		#{treeholePassWord},
+		#{createTime},
+		#{lastUpdateTime},
 		#{avatorUrl},
 		#{level},
 		#{gender},
@@ -58,7 +58,7 @@
 		#{nowFatherCount},
 		#{nowTalkerCount}
 		)
-		<selectKey keyProperty="UserId" resultType="long">
+		<selectKey keyProperty="userId" resultType="long">
 			SELECT
 			LAST_INSERT_ID() AS VALUE
 		</selectKey>
@@ -90,7 +90,7 @@
 	<update id="updateTreeholePassWord" flushCache="true"
 		statementType="PREPARED">
 		update TB_Profile set
-		TreeholePassWord=#{TreeholePassWord}
+		treeholePassWord=#{treeholePassWord}
 		where userId
 		=
 		#{userId};
@@ -99,9 +99,13 @@
 
 	<update id="updateProfile" flushCache="true" statementType="PREPARED">
 		update TB_Profile set
-		NickName = #{NickName},
+		nickName = #{nickName},
 		avatorUrl = #{avatorUrl},
-		LastUpdateTime = #{LastUpdateTime}
+		age = #{age},
+		city = #{city},
+		lastUpdateTime = #{lastUpdateTime},
+		gender
+		= #{gender}
 		where userId
 		= #{userId}
 		;
@@ -126,37 +130,43 @@
 		SELECT * from TB_Profile where xmppUserName =
 		#{xmppUserName};
 	</select>
-	
+
 	<update id="incUserFatherCount" flushCache="true" statementType="PREPARED">
 		update TB_Profile set
 		nowFatherCount = nowFatherCount + #{count}
-		where userId
+		where
+		userId
 		= #{userId}
 		;
 	</update>
-	
+
 	<update id="incUserTalkerCount" flushCache="true" statementType="PREPARED">
 		update TB_Profile set
 		nowTalkerCount = nowTalkerCount + #{count}
-		where userId
+		where
+		userId
 		= #{userId}
 		;
 	</update>
-	
-	<update id="descUserFatherCount" flushCache="true" statementType="PREPARED">
+
+	<update id="descUserFatherCount" flushCache="true"
+		statementType="PREPARED">
 		update TB_Profile set
-		nowFatherCount = nowFatherCount - #{count}
+		nowFatherCount = nowFatherCount -
+		#{count}
 		where userId
 		= #{userId}
 		;
 	</update>
-	
-	<update id="descUserTalkerCount" flushCache="true" statementType="PREPARED">
+
+	<update id="descUserTalkerCount" flushCache="true"
+		statementType="PREPARED">
 		update TB_Profile set
-		nowTalkerCount = nowTalkerCount - #{count}
+		nowTalkerCount = nowTalkerCount -
+		#{count}
 		where userId
 		= #{userId}
 		;
 	</update>
-	
+
 </mapper>

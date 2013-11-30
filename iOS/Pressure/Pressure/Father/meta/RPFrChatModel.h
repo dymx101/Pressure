@@ -38,4 +38,12 @@ typedef enum _RPFrChatModel_ChatingType
 
 - (BOOL)dealWithFrMessage:(NSDictionary *)messageDic;
 
+/**
+ *  检查用户是否在聊天中
+ *
+ *  @param fromUserName
+ *
+ *  @return 
+ */
+- (BOOL)checkUserFromMessage:(NSDictionary *)messageDic jid:(NSString *)jid;
 @end

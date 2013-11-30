@@ -73,11 +73,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(RPAppServerOperation)
 {
     NSMutableDictionary *mulDic = [[NSMutableDictionary alloc] init];
     SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(mulDic, SAFESTR(xmppUsername), kRPServerRequest_XmppUserName);
-    SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(mulDic, NUMI(type), kRPServerRequest_Type);
+    if (type > 0)
+    {
+        SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(mulDic, NUMI(type), kRPServerRequest_Type);
+    }
     RPServerRequest *serverReq =  [[RPServerOperation sharedInstance] generateDefaultServerRequest:self operationType:kServerApi_GetUserProfileByJid dic:mulDic];
     [[RPServerOperation sharedInstance] syncToServerByRequest:serverReq];
 }
 
+- (void)syncServerCallChatingUser
+{
+    
+}
 
 #pragma mark -
 #pragma mark ServerResponse Delegate
@@ -117,11 +124,38 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(RPAppServerOperation)
             RPFrChatModel *chatModel = [RPFrChatModel sharedInstance];
             if (returnChat.userType == RPChat_UserType_Talker)
             {
-                [chatModel.talkerChats addObject:returnChat];
+                BOOL findChatInList = NO;
+                for (RPChat *chat in chatModel.talkerChats)
+                {
+                    if (chat.profile.userId == returnChat.profile.userId)
+                    {
+                        findChatInList = YES;
+                        break;
+                    }
+                }
+                if (!findChatInList)
+                {
+                    [chatModel.talkerChats addObject:returnChat];
+                }
             }else if (returnChat.userType == RPChat_UserType_Father)
             {
-                [chatModel.fatherChats addObject:returnChat];
+                BOOL findChatInList = NO;
+                for (RPChat *chat in chatModel.talkerChats)
+                {
+                    if (chat.profile.userId == returnChat.profile.userId)
+                    {
+                        findChatInList = YES;
+                        break;
+                    }
+                }
+                if (!findChatInList)
+                {
+                    [chatModel.talkerChats addObject:returnChat];
+                }
             }
+        }else if (serverResp.code == RPServerResponseCode_NoChatingGroup)
+        {
+            //不在聊天组中
         }
     }
   

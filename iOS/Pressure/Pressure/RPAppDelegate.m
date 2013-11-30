@@ -11,13 +11,18 @@
 #import "MLNavigationController.h"
 #import "WeiboSDK.h"
 #import "RPLoginVCTL.h"
+#import "RPProfile.h"
 #import "RPAuthModel.h"
 #import "RPThirdModel.h"
+#import "RPXmppManager.h"
 #import "RPAppServerOperation.h"
 #import "FMDBObject.h"
+#import "RPXmppProfile.h"
+#import "RPXmppStream.h"
+#define kOnlineTimerInterval  3
 @interface RPAppDelegate ()  <WeiboSDKDelegate>
 {
-    
+    NSTimer *_xmppConnectTimer;
 }
 @end
 
@@ -34,6 +39,7 @@
     
     [self.window makeKeyAndVisible];
     [self choiceViewController];
+    [self performSelector:@selector(doSomethingWhenOpenApp)];
     return YES;
 }
 
@@ -55,12 +61,20 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    [_xmppConnectTimer fire];
+    [_xmppConnectTimer invalidate];
+    [[RPXmppStream sharedInstance] sendofflineStatus];
+    [[RPXmppStream sharedInstance] disConnectAfterSending];
+    [RPAuthModel sharedInstance].userXmppOnline = NO;
+    [[RPAuthModel sharedInstance] saveData];
+
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
+    RPAuthModel *authModel = [RPAuthModel sharedInstance];
+    [[RPXmppManager sharedInstance] doConnect:[authModel.profile.xmppProfile jID] xmppPassWord:[authModel.profile.xmppProfile password]];
+    
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 
@@ -74,10 +88,43 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+- (void)enableXmppTimer {
+    
+    @synchronized (self) {
+        
+        if ([_xmppConnectTimer isValid] && _xmppConnectTimer) {
+            return;
+        }
+        
+        [_xmppConnectTimer fire];
+        _xmppConnectTimer = [NSTimer scheduledTimerWithTimeInterval:kOnlineTimerInterval target:self selector:@selector(onlineTimer) userInfo:nil repeats:YES];
+    }
+}
+
+- (void)onlineTimer {
+    
+    if (!_xmppConnectTimer) {
+        return;
+    }
+    RPAuthModel *authModel = [RPAuthModel sharedInstance];
+    if (![[RPAuthModel sharedInstance] userXmppOnline]) {
+        MLOG(@"user xmpp not connected,begin to connect");
+        [[RPXmppStream sharedInstance] doConnect:[authModel.profile.xmppProfile jID] password:[authModel.profile.xmppProfile password]];
+        return;
+    }
+    
+    MLOG(@"online timer is pinging");
+    [[RPXmppStream sharedInstance] sendPingFromUser:[authModel.profile.xmppProfile jID]];
+}
+
+- (void)doSomethingWhenOpenApp
+{
+
+}
 
 - (void)choiceViewController
 {
-    if ([[RPAuthModel sharedInstance] logined])
+    if ([[RPAuthModel sharedInstance] logined] && [RPAuthModel sharedInstance].profile.gender >= 0)
     {
         if (!_nav)
         {

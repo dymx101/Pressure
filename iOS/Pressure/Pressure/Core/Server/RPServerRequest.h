@@ -24,14 +24,17 @@
 #define kRPServerRequest_Gender                 @"gender"
 #define kRPServerRequest_ChatType               @"chatType"
 #define kRPServerRequest_City                   @"city"
+#define kRPServerRequest_Age                    @"age"
+#define kRPServerRequest_NickName               @"nickName"
+#define kRPServerRequest_AvatarUrl              @"avatarUrl"
 #define kRPServerRequest_Jid                    @"jid"
 #define kRPServerRequest_XmppUserName           @"xmppUserName"
 #define kRPServerRequest_Limit                  @"limit"
 #define kRPServerRequest_BeginTime              @"beginTime"
 #define kRPServerRequest_Forum_Text             @"text"
-#define kRPServerRequest_Forum_Text             @"text"
-#define kRPServerRequest_Forum_Text             @"text"
-#define kRPServerRequest_Forum_Text             @"text"
+#define kRPServerRequest_UserName               @"userName"
+#define kRPServerRequest_PassWord               @"passWord"
+
 
 @protocol RPServerRequestDelegate <NSObject>
 

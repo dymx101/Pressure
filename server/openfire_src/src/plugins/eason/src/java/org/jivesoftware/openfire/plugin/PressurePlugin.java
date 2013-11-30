@@ -38,7 +38,7 @@ public class PressurePlugin implements Plugin {
 	}
 
 	/**
-	 * 倾诉者找到神父
+	 * 倾诉者找到神父，或者神父找倾诉者
 	 * 
 	 * @param fromJid
 	 * @param toJid

@@ -5,11 +5,15 @@ import java.util.Random;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.pressure.constant.ServerConstant;
+import com.pressure.exception.UserRegisteredException;
+import com.pressure.mapper.AccountMapper;
 import com.pressure.mapper.ProfileMapper;
 import com.pressure.mapper.SessionMapper;
+import com.pressure.meta.Account;
 import com.pressure.meta.OpenfireUser;
 import com.pressure.meta.Profile;
 import com.pressure.meta.Session;
@@ -29,6 +33,9 @@ public class ProfileServiceImpl implements ProfileService {
 
 	@Resource
 	private OpenfireService openfireService;
+
+	@Resource
+	private AccountMapper accountMapper;
 
 	/*
 	 * (non-Javadoc)
@@ -170,10 +177,20 @@ public class ProfileServiceImpl implements ProfileService {
 	 * java.lang.String, java.lang.String)
 	 */
 	@Override
-	public boolean updateProfile(long userId, String nickName, String avatorUrl) {
+	public boolean updateProfile(long userId, String nickName,
+			String avatorUrl, int gender, String city, int age) {
+		Profile profile = profileMapper.getProfileByUserId(userId);
+		if (profile == null) {
+			return false;
+		}
 		long lastUpdateTime = new Date().getTime();
-		if (profileMapper.updateProfile(userId, nickName, avatorUrl,
-				lastUpdateTime) > 0) {
+		profile.setLastUpdateTime(lastUpdateTime);
+		profile.setNickName(nickName);
+		profile.setAvatorUrl(avatorUrl);
+		profile.setGender(gender);
+		profile.setCity(city);
+		profile.setAge(age);
+		if (profileMapper.updateProfile(profile) > 0) {
 			return true;
 		}
 		return false;
@@ -189,6 +206,84 @@ public class ProfileServiceImpl implements ProfileService {
 	@Override
 	public Profile getProfileByXmppUserName(String xmppUserName) {
 		return profileMapper.getProfileByXmppUserName(xmppUserName);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.pressure.service.ProfileService#registerUser(java.lang.String,
+	 * java.lang.String)
+	 */
+	@Override
+	public long registerUser(String userName, String passWord)
+			throws UserRegisteredException {
+		Account account = accountMapper.getAccountByUserName(userName);
+		if (account != null) {
+			throw new UserRegisteredException();
+		}
+		Profile profile = this.createProfile(userName);
+		if (profile != null) {
+			account = new Account();
+			account.setCreateTime(new Date().getTime());
+			account.setUserName(userName);
+			account.setPassWord(passWord);
+			account.setUserId(profile.getUserId());
+			if (accountMapper.addAccount(account) > 0) {
+				return profile.getUserId();
+			}
+		}
+		return -1;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.pressure.service.ProfileService#createProfile(java.lang.String)
+	 */
+	@Override
+	public Profile createProfile(String userName) {
+		long nowTime = new Date().getTime();
+		Profile profile = new Profile();
+		if (!StringUtils.isEmpty(userName)) {
+			profile.setUserName(userName);
+		} else {
+			profile.setUserName("");
+		}
+		profile.setNickName("");
+		profile.setTreeholePassWord("");
+		profile.setCreateTime(nowTime);
+		profile.setLastUpdateTime(nowTime);
+		// 注册用户的时候，性别是-1
+		profile.setGender(-1);
+		profile.setAvatorUrl("");
+		profile.setXmppUserName("");
+		profile.setDomain(ServerConstant.OpenFire_Domain);
+		profile.setLevel(Profile.ProfileLevel.User.getValue());
+		profile.setMaxFatherCount(3);
+		profile.setMaxTalkerCount(3);
+		if (profileMapper.addProfile(profile) > 0) {
+			this.createOpenfireUser(profile);
+			return profile;
+		}
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.pressure.service.ProfileService#getProfileByUserNamePassWord(java
+	 * .lang.String, java.lang.String)
+	 */
+	@Override
+	public Profile getProfileByUserNamePassWord(String userName, String passWord) {
+		Account account = accountMapper.getAccountByUserName(userName);
+		if (account != null && account.getPassWord() == passWord) {
+			Profile profile = profileMapper.getProfileByUserId(account
+					.getUserId());
+			return profile;
+		}
+		return null;
 	}
 
 }

@@ -18,7 +18,7 @@
 @property (nonatomic,retain) RPSession *session;
 
 @property (nonatomic) BOOL connectedOpenFireSucc;
-
+@property (nonatomic) BOOL userXmppOnline;
 + (RPAuthModel *)sharedInstance;
 
 //判断本地是否已经登录

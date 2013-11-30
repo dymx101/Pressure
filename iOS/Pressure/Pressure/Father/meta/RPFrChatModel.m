@@ -8,6 +8,7 @@
 
 #import "RPFrChatModel.h"
 #import "RPProfile.h"
+#import "RPXmppProfile.h"
 #import "RPAuthModel.h"
 #import "RPMessage.h"
 #import "RPChat.h"
@@ -67,6 +68,27 @@ static RPFrChatModel *frChatModel = nil;
     RPMessage *rpMessage = [[RPMessage alloc] initWithJSONDic:messageDic];
     [rpMessage saveToDB];
     return YES;
+}
+
+- (BOOL)checkUserFromMessage:(NSDictionary *)messageDic jid:(NSString *)jid
+{
+    RPMessage *rpMessage = [[RPMessage alloc] initWithJSONDic:messageDic];
+    for (RPChat *chat in _fatherChats)
+    {
+        if (rpMessage.userId == chat.profile.userId)
+        {
+            return YES;
+        }
+    }
+    for (RPChat *chat in _talkerChats)
+    {
+        if (rpMessage.userId == chat.profile.userId)
+        {
+            return YES;
+        }
+    }
+    [[RPAppServerOperation sharedRPAppServerOperation] serverCallGetUserProfileByJid:jid type:-1];
+    return NO;
 }
 
 @end

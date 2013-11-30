@@ -8,6 +8,8 @@
 
 #import "RPRegisterView.h"
 #import "GradientButton.h"
+#import "NSString+Addition.h"
+#import "BlockAlertView.h"
 @interface RPRegisterView ()
 {
     UITextField *_userNameField;
@@ -25,6 +27,7 @@
         _userNameField = [[UITextField alloc] initWithFrame:CGRectMake(40, 100, 240, 30)];
         [_userNameField setPlaceholder:@"用户名"];
         _userNameField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, _userNameField.bounds.size.height)];
+        _userNameField.keyboardType = UIKeyboardTypeASCIICapable;
         _userNameField.leftViewMode = UITextFieldViewModeAlways;
         _userNameField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
         _userNameField.returnKeyType = UIReturnKeyNext;
@@ -81,11 +84,25 @@
 
 - (void)registerBtnClick:(id)sender
 {
-    if ([_passWordField.text isEqualToString:_rePassField.text])
+    if ([_userNameField.text isEmpty] ||
+        [_passWordField.text isEmpty] ||
+        [_rePassField.text isEmpty])
     {
-#warning 请输入正确密码
+        BlockAlertView *alertView = [[BlockAlertView alloc] initWithTitle:nil message:@"请输入注册信息"];
+        [alertView setCancelButtonWithTitle:@"知道了" block:nil];
+        [alertView show];
         return;
     }
+    if (![_passWordField.text isEqualToString:_rePassField.text])
+    {
+        BlockAlertView *alertView = [[BlockAlertView alloc] initWithTitle:nil message:@"两次密码同一致,请重新输入"];
+        [alertView setCancelButtonWithTitle:@"知道了" block:nil];
+        [alertView show];
+        return;
+    }
+    [_userNameField resignFirstResponder];
+    [_passWordField resignFirstResponder];
+    [_rePassField resignFirstResponder];
     if ([self.delegate respondsToSelector:@selector(rpRegisterViewRegister:pass:)])
     {
         [self.delegate rpRegisterViewRegister:_userNameField.text pass:_passWordField.text];

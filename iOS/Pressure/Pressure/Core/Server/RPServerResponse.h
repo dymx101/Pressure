@@ -16,8 +16,14 @@ typedef enum _RPServerResponseCode
     RPServerResponseCode_Failed     =  -1,
     RPServerResponseCode_UserNoFound = -10,
     RPServerResponseCode_ParamNotFound = -11,
+    RPServerResponseCode_UserRegistered = -12,
     RPServerResponseCode_TokenNotFound = -100,
-    RPServerResponseCode_TokenIsInvalid   =  -101
+    RPServerResponseCode_TokenIsInvalid   =  -101,
+    RPServerResponseCode_XmppServerError   =  -201,
+    RPServerResponseCode_ForumNotFound   =  -301,
+    RPServerResponseCode_MatchUserIsMe   =  -401,
+    RPServerResponseCode_FatherUserNotFound   =  -402,
+    RPServerResponseCode_NoChatingGroup   =  -500,
     
 } RPServerResponseCode;
 

@@ -233,8 +233,8 @@ static RPXmppStream *rpXmppStream = nil;
 //        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
 //        [dic setObject:body forKey:kElement_Msg];
 //        [dic setObject:from forKey:kElement_Sender];
-        if (self.delegate && [self.delegate respondsToSelector:@selector(messageReceived:xmppBodyString:typeString:from:)]) {
-            [self.delegate messageReceived:self xmppBodyString:body typeString:type from:from];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(messageReceived:xmppBodyString:typeString:fromJid:)]) {
+            [self.delegate messageReceived:self xmppBodyString:body typeString:type fromJid:from];
         }
     }
 //    else if (composing != nil) {
@@ -252,41 +252,10 @@ static RPXmppStream *rpXmppStream = nil;
 
 - (BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq {
     
-    //
-    //
-    //  INFO(@"<<<<<Did receiveIQ %@\n\n", iq);
-    //  NSString *iqType = [iq type];
-    //  if ([iqType isEqualToString:@"error"]) {
-    //
-    //    NSString *toUserName = [[sender myJID] user];
-    //    INFO(@"user name is %@", toUserName);
-    //
-    //    NSXMLElement *element = [iq elementForName:kElement_Nova_Error];
-    //    if (!element) {
-    //      return NO;
-    //    }
-    //
-    //    if (![element attributeForName:kRPXmppErrorCode]) {
-    //      return NO;
-    //    }
-    //
-    //    int errorCode = [element attributeInt32ValueForName:kRPXmppErrorCode];
-    //    [self.delegate iqError:self errorCode:errorCode userInfo:[NSDictionary dictionaryWithObject:toUserName forKey:@"userName"]];
-    //    return YES;
-    //  }
-    //
-    //  if ([iqType isEqualToString:@"get"]) {
-    //
-    //    XMPPIQ *iq = [XMPPIQ iqWithType:@"result"];
-    //    RPMyself *fromUser = [RPAppSharedData myself];
-    //    [iq addAttributeWithName:kElement_From stringValue:[self nameWithHost:fromUser.userName device:[fromUser udidString]]];
-    //    [iq addAttributeWithName:kElement_To stringValue:@"ruoogle"];
-    //    [_xmppStream sendElement:iq];
-    //    INFO(@"++++++++++ receive server get +++++++++++++\n");
-    //    return YES;
-    //  }
-    //
-    //  return NO;
+    if ([self.delegate respondsToSelector:@selector(didReceivedIQ)])
+    {
+        [self.delegate didReceivedIQ];
+    }
     
     return YES;
 }
