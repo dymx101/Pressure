@@ -59,11 +59,13 @@ user2 bigint(20) NOT NULL  DEFAULT '0'  COMMENT '用户id2',
 CreateTime bigint(20) NOT NULL DEFAULT '0' COMMENT '创建时间',
 status int(11) NOT NULL DEFAULT '0' COMMENT '状态' ,
 type int(11) NOT NULL DEFAULT '0' COMMENT '用户1的类型，0神父聊天者类型' ,
+updateTime bigint(20) NOT NULL DEFAULT '0' COMMENT '最后更新时间',
 PRIMARY KEY  (`groupId`)
 )   DEFAULT CHARSET=UTF8 COMMENT '用户聊天组表';
 
 
 CREATE TABLE TB_Fr_WantChatType (
+id bigint(20) NOT NULL AUTO_INCREMENT  COMMENT 'id',
 userId bigint(20) NOT NULL  DEFAULT '0'  COMMENT '用户id',
 createTime bigint(20) NOT NULL DEFAULT '0' COMMENT '创建时间',
 gender int(11) NOT NULL DEFAULT '0' COMMENT '性别' ,
@@ -72,7 +74,7 @@ endAge int(11) NOT NULL DEFAULT '0' COMMENT '结束年龄' ,
 type int(11) NOT NULL DEFAULT '0' COMMENT '0表示神父,1表示倾诉者' ,
 chatType bigint(20) NOT NULL DEFAULT '0' COMMENT '聊天类型' ,
 status int(11) NOT NULL DEFAULT '0' COMMENT '状态,0正常,1删除' ,
-PRIMARY KEY  (`userId`)
+PRIMARY KEY  (`id`)
 )   DEFAULT CHARSET=UTF8 COMMENT '神父倾诉者希望的聊天对象';
 
 

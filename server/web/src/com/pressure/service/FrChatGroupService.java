@@ -18,7 +18,7 @@ public interface FrChatGroupService {
 	 * @return
 	 */
 	public FrChatGroup addFrChatGroupService(Profile user1, Profile user2,
-			int user1Type);
+			int type);
 
 	/**
 	 * 获取chatgroup
@@ -65,4 +65,13 @@ public interface FrChatGroupService {
 	 * @return
 	 */
 	public FrChatGroup matchTalkerFromForum(long userId, Forum forum);
+
+	/**
+	 * 获取用户的聊天组
+	 * 
+	 * @param type
+	 * @param userId
+	 * @return
+	 */
+	public List<FrChatGroup> getChatGroupsByType(long userId,int type,int limit ,long updateTime);
 }

@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pressure.mapper.FrWantChatTypeMapper">
 	<resultMap type="FrWantChatType" id="FrWantChatTypeMap">
+		<id property="id" column="id" />
 		<result property="userId" column="userId" />
 		<result property="createTime" column="createTime" />
 		<result property="gender" column="gender" />
@@ -33,6 +34,10 @@
 		#{chatType},
 		#{status}
 		)
+		<selectKey keyProperty="id" resultType="long">
+			SELECT
+			LAST_INSERT_ID() AS VALUE
+		</selectKey>
 	</insert>
 
 	<update id="updateFrWantChatType" flushCache="true"
@@ -43,9 +48,10 @@
 		#{beginAge},
 		endAge = #{endAge},
 		chatType = #{chatType},
+		type = #{type}
 		where
-		userId
-		= #{userId}
+		id
+		= #{id}
 		;
 	</update>
 
@@ -60,9 +66,9 @@
 		SELECT * from
 		TB_Fr_WantChatType where type = #{type}
 		<if test="chatType >=0 ">
-		and chatType = #{chatType}
+			and chatType = #{chatType}
 		</if>
-		 
+
 		;
 	</select>
 

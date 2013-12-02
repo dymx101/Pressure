@@ -21,9 +21,13 @@
 #import "RPAppModel.h"
 #import "RPFrFilterDialog.h"
 #import "BlockAlertView.h"
-@interface RPFrChatIndexVCTL () <CustomDialogDelegate>
+#define kLimit 20
+@interface RPFrChatIndexVCTL () <CustomDialogDelegate,UITableViewDataSource,UITableViewDelegate>
 {
-
+    UITableView *_tv;
+    RPChat_VisitUserType _type;
+    long long _updateTime;
+    BOOL _isEnd;
 }
 
 @end
@@ -44,6 +48,17 @@
     
     [super viewDidLoad];
     
+    _type = RPChat_VisitUserType_Father;
+    _updateTime = -1;
+    _isEnd = NO;
+    if (!_tv)
+    {
+        _tv = [[UITableView alloc] initWithFrame:self.contentView.bounds style:UITableViewStylePlain];
+        _tv.delegate = self;
+        _tv.dataSource = self;
+        [self.contentView addSubview:_tv];
+    }
+    
     UIButton *asTalkerBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [asTalkerBtn addTarget:self action:@selector(asTalkerBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     asTalkerBtn.frame = CGRectMake(50, 50, 100, 44);
@@ -55,8 +70,17 @@
     asFatherBtn.frame = CGRectMake(100, 100, 100, 44);
     [asFatherBtn setTitle:@"做神父" forState:UIControlStateNormal];
     [self.contentView addSubview:asFatherBtn];
-    
+    //如果是0，取一次
+    if ([[RPFrChatModel sharedInstance].fatherChats count] ==0)
+    {
+        [self performSelector:@selector(serverCallUserChatingList) withObject:nil];
+    }else
+    {
+        [_tv reloadData];
+    }
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleXmppTalkingMessageNotif:) name:kNotif_XmppTalkingMessage object:nil];
 }
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -89,7 +113,7 @@
     SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(mulDic, @"17~24", kRPServerRequest_AgeRange);
     SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(mulDic, NUMI(profile.gender), kRPServerRequest_Gender);
     SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(mulDic, LONGLONG2NUM(1), kRPServerRequest_ChatType);
-    SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(mulDic, NUMI(0), kRPServerRequest_Type);
+    SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(mulDic, NUMI(RPChat_VisitUserType_Father), kRPServerRequest_Type);
     [self serverCall:kServerApi_UpdateMatchType data:mulDic];
 }
 
@@ -103,6 +127,17 @@
     [self serverCall:kServerApi_FrMatch data:mulDic];
 }
 
+- (void)serverCallUserChatingList
+{
+    NSMutableDictionary *mulDic = [[NSMutableDictionary alloc] init];
+    SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(mulDic, NUMI(_type), kRPServerRequest_Type);
+    SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(mulDic, NUMI(kLimit), kRPServerRequest_Limit);
+    SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(mulDic, LONGLONG2NUM(_updateTime), kRPServerRequest_UpdateTime);
+    RPServerRequest *serverReq =  [[RPServerOperation sharedInstance] generateDefaultServerRequest:self operationType:kServerApi_SyncUserChatingUsers dic:mulDic];
+    [[RPServerOperation sharedInstance] syncToServerByRequest:serverReq];
+}
+
+
 - (void)updateUI:(RPServerResponse *)serverResp
 {
     
@@ -111,14 +146,12 @@
         if (serverResp.code == RPServerResponseCode_Succ)
         {
             RPChat *chat = [[RPChat alloc] initWithJSONDic:serverResp.obj[kMetaKey_Chat]];
-            chat.userType = RPChat_UserType_Father;
             
             RPFrChatModel *chatModel = [RPFrChatModel sharedInstance];
-            chatModel.type  = RPFrChatModel_ChatingType_Talker;
-            [chatModel.fatherChats insertObject:chat atIndex:0];
-            chatModel.fatherChatingIndex = 0;
+            chatModel.type  = RPChat_VisitUserType_Father;
+            [chatModel addFatherChatAtIndex:chat index:0];
             
-            RPFrChatVCTL *chatVCTL = [[RPFrChatVCTL alloc] init];
+            RPFrChatVCTL *chatVCTL = [[RPFrChatVCTL alloc] initWithNowChat:chat];
             [self.navigationController pushViewController:chatVCTL animated:YES];
         }else if (serverResp.code == RPServerResponseCode_FatherUserNotFound)
         {
@@ -139,6 +172,54 @@
             
         }
     }
+    if ([serverResp.operationType isEqualToString:kServerApi_SyncUserChatingUsers])
+    {
+        if (serverResp.code == RPServerResponseCode_Succ)
+        {
+            RPFrChatModel *chatModel = [RPFrChatModel sharedInstance];
+            NSArray *serverChats ;
+            if (_type == RPChat_VisitUserType_Father)
+            {
+                serverChats = [serverResp.obj objectForKey:kMetaKey_Father_List];
+            }else
+            {
+                serverChats = [serverResp.obj objectForKey:kMetaKey_Talker_List];
+            }
+            if ([serverChats count] < kLimit)
+            {
+                _isEnd = YES;
+            }
+            if (_updateTime < 0)
+            {
+                if (_type == RPChat_VisitUserType_Father)
+                {
+                    [chatModel removeAllFatherChats];
+                }else
+                {
+                    [chatModel removeAllTalkerChats];
+                }
+            }
+            for (NSDictionary *dic in serverChats)
+            {
+                RPChat *chat = [[RPChat alloc] initWithJSONDic:dic[kMetaKey_Chat]];
+                if (_type == RPChat_VisitUserType_Talker)
+                {
+                    [chatModel addTalkerChatAtIndex:chat index:-1];
+                }else
+                {
+                    [chatModel addFatherChatAtIndex:chat index:-1];
+                }
+            }
+            if (_type == RPChat_VisitUserType_Talker)
+            {
+                _updateTime = ((RPChat*)[chatModel.talkerChats lastObject]).update_time;
+            }else
+            {
+                _updateTime = ((RPChat*)[chatModel.fatherChats lastObject]).update_time;
+            }
+            [_tv reloadData];
+        }
+    }
 }
 
 #pragma mark -
@@ -153,6 +234,51 @@
 {
     
 }
+
+
+#pragma mark - UITableViewDelegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    RPFrChatModel *chatModel = [RPFrChatModel sharedInstance];
+    if (_type == RPChat_VisitUserType_Talker)
+    {
+        return [chatModel.talkerChats count];
+    }else
+    {
+        return [chatModel.fatherChats count];
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 44;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    RPFrChatModel *chatModel = [RPFrChatModel sharedInstance];
+    RPChat *chat ;
+    if (_type == RPChat_VisitUserType_Talker)
+    {
+        chat = [chatModel.talkerChats objectAtIndex:indexPath.row];
+    }else
+    {
+        chat = [chatModel.fatherChats objectAtIndex:indexPath.row];
+    }
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([self class])];
+    if (!cell)
+    {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass([self class])];
+    }
+    cell.textLabel.text = LONGLONG2STR(chat.profile.userId);
+    return cell;
+}
+
 
 
 @end

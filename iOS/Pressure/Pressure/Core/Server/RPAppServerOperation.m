@@ -18,6 +18,7 @@
 #import "RPChat.h"
 #import "RPForum.h"
 #import "RPChat.h"
+
 #import "BlockAlertView.h"
 #import "RPUtilities.h"
 @implementation RPAppServerOperation
@@ -69,11 +70,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(RPAppServerOperation)
     [[RPServerOperation sharedInstance] asyncToServerByRequest:serverReq];
 }
 
-- (void)serverCallGetUserProfileByJid:(NSString *)xmppUsername type:(RPChat_UserType)type
+- (void)serverCallGetUserProfileByJid:(NSString *)xmppUsername type:(RPChat_VisitUserType)type
 {
     NSMutableDictionary *mulDic = [[NSMutableDictionary alloc] init];
     SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(mulDic, SAFESTR(xmppUsername), kRPServerRequest_XmppUserName);
-    if (type > 0)
+    if (type != RPChat_VisitUserType_None)
     {
         SET_DICTIONARY_A_OBJ_B_FOR_KEY_C_ONLYIF_B_IS_NOT_NIL(mulDic, NUMI(type), kRPServerRequest_Type);
     }
@@ -81,10 +82,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(RPAppServerOperation)
     [[RPServerOperation sharedInstance] syncToServerByRequest:serverReq];
 }
 
-- (void)syncServerCallChatingUser
-{
-    
-}
+
 
 #pragma mark -
 #pragma mark ServerResponse Delegate
@@ -122,42 +120,34 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(RPAppServerOperation)
         {
             RPChat *returnChat = [[RPChat alloc] initWithJSONDic:serverResp.obj[kMetaKey_Chat]];
             RPFrChatModel *chatModel = [RPFrChatModel sharedInstance];
-            if (returnChat.userType == RPChat_UserType_Talker)
+            //返回的聊天用户的类型
+            if (returnChat.userType == RPChat_VisitUserType_Talker)
             {
-                BOOL findChatInList = NO;
-                for (RPChat *chat in chatModel.talkerChats)
+                RPChat *chat = [chatModel chatInTalkerChat:returnChat.profile.userId];
+                if (!chat)
                 {
-                    if (chat.profile.userId == returnChat.profile.userId)
-                    {
-                        findChatInList = YES;
-                        break;
-                    }
-                }
-                if (!findChatInList)
+                    [chatModel addTalkerChatAtIndex:returnChat index:0];
+                }else
                 {
-                    [chatModel.talkerChats addObject:returnChat];
+                    chat = returnChat;
                 }
-            }else if (returnChat.userType == RPChat_UserType_Father)
+            }else if (returnChat.userType == RPChat_VisitUserType_Father)
             {
-                BOOL findChatInList = NO;
-                for (RPChat *chat in chatModel.talkerChats)
+                RPChat *chat = [chatModel chatInFatherChat:returnChat.profile.userId];
+                if (!chat)
                 {
-                    if (chat.profile.userId == returnChat.profile.userId)
-                    {
-                        findChatInList = YES;
-                        break;
-                    }
-                }
-                if (!findChatInList)
+                    [chatModel addFatherChatAtIndex:returnChat index:0];
+                }else
                 {
-                    [chatModel.talkerChats addObject:returnChat];
+                    chat = returnChat;
                 }
             }
         }else if (serverResp.code == RPServerResponseCode_NoChatingGroup)
         {
-            //不在聊天组中
+            //不在聊天组中,就不处理了
         }
     }
+    
   
 }
 

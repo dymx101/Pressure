@@ -7,34 +7,23 @@
 //
 
 #import "RPObject.h"
-typedef enum _RPFrChatModel_ChatingType
-{
-    RPFrChatModel_ChatingType_Talker,
-    RPFrChatModel_ChatingType_Father
-}RPFrChatModel_ChatingType;
+#import "RPChat.h"
+//当前聊天的类型
 @class RPProfile;
-@class RPChat;
 @interface RPFrChatModel : RPObject
 
 
-@property (nonatomic) RPFrChatModel_ChatingType type;
+@property (nonatomic) RPChat_VisitUserType type;
 //当前用户的倾诉用户
 @property (nonatomic,retain) NSMutableArray *talkerChats;
 //当前用户的神父用户
 @property (nonatomic,retain) NSMutableArray *fatherChats;
 
-
-@property (nonatomic) int talkerChatingIndex;
-@property (nonatomic) int fatherChatingIndex;
+@property (nonatomic,retain) NSMutableDictionary *talkerDic;
+@property (nonatomic,retain) NSMutableDictionary *fatherDic;
 
 + (RPFrChatModel *)sharedInstance ;
 
-/**
- *  当前正在聊天的用户
- *
- *  @return
- */
-+ (RPChat *)nowChat;
 
 - (BOOL)dealWithFrMessage:(NSDictionary *)messageDic;
 
@@ -46,4 +35,28 @@ typedef enum _RPFrChatModel_ChatingType
  *  @return 
  */
 - (BOOL)checkUserFromMessage:(NSDictionary *)messageDic jid:(NSString *)jid;
+
+- (void)addTalkerChatAtIndex:(RPChat *)chat index:(int)index;
+
+- (void)addFatherChatAtIndex:(RPChat *)chat index:(int)index;
+
+- (void)addFatherChatsFromArray:(NSArray *)chats;
+
+- (void)addTalkerChatsFromArray:(NSArray *)chats;
+
+- (void)removeAllFatherChats;
+
+- (void)removeAllTalkerChats;
+//
+//- (void)resetTalkerChat:(NSArray *)chats;
+//
+//- (void)resetFatherChat:(NSArray *)chats;
+//
+//- (RPChat *)fatherChatAtIndex:(int)index;
+//
+//- (RPChat *)talkerChatAtIndex:(int)index;
+
+- (RPChat *)chatInFatherChat:(long long)userId;
+
+- (RPChat *)chatInTalkerChat:(long long)userId;
 @end

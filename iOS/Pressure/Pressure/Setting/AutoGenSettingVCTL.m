@@ -44,13 +44,13 @@
     
     if (!_tv)
     {
-        _tv = [[UITableView alloc] initWithFrame:self.view.bounds style:_autoGen.style];
+        _tv = [[UITableView alloc] initWithFrame:self.contentView.bounds style:_autoGen.style];
         _tv.delegate   = self;
         _tv.dataSource = self;
         _tv.backgroundView  = nil;
         _tv.separatorStyle  = UITableViewCellSeparatorStyleNone;
         _tv.backgroundColor = [UIColor whiteColor];
-        [self.view addSubview:_tv];
+        [self.contentView addSubview:_tv];
         [self insertTableFooter];
     }
     

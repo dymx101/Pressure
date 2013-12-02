@@ -7,8 +7,10 @@
 //
 
 #import "RPBaseVCTL.h"
-@class RPProfile;
+@class RPChat;
 @interface RPFrChatVCTL : RPBaseVCTL
+
+- (id)initWithNowChat:(RPChat *)chat;
 
 
 @end

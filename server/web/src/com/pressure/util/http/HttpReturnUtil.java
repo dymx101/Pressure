@@ -11,6 +11,7 @@ import com.pressure.meta.Audio;
 import com.pressure.meta.ChatType;
 import com.pressure.meta.Forum;
 import com.pressure.meta.FrChatGroup;
+import com.pressure.meta.FrWantChatType;
 import com.pressure.meta.Picture;
 import com.pressure.meta.Profile;
 import com.pressure.meta.Session;
@@ -51,21 +52,8 @@ public class HttpReturnUtil {
 					sessionObj);
 		}
 		if (profile != null) {
-			JSONObject profileObject = new JSONObject();
-			profileObject.put(Profile.kUserId, profile.getUserId());
-			profileObject.put(Profile.kUserName, profile.getUserName());
-			profileObject.put(Profile.kAvatarUrl, profile.getAvatorUrl());
-			profileObject.put(Profile.kNickName, profile.getNickName());
-			profileObject.put(Profile.kAge, profile.getAge());
-			profileObject.put(Profile.kGender, profile.getGender());
-
-			JSONObject xmppObject = new JSONObject();
-			xmppObject.put(Profile.kXmppUserName, profile.getXmppUserName());
-			xmppObject.put(Profile.kSecretKey,
-					ServerConstant.OpenFire_PassWord_Secure_Key);
-			xmppObject.put(Profile.kDomain, profile.getDomain());
-			profileObject.put(BasicObjectConstant.kReturnObject_XmppProfile,
-					xmppObject);
+			JSONObject profileObject = HttpReturnUtil.returnUserProfileObj(
+					profile, true);
 			dataObject.put(BasicObjectConstant.kReturnObject_Profile,
 					profileObject);
 		}
@@ -93,47 +81,144 @@ public class HttpReturnUtil {
 	}
 
 	/**
+	 * 返回同步用户列表
+	 * 
+	 * @param fatherGroups
+	 * @param talkerGroups
+	 */
+	public static void returnSyncChatingUser(List<FrChatGroup> fatherGroups,
+			List<FrChatGroup> talkerGroups, JSONObject returnObject) {
+		JSONObject dataObject = new JSONObject();
+		JSONArray fatherArray = new JSONArray();
+		if (!ListUtils.isEmptyList(fatherGroups)) {
+			for (FrChatGroup chatGroup : fatherGroups) {
+				JSONObject subObj = HttpReturnUtil.returnChat(chatGroup, true,
+						true);
+				fatherArray.add(subObj);
+			}
+			dataObject.put(BasicObjectConstant.kReturnObject_Father_List,
+					fatherArray);
+		}
+
+		if (!ListUtils.isEmptyList(talkerGroups)) {
+			JSONArray talkerArray = new JSONArray();
+			for (FrChatGroup chatGroup : talkerGroups) {
+				JSONObject subObj = HttpReturnUtil.returnChat(chatGroup, false,
+						true);
+				talkerArray.add(subObj);
+			}
+			dataObject.put(BasicObjectConstant.kReturnObject_Talker_List,
+					talkerArray);
+		}
+
+		HttpReturnUtil.returnDataObject(dataObject, returnObject);
+
+	}
+
+	/**
+	 * 返回chat信息
+	 * 
+	 * @param chatGroup
+	 * @return
+	 */
+	private static JSONObject returnChat(FrChatGroup chatGroup,
+			boolean returnFatherProfile, boolean returnProfile) {
+		JSONObject dataObject = new JSONObject();
+		JSONObject chatObj = new JSONObject();
+		Profile profile = null;
+		if (returnProfile) {
+			if (returnFatherProfile) {
+				profile = chatGroup.getFatherProfile();
+			} else {
+				profile = chatGroup.getTalkerProfile();
+			}
+		}
+		if (chatGroup != null && profile != null) {
+			chatObj.put("chat_id", chatGroup.getGroupId());
+			if (returnFatherProfile) {
+				chatObj.put("user_type", FrWantChatType.VisitFather);
+			} else {
+				chatObj.put("user_type", FrWantChatType.VisitTalker);
+			}
+		}
+		if (profile != null) {
+			JSONObject profileObject = HttpReturnUtil.returnUserProfileObj(
+					profile, false);
+			if (returnFatherProfile)
+			{
+				chatObj.put(BasicObjectConstant.kReturnObject_Father_Profile,
+						profileObject);
+			}else
+			{
+				chatObj.put(BasicObjectConstant.kReturnObject_Talker_Profile,
+						profileObject);
+			}
+			
+		}
+		dataObject.put(BasicObjectConstant.kReturnObject_Chat, chatObj);
+		return dataObject;
+	}
+
+	/**
+	 * 返回用户信息
+	 * 
+	 * @param profile
+	 * @param isOwner
+	 * @return
+	 */
+	private static JSONObject returnUserProfileObj(Profile profile,
+			boolean isOwner) {
+		JSONObject profileObject = new JSONObject();
+		profileObject.put(Profile.kUserId, profile.getUserId());
+		profileObject.put(Profile.kUserName, profile.getUserName());
+		profileObject.put(Profile.kAvatarUrl, profile.getAvatorUrl());
+		profileObject.put(Profile.kNickName, profile.getNickName());
+		profileObject.put(Profile.kAge, profile.getAge());
+		profileObject.put(Profile.kGender, profile.getGender());
+
+		JSONObject xmppObject = new JSONObject();
+		xmppObject.put(Profile.kXmppUserName, profile.getXmppUserName());
+		if (isOwner) {
+			xmppObject.put(Profile.kSecretKey,
+					ServerConstant.OpenFire_PassWord_Secure_Key);
+		}
+		xmppObject.put(Profile.kDomain, profile.getDomain());
+		profileObject.put(BasicObjectConstant.kReturnObject_XmppProfile,
+				xmppObject);
+		return profileObject;
+	}
+
+	/**
 	 * 返回用户匹配
 	 * 
 	 * @param returnObject
 	 */
-	public static void returnDataFrMatch(Profile toProfile,
-			JSONObject returnObject, FrChatGroup chatGroup) {
-		JSONObject dataObject = new JSONObject();
-		JSONObject chatObj = new JSONObject();
-		if (chatGroup != null) {
-			chatObj.put("chat_id", chatGroup.getGroupId());
-			if (toProfile.getUserId() == chatGroup.getUser1()) {
-				chatObj.put("user_type", FrChatGroup.Talker); // 说明这个profile是一个talker
-			} else {
-				chatObj.put("user_type", FrChatGroup.Father);// 说明这个profile是一个father
-			}
-
-			dataObject.put(BasicObjectConstant.kReturnObject_Chat, chatObj);
-		}
-		if (toProfile != null) {
-			JSONObject profileObject = new JSONObject();
-			profileObject.put(Profile.kUserId, toProfile.getUserId());
-			profileObject.put(Profile.kUserName, toProfile.getUserName());
-			profileObject.put(Profile.kAvatarUrl, toProfile.getAvatorUrl());
-			profileObject.put(Profile.kNickName, toProfile.getNickName());
-			profileObject.put(Profile.kAge, toProfile.getAge());
-			profileObject.put(Profile.kGender, toProfile.getGender());
-
-			JSONObject xmppObject = new JSONObject();
-			xmppObject.put(Profile.kXmppUserName, toProfile.getXmppUserName());
-			xmppObject.put(Profile.kSecretKey,
-					ServerConstant.OpenFire_PassWord_Secure_Key);
-			xmppObject.put(Profile.kDomain, toProfile.getDomain());
-			profileObject.put(BasicObjectConstant.kReturnObject_XmppProfile,
-					xmppObject);
-			chatObj.put(BasicObjectConstant.kReturnObject_Profile,
-					profileObject);
-		}
-		dataObject.put(BasicObjectConstant.kReturnObject_Chat, chatObj);
+	public static void returnDataFrMatch(JSONObject returnObject,
+			FrChatGroup chatGroup) {
+		JSONObject dataObject = HttpReturnUtil.returnChat(chatGroup, true,
+				true);
 		HttpReturnUtil.returnDataObject(dataObject, returnObject);
 	}
 
+	/**
+	 * 返回用户匹配
+	 * 
+	 * @param returnObject
+	 */
+	public static void returnGetUserProfileByJid(JSONObject returnObject,
+			FrChatGroup chatGroup,int type) {
+		JSONObject dataObject;
+		if (type == FrWantChatType.VisitFather)
+		{
+			dataObject = HttpReturnUtil.returnChat(chatGroup, true,
+					true);
+		}else 
+		{
+			dataObject = HttpReturnUtil.returnChat(chatGroup, false,
+					true);
+		}
+		HttpReturnUtil.returnDataObject(dataObject, returnObject);
+	}
 	/**
 	 * 返回树洞信息
 	 * 
@@ -216,17 +301,8 @@ public class HttpReturnUtil {
 
 			Profile profile = forum.getProfile();
 			if (profile != null) {
-				JSONObject profileObject = new JSONObject();
-				profileObject.put(Profile.kUserId, profile.getUserId());
-				profileObject.put(Profile.kNickName, profile.getNickName());
-
-				JSONObject xmppObject = new JSONObject();
-				xmppObject
-						.put(Profile.kXmppUserName, profile.getXmppUserName());
-				xmppObject.put(Profile.kDomain, profile.getDomain());
-				profileObject.put(
-						BasicObjectConstant.kReturnObject_XmppProfile,
-						xmppObject);
+				JSONObject profileObject = HttpReturnUtil.returnUserProfileObj(
+						profile, false);
 				forumObject.put(BasicObjectConstant.kReturnObject_Profile,
 						profileObject);
 			}

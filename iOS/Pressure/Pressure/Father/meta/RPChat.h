@@ -8,16 +8,18 @@
 
 #import "RPObject.h"
 @class RPProfile;
-typedef enum _RPChat_UserType
+typedef enum _RPChat_VisitUserType
 {
-    RPChat_UserType_Talker,
-    RPChat_UserType_Father
-}RPChat_UserType;
+    RPChat_VisitUserType_None = -1,
+    RPChat_VisitUserType_Talker = 0,
+    RPChat_VisitUserType_Father = 1
+}RPChat_VisitUserType;
 @interface RPChat : RPObject
 
 @property (nonatomic,retain) RPProfile *profile;
 @property (nonatomic) int unreadCount;
-@property (nonatomic) RPChat_UserType userType;
+@property (nonatomic) RPChat_VisitUserType userType;
 @property (nonatomic) long long chat_id;
+@property (nonatomic) long long update_time;
 
 @end

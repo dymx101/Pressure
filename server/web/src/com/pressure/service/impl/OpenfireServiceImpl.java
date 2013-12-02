@@ -7,6 +7,7 @@ import java.util.List;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -143,6 +144,10 @@ public class OpenfireServiceImpl implements OpenfireService {
 		sb.append("&jids=" + jidSb);
 		String returnStr = this.sendHttpRequest(ServerConstant.OpenFireIp
 				+ sb.toString());
+		if (StringUtils.isEmpty(returnStr))
+		{
+			return;
+		}
 		JSONArray array = JSONArray.fromObject(returnStr);
 		for (Object obj : array) {
 			JSONObject object = JSONObject.fromObject(obj);

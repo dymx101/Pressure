@@ -15,14 +15,15 @@
 #import <MobileCoreServices/UTCoreTypes.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "BlockActionSheet.h"
-#import "RPQiNiuManager.h"
-
-@interface RPUserProfileVCTL () <UITableViewDelegate,UITableViewDataSource,RPUserProfileCellDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+#import "RPQiNiuUtil.h"
+#import "QiniuSimpleUploader.h"
+@interface RPUserProfileVCTL () <UITableViewDelegate,UITableViewDataSource,RPUserProfileCellDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,QiniuUploadDelegate>
 {
     UITableView *_tv;
     RPUserProfileHeaderView *_headerView;
     RPProfile *_profile;
     UIScrollView *_imageScrollView;
+    QiniuSimpleUploader *_uploader;
 }
 
 @end
@@ -41,7 +42,6 @@
 
 - (void)viewDidLoad
 {
-    self.hideHeaderBar = YES;
     [super viewDidLoad];
     
     if (!_imageScrollView)
@@ -247,7 +247,6 @@
 {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat: @"yyyy-MM-dd-HH-mm-ss"];
-    //Optionally for time zone conversions
     [formatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
     
     NSString *timeDesc = [formatter stringFromDate:[NSDate date]];
@@ -261,12 +260,15 @@
         
         NSData *webData = UIImageJPEGRepresentation([info objectForKey:UIImagePickerControllerOriginalImage], 1);
         [webData writeToFile:filePath atomically:YES];
-        RPQiNiuManager *manager = [[RPQiNiuManager alloc] init];
-        [manager uploadImageWithPath:filePath key:key succ:^{
+   
+        NSFileManager *manager = [NSFileManager defaultManager];
+        
+        if ([manager fileExistsAtPath:filePath]) {
             
-        } failed:^{
-            
-        }];
+            _uploader= [QiniuSimpleUploader uploaderWithToken:[RPQiNiuUtil token]];
+            _uploader.delegate = self;
+            [_uploader uploadFile:filePath key:key extra:nil];
+        }
     }
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
@@ -274,5 +276,17 @@
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
     [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark -
+#pragma mark QiniuSimpleUploader Delegate
+- (void)uploadSucceeded:(NSString *)filePath ret:(NSDictionary *)ret
+{
+    
+}
+
+- (void)uploadFailed:(NSString *)filePath error:(NSError *)error
+{
+    
 }
 @end

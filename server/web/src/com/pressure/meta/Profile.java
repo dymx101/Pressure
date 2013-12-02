@@ -1,6 +1,7 @@
 package com.pressure.meta;
 
 import java.io.Serializable;
+import java.util.Random;
 
 import com.pressure.constant.ServerConstant;
 
@@ -225,7 +226,8 @@ public class Profile implements Serializable {
 	}
 
 	public static String genXmppUserName(long userId) {
-		return ServerConstant.OpenFire_Domain + userId;
+		return ServerConstant.OpenFire_Domain + userId + "_"
+				+ new Random(100000).nextInt();
 	}
 
 	public int getGender() {

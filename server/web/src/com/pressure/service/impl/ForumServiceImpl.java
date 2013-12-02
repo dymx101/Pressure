@@ -56,8 +56,12 @@ public class ForumServiceImpl implements ForumService {
 		}
 		List<Picture> pictures = pictureMapper.getPicturesByIds(ids);
 		List<Audio> audios = audioMapper.getAudiosByIds(ids);
-		List<Profile> profiles = profileMapper.getProfilesByUserIdsOrderTime(
-				userIds, -1, -1, -1);
+		List<Profile> profiles = null;
+		if (!ListUtils.isEmptyList(userIds)) {
+			profiles = profileMapper.getProfilesByUserIdsOrderTime(userIds, -1,
+					Integer.MAX_VALUE, -1);
+		}
+
 		Map<Long, Picture> pictureMap = HashMapMaker.listToMap(pictures,
 				"getId", Picture.class);
 		Map<Long, Audio> audioMap = HashMapMaker.listToMap(audios, "getId",

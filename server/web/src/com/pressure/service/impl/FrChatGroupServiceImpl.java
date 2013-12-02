@@ -54,11 +54,13 @@ public class FrChatGroupServiceImpl implements FrChatGroupService {
 	 */
 	@Override
 	public FrChatGroup addFrChatGroupService(Profile user1, Profile user2,
-			int user1Type) {
+			int type) {
 		FrChatGroup frChatGroup = new FrChatGroup();
 		frChatGroup.setUser1(user1.getUserId());
 		frChatGroup.setUser2(user2.getUserId());
+		frChatGroup.setType(type);
 		frChatGroup.setStatus(0);
+		frChatGroup.setUpdateTime(new Date().getTime());
 		frChatGroup.setGroupName(user1.getXmppUserName() + user1.getDomain()
 				+ "_" + user2.getXmppUserName() + user2.getDomain());
 		if (frChatGroupMapper.addFrChatGroup(frChatGroup) > 0) {
@@ -82,6 +84,8 @@ public class FrChatGroupServiceImpl implements FrChatGroupService {
 			wantChatType.setBeginAge(beginAge);
 			wantChatType.setEndAge(endAge);
 			wantChatType.setGender(gender);
+			wantChatType.setType(type);
+			wantChatType.setChatType(chatType);
 			if (frWantChatTypeMapper.updateFrWantChatType(wantChatType) > 0) {
 				return wantChatType;
 			}
@@ -139,7 +143,7 @@ public class FrChatGroupServiceImpl implements FrChatGroupService {
 	private Profile firstMatch(long userId, int gender, long chatType) {
 		// 完全匹配
 		List<FrWantChatType> typeList = frWantChatTypeMapper
-				.getFrWantChatTypesByType(FrWantChatType.Father, chatType);
+				.getFrWantChatTypesByType(FrWantChatType.VisitFather, chatType);
 		if (!ListUtils.isEmptyList(typeList)) {
 			List<Profile> profileList = this.usersByChatType(typeList,
 					Profile.ONLINE, 0, Integer.MAX_VALUE, gender);
@@ -159,7 +163,7 @@ public class FrChatGroupServiceImpl implements FrChatGroupService {
 	 */
 	private Profile secondMatch(long userId, int gender) {
 		List<FrWantChatType> typeList = frWantChatTypeMapper
-				.getFrWantChatTypesByType(FrWantChatType.Father, -1);
+				.getFrWantChatTypesByType(FrWantChatType.VisitFather, -1);
 		if (!ListUtils.isEmptyList(typeList)) {
 			List<Profile> profileList = this.usersByChatType(typeList,
 					Profile.ONLINE, 0, Integer.MAX_VALUE, gender);
@@ -189,7 +193,7 @@ public class FrChatGroupServiceImpl implements FrChatGroupService {
 			int gender, long chatType) {
 		// 完全匹配
 		List<FrWantChatType> typeList = frWantChatTypeMapper
-				.getFrWantChatTypesByType(FrWantChatType.Father, chatType);
+				.getFrWantChatTypesByType(FrWantChatType.VisitFather, chatType);
 		if (!ListUtils.isEmptyList(typeList)) {
 			List<Profile> profileList = this.usersByChatType(typeList,
 					Profile.ONLINE, beginAge, endAge, gender);
@@ -213,9 +217,11 @@ public class FrChatGroupServiceImpl implements FrChatGroupService {
 		for (FrWantChatType chatType2 : typeList) {
 			userIds.add(chatType2.getUserId());
 		}
-		List<Profile> profileList = profileMapper
-				.getProfilesByUserIdsOrderTime(userIds, beginAge, endAge,
-						gender);
+		List<Profile> profileList = null;
+		if (!ListUtils.isEmptyList(userIds)) {
+			profileList = profileMapper.getProfilesByUserIdsOrderTime(userIds,
+					beginAge, endAge, gender);
+		}
 
 		// 这里要处理，而且需要考虑大数据的问题
 		// 获取用户在线状态
@@ -232,7 +238,7 @@ public class FrChatGroupServiceImpl implements FrChatGroupService {
 	 */
 	private Profile userFromProfiles(long userId, List<Profile> profileList) {
 		List<FrChatGroup> chatGroups = frChatGroupMapper
-				.getFrChatGroupsByUserIdIsTalker(userId);
+				.getFrChatGroupsByUserIdIsTalker(userId, -1, 0);
 		Map<Long, FrChatGroup> chatGroupMap = HashMapMaker.listToMap(
 				chatGroups, "getUser1", FrChatGroup.class);
 		for (Profile profile : profileList) {
@@ -294,5 +300,57 @@ public class FrChatGroupServiceImpl implements FrChatGroupService {
 			return chatGroup;
 		}
 		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.pressure.service.FrChatGroupService#getChatGroupsByType(long,
+	 * int)
+	 */
+	@Override
+	public List<FrChatGroup> getChatGroupsByType(long userId, int type,
+			int limit, long updateTime) {
+		// type 指获取的列表的用户是神父
+		List<FrChatGroup> frChatGroups = null;
+		if (type == FrWantChatType.VisitFather) {
+			frChatGroups = frChatGroupMapper.getFrChatGroupsByUserIdIsTalker(
+					userId, limit, updateTime);
+		}
+		if (type == FrWantChatType.VisitTalker) {
+			frChatGroups = frChatGroupMapper.getFrChatGroupsByUserIdIsFather(
+					userId, limit, updateTime);
+		}
+		List<Long> userIds = new ArrayList<Long>(frChatGroups.size());
+		for (FrChatGroup frChatGroup : frChatGroups) {
+			if (type == FrWantChatType.VisitFather) {
+				userIds.add(frChatGroup.getUser1());
+			} else {
+				userIds.add(frChatGroup.getUser2());
+			}
+		}
+
+		List<Profile> profileList = null;
+		if (!ListUtils.isEmptyList(userIds)) {
+			profileList = profileMapper.getProfilesByUserIdsOrderTime(userIds,
+					-1, Integer.MAX_VALUE, -1);
+		}
+
+		Map<Long, Profile> profileMap = HashMapMaker.listToMap(profileList,
+				"getUserId", Profile.class);
+		for (FrChatGroup frChatGroup : frChatGroups) {
+			if (type == FrWantChatType.VisitFather) {
+				Profile profile = profileMap.get(frChatGroup.getUser1());
+				if (profile != null) {
+					frChatGroup.setFatherProfile(profile);
+				}
+			} else {
+				Profile profile = profileMap.get(frChatGroup.getUser1());
+				if (profile != null) {
+					frChatGroup.setTalkerProfile(profile);
+				}
+			}
+		}
+		return frChatGroups;
 	}
 }

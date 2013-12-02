@@ -119,7 +119,10 @@
 			separator="," close=")">
 			#{item}
 		</foreach>
-		and age > #{beginAge} and #{endAge} > age and gender = #{gender}
+		and age > #{beginAge} and #{endAge} > age 
+		<if test="gender > 0">
+		 and gender = #{gender}
+		</if>
 		order
 		by lastUpdateTime desc
 		;

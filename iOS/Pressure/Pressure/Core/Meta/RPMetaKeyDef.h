@@ -10,6 +10,8 @@
 #define Pressure_RPMetaKeyDef_h
 
 #define kMetaKey_Profile @"profile"
+#define kMetaKey_Father_Profile  @"father_profile"
+#define kMetaKey_Talker_Profile  @"talker_profile"
 #define kMetaKey_Chat @"chat"
 #define kMetaKey_ForumList @"forum_list"
 #define kMetaKey_Session @"session"
@@ -18,6 +20,8 @@
 #define kMetaKey_Audio @"audio"
 #define kMetaKey_XmppGroup  @"xmpp_group"
 #define kMetaKey_ChatTypeList  @"chat_type_list"
+#define kMetaKey_Father_List  @"father_list"
+#define kMetaKey_Talker_List  @"talker_list"
 
 
 

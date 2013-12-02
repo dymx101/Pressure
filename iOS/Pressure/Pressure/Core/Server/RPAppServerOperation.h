@@ -33,11 +33,7 @@ typedef enum AppServerOperationResponse_Type
 - (void)asynServerCallToBeFather;
 - (void)serverCallRefreshToken;
 - (void)asynServerCallChatType;
-- (void)serverCallGetUserProfileByJid:(NSString *)xmppUsername type:(RPChat_UserType)type;
+- (void)serverCallGetUserProfileByJid:(NSString *)xmppUsername type:(RPChat_VisitUserType)type;
 - (void)asynLoginWithThirdPartAuth;
-/**
- *  同步聊天用户
- */
-- (void)syncServerCallChatingUser;
 
 @end

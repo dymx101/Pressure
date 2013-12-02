@@ -177,7 +177,8 @@ static RPXmppManager *lvXmppMnagager = nil;
 - (void)talkerFindFatherPresence:(RPXmppStream *)stream from:(NSString *)from to:(NSString *)to
 {
     dispatch_async(dispatch_queue_create("talkerFindFatherPresence", NULL), ^{
-        [[RPAppServerOperation sharedRPAppServerOperation] serverCallGetUserProfileByJid:to type:RPChat_UserType_Father];
+        //获取信息后马上添加
+        [[RPAppServerOperation sharedRPAppServerOperation] serverCallGetUserProfileByJid:from type:RPChat_VisitUserType_Talker];
 //        RPFrChatModel *chatModel = [RPFrChatModel sharedInstance];
 //        for (RPChat *chat in chatModel.talkerChats)
 //        {
@@ -202,25 +203,26 @@ static RPXmppManager *lvXmppMnagager = nil;
 - (void)FatherFindTalkerPresence:(RPXmppStream *)stream from:(NSString *)from to:(NSString *)to
 {
     dispatch_async(dispatch_queue_create("FatherFindTalkerPresence", NULL), ^{
-        [[RPAppServerOperation sharedRPAppServerOperation] serverCallGetUserProfileByJid:to type:RPChat_UserType_Talker];
+        //获取信息后直接添加
+        [[RPAppServerOperation sharedRPAppServerOperation] serverCallGetUserProfileByJid:from type:RPChat_VisitUserType_Father];
         RPFrChatModel *chatModel = [RPFrChatModel sharedInstance];
-        for (RPChat *chat in chatModel.fatherChats)
-        {
-            if ([chat.profile.xmppProfile.xmppUserName isEqualToString:to])
-            {
-                [RPUtilities runOnMainQueueWithoutDeadlocking:^{
-                    BlockAlertView *alertView = [[BlockAlertView alloc] initWithTitle:@"有人找到你啦" message:@"有人找到你啦"];
-                    [alertView addButtonWithTitle:@"好的" block:^{
-                        [[NSNotificationCenter defaultCenter] postNotificationName:kNotif_FatherFindTalker object:nil];
-                    }];
-                    [alertView setCancelButtonWithTitle:@"取消" block:^{
-                        
-                    }];
-                    [alertView show];
-                }];
-                break;
-            }
-        }
+//        for (RPChat *chat in chatModel.fatherChats)
+//        {
+//            if ([chat.profile.xmppProfile.xmppUserName isEqualToString:to])
+//            {
+//                [RPUtilities runOnMainQueueWithoutDeadlocking:^{
+//                    BlockAlertView *alertView = [[BlockAlertView alloc] initWithTitle:@"有人找到你啦" message:@"有人找到你啦"];
+//                    [alertView addButtonWithTitle:@"好的" block:^{
+//                        [[NSNotificationCenter defaultCenter] postNotificationName:kNotif_FatherFindTalker object:nil];
+//                    }];
+//                    [alertView setCancelButtonWithTitle:@"取消" block:^{
+//                        
+//                    }];
+//                    [alertView show];
+//                }];
+//                break;
+//            }
+//        }
     });
 }
 

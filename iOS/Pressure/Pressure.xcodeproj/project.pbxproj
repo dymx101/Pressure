@@ -186,7 +186,7 @@
 		38F0F747181EA89700361BC9 /* RPLoginVCTL.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F0F745181EA89700361BC9 /* RPLoginVCTL.m */; };
 		38F0F74B181EA9B400361BC9 /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F0F74A181EA9B400361BC9 /* libWeiboSDK.a */; };
 		38F0F74E181EAAD300361BC9 /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 38F0F74C181EAAD300361BC9 /* WeiboSDK.bundle */; };
-		9B0823E31833DF27008E8347 /* RPQiNiuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B0823E21833DF27008E8347 /* RPQiNiuManager.m */; };
+		9B0823E31833DF27008E8347 /* RPQiNiuUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B0823E21833DF27008E8347 /* RPQiNiuUtil.m */; };
 		9B0823E61833E07A008E8347 /* QiniuPutPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B0823E51833E07A008E8347 /* QiniuPutPolicy.m */; };
 		9B0823E81833E16D008E8347 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B0823E71833E16D008E8347 /* MobileCoreServices.framework */; };
 		9B0823EE183492EE008E8347 /* RPFrChatBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B0823ED183492EE008E8347 /* RPFrChatBar.m */; };
@@ -730,8 +730,8 @@
 		38F0F74A181EA9B400361BC9 /* libWeiboSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeiboSDK.a; sourceTree = "<group>"; };
 		38F0F74C181EAAD300361BC9 /* WeiboSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WeiboSDK.bundle; sourceTree = "<group>"; };
 		38F0F74D181EAAD300361BC9 /* WeiboSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboSDK.h; sourceTree = "<group>"; };
-		9B0823E11833DF27008E8347 /* RPQiNiuManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPQiNiuManager.h; sourceTree = "<group>"; };
-		9B0823E21833DF27008E8347 /* RPQiNiuManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPQiNiuManager.m; sourceTree = "<group>"; };
+		9B0823E11833DF27008E8347 /* RPQiNiuUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPQiNiuUtil.h; sourceTree = "<group>"; };
+		9B0823E21833DF27008E8347 /* RPQiNiuUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPQiNiuUtil.m; sourceTree = "<group>"; };
 		9B0823E41833E07A008E8347 /* QiniuPutPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QiniuPutPolicy.h; sourceTree = "<group>"; };
 		9B0823E51833E07A008E8347 /* QiniuPutPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QiniuPutPolicy.m; sourceTree = "<group>"; };
 		9B0823E71833E16D008E8347 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -2115,8 +2115,8 @@
 				9B631CB2182618F800076458 /* RPServerOperation.h */,
 				9B631CB3182618F800076458 /* RPServerOperation.m */,
 				9B631CB51826192900076458 /* RPServerApiDef.h */,
-				9B0823E11833DF27008E8347 /* RPQiNiuManager.h */,
-				9B0823E21833DF27008E8347 /* RPQiNiuManager.m */,
+				9B0823E11833DF27008E8347 /* RPQiNiuUtil.h */,
+				9B0823E21833DF27008E8347 /* RPQiNiuUtil.m */,
 			);
 			path = Server;
 			sourceTree = "<group>";
@@ -3057,7 +3057,7 @@
 				3803BC5F181D09B000256559 /* XMPPCapabilities.xcdatamodel in Sources */,
 				3803BC2A181D09B000256559 /* XMPPRoster.xcdatamodel in Sources */,
 				3803BC23181D09B000256559 /* XMPPBandwidthMonitor.m in Sources */,
-				9B0823E31833DF27008E8347 /* RPQiNiuManager.m in Sources */,
+				9B0823E31833DF27008E8347 /* RPQiNiuUtil.m in Sources */,
 				3803BC16181D09B000256559 /* XMPPPlainAuthentication.m in Sources */,
 				9B1F7153182E846400FE1C83 /* HPTextViewInternal.m in Sources */,
 				9B631CD61826228200076458 /* RPSession.m in Sources */,

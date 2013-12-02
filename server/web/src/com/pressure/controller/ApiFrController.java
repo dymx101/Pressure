@@ -1,5 +1,7 @@
 package com.pressure.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -80,8 +82,8 @@ public class ApiFrController extends AbstractBaseController {
 		if (frChatGroup == null) {
 			return this.errorWithErrorCode(mv, ReturnCodeConstant.FAILED);
 		}
-		HttpReturnUtil
-				.returnDataFrMatch(userProfile, returnObject, frChatGroup);
+		frChatGroup.setTalkerProfile(userProfile);
+		HttpReturnUtil.returnDataFrMatch(returnObject, frChatGroup);
 		returnObject.put(BasicObjectConstant.kReturnObject_Code,
 				ReturnCodeConstant.SUCCESS);
 		mv.addObject("returnObject", returnObject.toString());
@@ -185,8 +187,8 @@ public class ApiFrController extends AbstractBaseController {
 				fatherProfile.getJid());
 		FrChatGroup chatGroup = frChatGroupService.addFrChatGroupService(
 				fatherProfile, userProfile, FrChatGroup.FatherTalker);
-		HttpReturnUtil
-				.returnDataFrMatch(fatherProfile, returnObject, chatGroup);
+		chatGroup.setFatherProfile(fatherProfile);
+		HttpReturnUtil.returnDataFrMatch(returnObject, chatGroup);
 		returnObject.put(BasicObjectConstant.kReturnObject_Code,
 				ReturnCodeConstant.SUCCESS);
 		mv.addObject("returnObject", returnObject.toString());
@@ -218,6 +220,7 @@ public class ApiFrController extends AbstractBaseController {
 		}
 		String xmppUserName = jsonObject.getString("xmppUserName");
 		int type = -1;
+		// 当前用户的类型
 		if (jsonObject.get("type") != null) {
 			type = jsonObject.getInt("type");
 		}
@@ -229,18 +232,26 @@ public class ApiFrController extends AbstractBaseController {
 		}
 		FrChatGroup chatGroup = null;
 		// to 是talker
-		if (type == FrChatGroup.Talker) {
+		if (type == FrWantChatType.VisitTalker) {
 			chatGroup = frChatGroupService.getFrChatGroup(userId,
 					jidprofile.getUserId());
-		} else if (type == FrChatGroup.Father) {
+			chatGroup.setTalkerProfile(jidprofile);
+		} else if (type == FrWantChatType.VisitFather) {
 			chatGroup = frChatGroupService.getFrChatGroup(
 					jidprofile.getUserId(), userId);
+			chatGroup.setFatherProfile(jidprofile);
 		} else {
 			chatGroup = frChatGroupService.getFrChatGroup(userId,
 					jidprofile.getUserId());
 			if (chatGroup == null) {
 				chatGroup = frChatGroupService.getFrChatGroup(
 						jidprofile.getUserId(), userId);
+				if (chatGroup != null) {
+					chatGroup.setFatherProfile(jidprofile);
+				}
+
+			} else {
+				chatGroup.setTalkerProfile(jidprofile);
 			}
 			// 如果聊天组为空,返回错误
 			if (chatGroup == null) {
@@ -248,10 +259,57 @@ public class ApiFrController extends AbstractBaseController {
 						ReturnCodeConstant.NoChatingGroup);
 			}
 		}
-		HttpReturnUtil.returnDataFrMatch(jidprofile, returnObject, chatGroup);
+		HttpReturnUtil.returnGetUserProfileByJid(returnObject, chatGroup,type);
 		returnObject.put(BasicObjectConstant.kReturnObject_Code,
 				ReturnCodeConstant.SUCCESS);
 		mv.addObject("returnObject", returnObject.toString());
 		return mv;
 	}
+
+	/**
+	 * 同步当前用户的聊天人群
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ModelAndView syncUserChatingUsers(HttpServletRequest request,
+			HttpServletResponse response) {
+		ModelAndView mv = new ModelAndView(ServerConstant.Api_Return_MV);
+
+		JSONObject returnObject = new JSONObject();
+		int returnCode = this.checkTokenValid(request, response);
+		if (returnCode == ReturnCodeConstant.TokenNotFound) {
+			return this.tokenErrorReturn(mv, returnCode);
+		}
+		String jsonString = PostValueGetUtil.parseRequestAsString(request,
+				"utf-8");
+		JSONObject jsonObject = PostValueGetUtil.parseRequestData(jsonString);
+
+		if (jsonObject == null) {
+			return this.jsonErrorReturn(mv, jsonString);
+		}
+		long userId = Long.valueOf(request.getHeader("userId"));
+		int type = jsonObject.getInt("type");
+		int limit = jsonObject.getInt("limit");
+		long updateTime = jsonObject.getInt("update_time");
+		if (type == FrWantChatType.VisitFather) {
+			List<FrChatGroup> fatherGroups = frChatGroupService
+					.getChatGroupsByType(userId, FrWantChatType.VisitFather,
+							limit, updateTime);
+			HttpReturnUtil.returnSyncChatingUser(fatherGroups, null,
+					returnObject);
+		} else {
+			List<FrChatGroup> talkerGroups = frChatGroupService
+					.getChatGroupsByType(userId, FrWantChatType.VisitTalker,
+							limit, updateTime);
+			HttpReturnUtil.returnSyncChatingUser(null, talkerGroups,
+					returnObject);
+		}
+		returnObject.put(BasicObjectConstant.kReturnObject_Code,
+				ReturnCodeConstant.SUCCESS);
+		mv.addObject("returnObject", returnObject.toString());
+		return mv;
+	}
+
 }

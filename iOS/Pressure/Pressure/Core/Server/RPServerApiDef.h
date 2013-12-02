@@ -22,6 +22,7 @@
 #define kServerApi_Login            @"login"
 #define kServerApi_RegisterUser     @"registerUser"
 #define kServerApi_UpdateUserProfile  @"updateProfile"
+#define kServerApi_SyncUserChatingUsers  @"syncUserChatingUsers"
 
 //论坛
 #define kServerApi_Add_To_Forum          @"addForum"

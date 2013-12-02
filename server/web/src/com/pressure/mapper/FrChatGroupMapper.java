@@ -34,7 +34,9 @@ public interface FrChatGroupMapper {
 	 * @return
 	 */
 	public List<FrChatGroup> getFrChatGroupsByUserIdIsFather(
-			@Param(value = "userId") long userId);
+			@Param(value = "userId") long userId,
+			@Param(value = "limit") int limit,
+			@Param(value = "updateTime") long updateTime);
 
 	/**
 	 * 返回自己的talker的聊天组
@@ -43,5 +45,7 @@ public interface FrChatGroupMapper {
 	 * @return
 	 */
 	public List<FrChatGroup> getFrChatGroupsByUserIdIsTalker(
-			@Param(value = "userId") long userId);
+			@Param(value = "userId") long userId,
+			@Param(value = "limit") int limit,
+			@Param(value = "updateTime") long updateTime);
 }

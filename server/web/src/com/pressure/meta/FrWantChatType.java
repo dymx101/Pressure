@@ -9,6 +9,8 @@ public class FrWantChatType implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private long id;
+
 	private long userId;
 
 	private long createTime;
@@ -29,9 +31,9 @@ public class FrWantChatType implements Serializable {
 	 */
 	private long chatType;
 
-	public static final int Father = 0;
+	public static final int VisitFather = 1;
 
-	public static final int Talker = 1;
+	public static final int VisitTalker = 0;
 
 	public long getUserId() {
 		return userId;
@@ -95,6 +97,14 @@ public class FrWantChatType implements Serializable {
 
 	public void setChatType(long chatType) {
 		this.chatType = chatType;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 }

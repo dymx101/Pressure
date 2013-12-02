@@ -24,7 +24,7 @@
 #import "RPMessage.h"
 #import "RPInputView.h"
 #import "RPFrChatBar.h"
-@interface RPFrChatVCTL () <UITableViewDataSource,UITableViewDelegate,EGORefreshTableHeaderDelegate,RPInputViewDelegate,RPFrChatBarDelegate>
+@interface RPFrChatVCTL () <UITableViewDataSource,UITableViewDelegate,RPInputViewDelegate,RPFrChatBarDelegate>
 {
     UITableView *_tv;
     EGORefreshTableHeaderView *_refreshHeaderView;
@@ -32,17 +32,18 @@
     NSMutableArray *_dataSource;
     RPInputView *_inputView;
     RPFrChatBar *_frChatBar;
+    RPChat      *_nowChat;
 }
 
 @end
 
 @implementation RPFrChatVCTL
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)initWithNowChat:(RPChat *)chat
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    self = [super init];
+    if (self)
+    {
+        _nowChat = chat;
     }
     return self;
 }
@@ -93,14 +94,19 @@
 
 - (void)resetChatArray
 {
+    RPAuthModel *authModel = [RPAuthModel sharedInstance];
+    NSArray *messages = [RPMessage messageFromDB:[self nowChat].profile.userId toUserId:authModel.profile.userId dbId:-1];
+    [_dataSource removeAllObjects];
+    [_dataSource addObjectsFromArray:messages];
+    [_tv reloadData];
+}
+
+
+- (RPChat *)nowChat
+{
     @synchronized(self)
     {
-        RPAuthModel *authModel = [RPAuthModel sharedInstance];
-        RPChat *nowChat = [RPFrChatModel nowChat];
-        NSArray *messages = [RPMessage messageFromDB:nowChat.profile.userId toUserId:authModel.profile.userId dbId:-1];
-        [_dataSource removeAllObjects];
-        [_dataSource addObjectsFromArray:messages];
-        [_tv reloadData];
+        return _nowChat;
     }
 }
 /**
@@ -110,13 +116,10 @@
  */
 - (void)addNewChatToArray:(id)obj
 {
-    @synchronized(self)
-    {
-        [_tv beginUpdates];
-        [_dataSource addObject:obj];
-        [_tv insertRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:([_dataSource count]-1) inSection:0], nil] withRowAnimation:UITableViewRowAnimationFade];
-        [_tv endUpdates];
-    }
+    [_tv beginUpdates];
+    [_dataSource addObject:obj];
+    [_tv insertRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:([_dataSource count]-1) inSection:0], nil] withRowAnimation:UITableViewRowAnimationFade];
+    [_tv endUpdates];
 }
 /**
  *  重置聊天逻辑
@@ -140,12 +143,12 @@
     [self resetChatArray];
     NSArray *array ;
     switch ([RPFrChatModel sharedInstance].type) {
-        case RPFrChatModel_ChatingType_Father:
+        case RPChat_VisitUserType_Talker:
         {
             array = [RPFrChatModel sharedInstance].talkerChats;
         }
             break;
-        case RPFrChatModel_ChatingType_Talker:
+        case RPChat_VisitUserType_Father:
         {
             array = [RPFrChatModel sharedInstance].fatherChats;
         }
@@ -276,9 +279,8 @@
         return;
     }
     long long userId = [[userInfo objectForKey:[RPMessage rpMessageUserIdKey]] longLongValue];
-    RPChat *chat = [RPFrChatModel nowChat];
     //如果是当前聊天用户，重画一下
-    if (chat.profile.userId == userId)
+    if ([self nowChat].profile.userId == userId)
     {
         [self resetChatArray];
     }else
@@ -346,15 +348,14 @@
     RPMessage *message = [[RPMessage alloc] init];
     RPAuthModel *authModel = [RPAuthModel sharedInstance];
     message.userId = authModel.profile.userId;
-    RPChat *chat = [RPFrChatModel nowChat];
-    message.toUserId = chat.profile.userId;
+    message.toUserId = [self nowChat].profile.userId;
     message.content = SAFESTR(text);
     message.readed  = RPMessage_ReadState_Readed;
     message.img_url = @"";
     message.voice_url = @"";
     message.type = RPMessage_Type;
     [message saveToDB];
-    [[RPXmppManager sharedInstance] sendMessage:[[message proxyForJson] JSONRepresentation] toUser:chat.profile.xmppProfile];
+    [[RPXmppManager sharedInstance] sendMessage:[[message proxyForJson] JSONRepresentation] toUser:[self nowChat].profile.xmppProfile];
     [self addNewChatToArray:message];
 }
 
@@ -362,24 +363,24 @@
 #pragma mark RPFrChatBar Delegate
 - (void)rpFrChatBarFatherBtnClick
 {
-    if ([RPFrChatModel sharedInstance].type == RPFrChatModel_ChatingType_Father)
+    if ([RPFrChatModel sharedInstance].type == RPChat_VisitUserType_Talker)
     {
         //显示设置页面
     }else
     {
-        [RPFrChatModel sharedInstance].type = RPFrChatModel_ChatingType_Father;
+        [RPFrChatModel sharedInstance].type = RPChat_VisitUserType_Talker;
         [self resetChatLogic];
         [self resetChatUI];
     }
 }
 - (void)rpFrChatBarTalkerBtnClick
 {
-    if ([RPFrChatModel sharedInstance].type == RPFrChatModel_ChatingType_Talker)
+    if ([RPFrChatModel sharedInstance].type == RPChat_VisitUserType_Father)
     {
         //显示设置页面
     }else
     {
-        [RPFrChatModel sharedInstance].type = RPFrChatModel_ChatingType_Talker;
+        [RPFrChatModel sharedInstance].type = RPChat_VisitUserType_Father;
         [self resetChatLogic];
         [self resetChatUI];
     }

@@ -32,10 +32,31 @@ public class FrChatGroup implements Serializable {
 	 */
 	private int type;
 
+	private long updateTime;
+	/**
+ * 
+ */
 	public static final int FatherTalker = 0;
 
-	public static final int Talker = 0;
-	public static final int Father = 1;
+	private Profile fatherProfile;
+
+	private Profile talkerProfile;
+
+	public Profile getFatherProfile() {
+		return fatherProfile;
+	}
+
+	public void setFatherProfile(Profile fatherProfile) {
+		this.fatherProfile = fatherProfile;
+	}
+
+	public Profile getTalkerProfile() {
+		return talkerProfile;
+	}
+
+	public void setTalkerProfile(Profile talkerProfile) {
+		this.talkerProfile = talkerProfile;
+	}
 
 	public long getGroupId() {
 		return groupId;
@@ -83,6 +104,14 @@ public class FrChatGroup implements Serializable {
 
 	public void setType(int type) {
 		this.type = type;
+	}
+
+	public long getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(long updateTime) {
+		this.updateTime = updateTime;
 	}
 
 }

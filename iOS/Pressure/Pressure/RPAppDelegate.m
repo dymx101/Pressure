@@ -19,7 +19,7 @@
 #import "FMDBObject.h"
 #import "RPXmppProfile.h"
 #import "RPXmppStream.h"
-#define kOnlineTimerInterval  3
+#define kOnlineTimerInterval  30
 @interface RPAppDelegate ()  <WeiboSDKDelegate>
 {
     NSTimer *_xmppConnectTimer;
