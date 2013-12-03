@@ -30,6 +30,12 @@ public interface AccountMapper {
 	public Account getAccountByUserName(
 			@Param(value = "userName") String userName);
 
-	
-	
+	/**
+	 * 删除用户信息
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public int deleteAccount(@Param(value = "userId") long userId);
+
 }

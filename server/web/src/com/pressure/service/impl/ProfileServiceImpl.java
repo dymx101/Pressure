@@ -5,20 +5,19 @@ import java.util.Random;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
-import com.pressure.constant.ServerConstant;
+import com.pressure.exception.TransactionException;
 import com.pressure.exception.UserRegisteredException;
 import com.pressure.mapper.AccountMapper;
 import com.pressure.mapper.ProfileMapper;
 import com.pressure.mapper.SessionMapper;
 import com.pressure.meta.Account;
-import com.pressure.meta.OpenfireUser;
 import com.pressure.meta.Profile;
 import com.pressure.meta.Session;
 import com.pressure.service.OpenfireService;
 import com.pressure.service.ProfileService;
+import com.pressure.service.transaction.TransactionService;
 import com.pressure.util.MD5Util;
 import com.pressure.util.TimeUtil;
 
@@ -36,6 +35,9 @@ public class ProfileServiceImpl implements ProfileService {
 
 	@Resource
 	private AccountMapper accountMapper;
+
+	@Resource
+	private TransactionService transactionService;
 
 	/*
 	 * (non-Javadoc)
@@ -117,48 +119,6 @@ public class ProfileServiceImpl implements ProfileService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * com.pressure.service.ProfileService#addProfile(com.pressure.meta.Profile)
-	 */
-	@Override
-	public boolean addProfile(Profile profile) {
-		if (profileMapper.addProfile(profile) > 0) {
-			this.createOpenfireUser(profile);
-			return true;
-		}
-		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.pressure.service.ProfileService#createOpenfireUser(com.pressure.meta
-	 * .Profile)
-	 */
-	@Override
-	public boolean createOpenfireUser(Profile profile) {
-		OpenfireUser openfireUser = new OpenfireUser();
-		openfireUser.setUserName(Profile.genXmppUserName(profile.getUserId()));
-		openfireUser.setPassWord(openfireUser.getUserName()
-				+ ServerConstant.OpenFire_PassWord_Secure_Key);
-		openfireUser.setName("");
-		openfireUser.setEmail("");
-		if (openfireService.createOpenfireUser(openfireUser)) {
-			profile.setInitedXmpp(1);
-			profile.setXmppUserName(openfireUser.getUserName());
-			profileMapper.updateXmppInit(profile.getInitedXmpp(),
-					profile.getUserId());
-			profileMapper.updateXmppUserName(profile.getXmppUserName(),
-					profile.getUserId());
-			return true;
-		}
-		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see com.pressure.service.ProfileService#updateTreeholePassword(long,
 	 * java.lang.String)
 	 */
@@ -221,7 +181,12 @@ public class ProfileServiceImpl implements ProfileService {
 		if (account != null) {
 			throw new UserRegisteredException();
 		}
-		Profile profile = this.createProfile(userName);
+		Profile profile = null;
+		try {
+			profile = transactionService.insertProfileFromAccount(userName);
+		} catch (TransactionException e) {
+			e.printStackTrace();
+		}
 		if (profile != null) {
 			account = new Account();
 			account.setCreateTime(new Date().getTime());
@@ -233,39 +198,6 @@ public class ProfileServiceImpl implements ProfileService {
 			}
 		}
 		return -1;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.pressure.service.ProfileService#createProfile(java.lang.String)
-	 */
-	@Override
-	public Profile createProfile(String userName) {
-		long nowTime = new Date().getTime();
-		Profile profile = new Profile();
-		if (!StringUtils.isEmpty(userName)) {
-			profile.setUserName(userName);
-		} else {
-			profile.setUserName("");
-		}
-		profile.setNickName("");
-		profile.setTreeholePassWord("");
-		profile.setCreateTime(nowTime);
-		profile.setLastUpdateTime(nowTime);
-		// 注册用户的时候，性别是-1
-		profile.setGender(-1);
-		profile.setAvatorUrl("");
-		profile.setXmppUserName("");
-		profile.setDomain(ServerConstant.OpenFire_Domain);
-		profile.setLevel(Profile.ProfileLevel.User.getValue());
-		profile.setMaxFatherCount(3);
-		profile.setMaxTalkerCount(3);
-		if (profileMapper.addProfile(profile) > 0) {
-			this.createOpenfireUser(profile);
-			return profile;
-		}
-		return null;
 	}
 
 	/*

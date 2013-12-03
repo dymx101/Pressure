@@ -32,14 +32,6 @@ public interface ProfileService {
 	public Profile getProfileByUserNamePassWord(String userName, String passWord);
 
 	/**
-	 * 新建用户
-	 * 
-	 * @param userName
-	 * @return
-	 */
-	public Profile createProfile(String userName);
-
-	/**
 	 * 获取session
 	 * 
 	 * @param refreshToken
@@ -72,14 +64,6 @@ public interface ProfileService {
 	public Profile getProfileByXmppUserName(String xmppUserName);
 
 	/**
-	 * 创建用户
-	 * 
-	 * @param profile
-	 * @return
-	 */
-	public boolean addProfile(Profile profile);
-
-	/**
 	 * 刷新token
 	 * 
 	 * @param refreshToken
@@ -88,13 +72,6 @@ public interface ProfileService {
 	 */
 	public Session updateSessionByRefreshToken(String refreshToken, long userId);
 
-	/**
-	 * 创建openfire用户
-	 * 
-	 * @param profile
-	 * @return
-	 */
-	public boolean createOpenfireUser(Profile profile);
 
 	/**
 	 * 更改树洞密码

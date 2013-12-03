@@ -124,4 +124,12 @@ public interface ProfileMapper {
 	 */
 	public int descUserTalkerCount(@Param(value = "userId") long userId,
 			@Param(value = "count") int count);
+
+	/**
+	 * 删除用户信息
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public int deleteProfile(@Param(value = "userId") long userId);
 }

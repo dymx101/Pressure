@@ -1,17 +1,16 @@
 package com.pressure.service.impl;
 
-import java.util.Date;
-
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.pressure.constant.ServerConstant;
+import com.pressure.exception.TransactionException;
 import com.pressure.mapper.SourceAccountMapper;
 import com.pressure.meta.Profile;
 import com.pressure.meta.SourceAccount;
 import com.pressure.service.ProfileService;
 import com.pressure.service.SourceAccountService;
+import com.pressure.service.transaction.TransactionService;
 
 @Service("sourceAccountService")
 public class SourceAccountServiceImpl implements SourceAccountService {
@@ -21,6 +20,9 @@ public class SourceAccountServiceImpl implements SourceAccountService {
 
 	@Resource
 	private ProfileService profileService;
+
+	@Resource
+	private TransactionService transactionService;
 
 	/*
 	 * (non-Javadoc)
@@ -34,15 +36,14 @@ public class SourceAccountServiceImpl implements SourceAccountService {
 		SourceAccount sourceAccount = sourceAccountMapper
 				.getSourceAccountByAccessUserId(accessUserId, sourceType);
 		if (sourceAccount != null) {
-			Profile profile = profileService.getProfileByUserId(sourceAccount
-					.getUserId());
-			if (profile != null && profile.getInitedXmpp() == 0) {
-				profileService.createOpenfireUser(profile);
-			}
-			return profile.getUserId();
+			return sourceAccount.getUserId();
 		}
-
-		Profile profile = profileService.createProfile(null);
+		Profile profile = null;
+		try {
+			profile = transactionService.insertProfileFromSource();
+		} catch (TransactionException e) {
+			e.printStackTrace();
+		}
 		if (profile != null) {
 			sourceAccount = new SourceAccount();
 			sourceAccount.setUserId(profile.getUserId());
